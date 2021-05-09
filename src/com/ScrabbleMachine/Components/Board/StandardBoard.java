@@ -9,6 +9,10 @@ public class StandardBoard extends Board
         inicializeBoard();
     }
 
+
+
+
+    // -------------------- bonuses inicialization --------------------
     private void inicializeBoard()
     {
         for (int x = 0; x<length; x++)
