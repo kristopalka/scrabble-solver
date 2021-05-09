@@ -5,23 +5,14 @@ public class Word
     public String value;
     public int xStart;
     public int yStart;
-    public boolean isVertical; //if false, is horizontal
+    public Direction direction;
 
-    public Word(String value, int xStart, int yStart, boolean isVertical)
+    public Word(String value, int xStart, int yStart, Direction direction)
     {
         this.value = value;
         this.xStart = xStart;
         this.yStart = yStart;
-        this.isVertical = isVertical;
+        this.direction = direction;
     }
 
-    public boolean isVertical()
-    {
-        return isVertical;
-    }
-
-    public boolean isHorizontal()
-    {
-        return !isVertical;
-    }
 }

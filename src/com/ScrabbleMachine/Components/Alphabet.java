@@ -1,5 +1,6 @@
 package com.ScrabbleMachine.Components;
 
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 
 
@@ -25,10 +26,27 @@ public class Alphabet // singleton
     }
 
 
+
+
     public static char getEmptySymbol()
     {
         ifNoInstanceCreate();
         return emptySymbol;
+    }
+
+
+    public static int valueOfLetter(char letter)
+    {
+        ifNoInstanceCreate();
+        if (!isLetter(letter)) throw new InvalidParameterException("Parameter is not a letter");
+        return letters.get(letter);
+    }
+
+
+    public static boolean isLetter(char symbol)
+    {
+        ifNoInstanceCreate();
+        return letters.keySet().contains(symbol);
     }
 
     public static boolean isEmptySymbol(char symbol)
@@ -37,30 +55,12 @@ public class Alphabet // singleton
         return symbol == emptySymbol;
     }
 
-
-    public static int valueOfLetter(char letter)
+    public static boolean isAllowedCharacter(char symbol)
     {
         ifNoInstanceCreate();
-        if (!isLetter(letter)) return 0;
-
-        letter = toUpperCase(letter);
-        return letters.get(letter);
+        return isEmptySymbol(symbol) || isLetter(symbol);
     }
 
-    public static boolean areEquals(char letter1, char letter2)
-    {
-        return toUpperCase(letter1) == toUpperCase(letter2);
-    }
 
-    public static boolean isLetter(char symbol)
-    {
-        ifNoInstanceCreate();
-        return letters.keySet().contains(toUpperCase(symbol));
-    }
-
-    private static char toUpperCase(char letter)
-    {
-        return (""+letter).toUpperCase().toCharArray()[0];
-    }
 
 }
