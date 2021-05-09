@@ -1,10 +1,5 @@
 package com.ScrabbleSolver;
 
-import com.ScrabbleSolver.Components.Board.StandardBoard;
-import com.ScrabbleSolver.Components.Holder.Holder;
-import com.ScrabbleSolver.Components.Word;
-
-import java.util.ArrayList;
 
 
 public class Solver
