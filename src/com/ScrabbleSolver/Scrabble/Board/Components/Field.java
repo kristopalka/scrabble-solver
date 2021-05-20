@@ -1,5 +1,6 @@
-package com.ScrabbleSolver.Components.Board;
-import com.ScrabbleSolver.Components.Alphabet;
+package com.ScrabbleSolver.Scrabble.Board.Components;
+import com.ScrabbleSolver.Scrabble.Alphabet;
+
 import java.security.InvalidParameterException;
 
 public class Field
@@ -17,7 +18,6 @@ public class Field
     {
         return bonus;
     }
-
 
     public char getValue()
     {

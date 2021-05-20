@@ -1,8 +1,8 @@
 package com.ScrabbleSolver.Solver;
 
-import com.ScrabbleSolver.Components.Board.StandardBoard;
-import com.ScrabbleSolver.Components.Holder.StandardHolder;
-import com.ScrabbleSolver.Components.Word;
+import com.ScrabbleSolver.Scrabble.Board.StandardBoard;
+import com.ScrabbleSolver.Scrabble.Holder.StandardHolder;
+import com.ScrabbleSolver.Scrabble.Board.Components.Word;
 
 import java.util.ArrayList;
 

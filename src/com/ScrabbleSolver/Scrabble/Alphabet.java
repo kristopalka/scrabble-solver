@@ -1,4 +1,4 @@
-package com.ScrabbleSolver.Components;
+package com.ScrabbleSolver.Scrabble;
 
 import java.security.InvalidParameterException;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.ScrabbleSolver.Components;
+package com.ScrabbleSolver.Scrabble.Board.Components;
 
 public class Word
 {
