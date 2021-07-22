@@ -1,4 +1,4 @@
-package com.ScrabbleSolver.Solver;
+package com.scrabblewinner.solver;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
-package com.ScrabbleSolver.Scrabble.Board;
+package com.scrabblewinner.scrabble.board;
 
-import com.ScrabbleSolver.Scrabble.Board.Components.Bonuses;
-import com.ScrabbleSolver.Scrabble.Board.Components.Field;
+import com.scrabblewinner.scrabble.board.components.Bonuses;
+import com.scrabblewinner.scrabble.board.components.Field;
 
 public class StandardBoard extends Board
 {

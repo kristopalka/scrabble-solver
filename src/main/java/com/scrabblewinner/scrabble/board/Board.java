@@ -1,8 +1,8 @@
-package com.ScrabbleSolver.Scrabble.Board;
+package com.scrabblewinner.scrabble.board;
 
-import com.ScrabbleSolver.Scrabble.Board.Components.Direction;
-import com.ScrabbleSolver.Scrabble.Board.Components.Field;
-import com.ScrabbleSolver.Scrabble.Board.Components.Word;
+import com.scrabblewinner.scrabble.board.components.Direction;
+import com.scrabblewinner.scrabble.board.components.Field;
+import com.scrabblewinner.scrabble.board.components.Word;
 
 import java.security.InvalidParameterException;
 

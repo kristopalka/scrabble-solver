@@ -1,4 +1,4 @@
-package com.ScrabbleSolver.Scrabble;
+package com.scrabblewinner.scrabble;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

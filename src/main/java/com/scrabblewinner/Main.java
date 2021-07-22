@@ -1,6 +1,6 @@
-package com.ScrabbleSolver;
+package com.scrabblewinner;
 
-import com.ScrabbleSolver.Scrabble.Dictionary;
+import com.scrabblewinner.scrabble.Dictionary;
 
 import java.util.ArrayList;
 

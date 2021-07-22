@@ -1,4 +1,4 @@
-package com.ScrabbleSolver.Scrabble.Board.Components;
+package com.scrabblewinner.scrabble.board.components;
 
 public enum Bonuses
 {

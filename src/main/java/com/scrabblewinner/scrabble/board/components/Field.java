@@ -1,5 +1,5 @@
-package com.ScrabbleSolver.Scrabble.Board.Components;
-import com.ScrabbleSolver.Scrabble.Alphabet;
+package com.scrabblewinner.scrabble.board.components;
+import com.scrabblewinner.scrabble.Alphabet;
 
 import java.security.InvalidParameterException;
 
