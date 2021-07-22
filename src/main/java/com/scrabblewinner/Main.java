@@ -1,19 +1,24 @@
 package com.scrabblewinner;
 
-import com.scrabblewinner.scrabble.Dictionary;
+import com.scrabblewinner.scrabble.board.StandardBoard;
+import com.scrabblewinner.scrabble.board.components.Word;
+import com.scrabblewinner.scrabble.holder.StandardHolder;
+import com.scrabblewinner.solver.finder.WordsFinder;
 
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<String> words = (ArrayList<String>) Dictionary.getAllWords();
+        StandardBoard board = new StandardBoard();
+        StandardHolder holder = new StandardHolder();
 
-        int[] tab = new int[17];
+        holder.addLetter('m')
+                .addLetter('a')
+                .addLetter('m')
+                .addLetter('a');
 
-        for (String word : words) {
-            tab[word.length()]++;
-        }
+        ArrayList<Word> words = WordsFinder.getAllPossibleWords(board, holder);
 
-        for(int i=0; i<17; i++) System.out.println("" + i + ": " + tab[i]);
+        words.forEach(System.out::println);
     }
 }

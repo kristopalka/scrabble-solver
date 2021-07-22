@@ -3,41 +3,34 @@ package com.scrabblewinner.scrabble.board;
 import com.scrabblewinner.scrabble.board.components.Bonuses;
 import com.scrabblewinner.scrabble.board.components.Field;
 
-public class StandardBoard extends Board
-{
-    public StandardBoard()
-    {
+public class StandardBoard extends Board {
+    public StandardBoard() {
         this.length = 15;
         this.fields = new Field[length][length];
-        inicializeBoard();
+        initializeBoard();
     }
 
+    private void initializeBoard() {
+        initializeFields();
+        initializeBonuses();
+    }
 
-
-
-    // -------------------- bonuses inicialization --------------------
-    private void inicializeBoard()
-    {
-        for (int x = 0; x<length; x++)
-        {
-            for (int y = 0; y<length; y++)
-            {
+    private void initializeFields() {
+        for (int x = 0; x < length; x++) {
+            for (int y = 0; y < length; y++) {
                 fields[x][y] = new Field(Bonuses.EMPTY);
             }
         }
-        inicializeBonuses();
     }
 
-    private void inicializeBonuses()
-    {
-        inicializeBonusesDOUBLELETTER();
-        inicializeBonusesTRIPLELETTER();
-        inicializeBonusesDOUBLEWORD();
-        inicializeBonusesTRIPLEWORD();
+    private void initializeBonuses() {
+        initializeBonusesDOUBLELETTER();
+        initializeBonusesTRIPLELETTER();
+        initializeBonusesDOUBLEWORD();
+        initializeBonusesTRIPLEWORD();
     }
 
-    private void inicializeBonusesDOUBLELETTER()
-    {
+    private void initializeBonusesDOUBLELETTER() {
         fields[0][3] = new Field(Bonuses.DOUBLE_LETTER);
         fields[0][11] = new Field(Bonuses.DOUBLE_LETTER);
 
@@ -74,8 +67,7 @@ public class StandardBoard extends Board
         fields[8][12] = new Field(Bonuses.DOUBLE_LETTER);
     }
 
-    private void inicializeBonusesTRIPLELETTER()
-    {
+    private void initializeBonusesTRIPLELETTER() {
 
         fields[1][5] = new Field(Bonuses.TRIPLE_LETTER);
         fields[1][9] = new Field(Bonuses.TRIPLE_LETTER);
@@ -94,8 +86,7 @@ public class StandardBoard extends Board
         fields[13][9] = new Field(Bonuses.TRIPLE_LETTER);
     }
 
-    private void inicializeBonusesDOUBLEWORD()
-    {
+    private void initializeBonusesDOUBLEWORD() {
         fields[1][1] = new Field(Bonuses.DOUBLE_WORD);
         fields[2][2] = new Field(Bonuses.DOUBLE_WORD);
         fields[3][3] = new Field(Bonuses.DOUBLE_WORD);
@@ -118,8 +109,7 @@ public class StandardBoard extends Board
 
     }
 
-    private void inicializeBonusesTRIPLEWORD()
-    {
+    private void initializeBonusesTRIPLEWORD() {
         fields[0][0] = new Field(Bonuses.TRIPLE_WORD);
         fields[14][0] = new Field(Bonuses.TRIPLE_WORD);
         fields[0][14] = new Field(Bonuses.TRIPLE_WORD);

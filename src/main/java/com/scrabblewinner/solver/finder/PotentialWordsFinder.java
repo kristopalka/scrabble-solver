@@ -1,15 +1,15 @@
-package com.scrabblewinner.solver;
+package com.scrabblewinner.solver.finder;
 
 import java.util.ArrayList;
 
 public class PotentialWordsFinder {
-    public static ArrayList<String> getAll(char[] collumn, char[] holder) {
+    public static ArrayList<String> getAll(char[] column, char[] holder) {
 
 
         return new ArrayList<>();
     }
 
-    private static char[] getAllSortedLetters(char[] collumn, char[] holder) {
+    private static char[] getAllSortedLetters(char[] column, char[] holder) {
         return new char[0];
     }
 
