@@ -18,7 +18,7 @@ public class Alphabet // singleton
         String letters = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŹŻ";
         String values = "15326215533132232171521152312195";
 
-        for (int i = 0; i < letters.length(); i++) this.letters.put(letters.charAt(i), values.charAt(i) - '0');
+        for (int i = 0; i < letters.length(); i++) Alphabet.letters.put(letters.charAt(i), values.charAt(i) - '0');
         emptySymbol = ' ';
     }
 

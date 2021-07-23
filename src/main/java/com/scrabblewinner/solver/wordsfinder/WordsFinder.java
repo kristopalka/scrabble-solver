@@ -1,4 +1,4 @@
-package com.scrabblewinner.solver.finder;
+package com.scrabblewinner.solver.wordsfinder;
 
 import com.scrabblewinner.scrabble.board.StandardBoard;
 import com.scrabblewinner.scrabble.holder.StandardHolder;

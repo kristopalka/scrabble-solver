@@ -3,7 +3,7 @@ package com.scrabblewinner.solver;
 import com.scrabblewinner.scrabble.board.StandardBoard;
 import com.scrabblewinner.scrabble.holder.StandardHolder;
 import com.scrabblewinner.scrabble.board.components.Word;
-import com.scrabblewinner.solver.finder.WordsFinder;
+import com.scrabblewinner.solver.wordsfinder.WordsFinder;
 
 import java.util.ArrayList;
 

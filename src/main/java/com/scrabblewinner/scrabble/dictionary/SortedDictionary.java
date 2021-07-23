@@ -7,6 +7,7 @@ import java.util.HashMap;
 public class SortedDictionary {  // singleton
     private static SortedDictionary instance;
     private static HashMap<String, ArrayList<String>> sortedDictionary;
+    private static ArrayList<String> keysList;
 
     private static void ifNoInstanceCreate() {
         if (instance == null) instance = new SortedDictionary();
@@ -14,6 +15,8 @@ public class SortedDictionary {  // singleton
 
     private SortedDictionary() {
         initializeSortedDictionary();
+
+        keysList = new ArrayList<>(sortedDictionary.keySet());
     }
 
     private static void initializeSortedDictionary() {
@@ -35,9 +38,15 @@ public class SortedDictionary {  // singleton
         return new String(array);
     }
 
-    public static ArrayList<String> get(String key) {
+    public static ArrayList<String> getWordsByKey(String key) {
         ifNoInstanceCreate();
         ArrayList<String> words = sortedDictionary.get(key);
         return words != null ? words : new ArrayList<>() ;
     }
+
+    public static ArrayList<String> getAllKeys() {
+        ifNoInstanceCreate();
+        return keysList;
+    }
+
 }

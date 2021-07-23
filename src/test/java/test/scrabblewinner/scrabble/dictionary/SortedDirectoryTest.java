@@ -10,8 +10,8 @@ public class SortedDirectoryTest {
 
     @Test
     void getAllFromDictionaryTest() {
-        Assertions.assertEquals(SortedDictionary.get(SortedDictionary.sortString("krzysztof")) , new ArrayList<>());
-        Assertions.assertEquals(SortedDictionary.get(SortedDictionary.sortString("pałka")) , new ArrayList<>() {{
+        Assertions.assertEquals(SortedDictionary.getWordsByKey(SortedDictionary.sortString("krzysztof")) , new ArrayList<>());
+        Assertions.assertEquals(SortedDictionary.getWordsByKey(SortedDictionary.sortString("pałka")) , new ArrayList<>() {{
             add("kapał");
             add("łapak");
             add("łapka");
