@@ -10,4 +10,12 @@ public class Word {
     public int xStart;
     public int yStart;
     public Direction direction;
+
+    public int getLength() {
+        return value.length();
+    }
+
+    public int charAt(int index) {
+        return value.charAt(index);
+    }
 }

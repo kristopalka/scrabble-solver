@@ -40,7 +40,7 @@ public abstract class Board {
     }
 
     private void insertValueToField(char letter, int x, int y) {
-        if (!fields[x][y].isEmpty() || fields[x][y].getValue() != letter)
+        if (!fields[x][y].isEmpty() && fields[x][y].getValue() != letter)
             throw new InvalidParameterException(String.format("Cannot override existing field: '%c' with '%c' (%d,%d)", fields[x][y].getValue(), letter, x, y));
         fields[x][y].setValue(letter);
     }

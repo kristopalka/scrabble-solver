@@ -9,16 +9,6 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        StandardBoard board = new StandardBoard();
-        StandardHolder holder = new StandardHolder();
 
-        holder.addLetter('m')
-                .addLetter('a')
-                .addLetter('m')
-                .addLetter('a');
-
-        ArrayList<Word> words = WordsFinder.getAllPossibleWords(board, holder);
-
-        words.forEach(System.out::println);
     }
 }

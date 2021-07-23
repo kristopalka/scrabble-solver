@@ -9,7 +9,7 @@ public class VerticalWordsFinder {
         ArrayList<Word> words = new ArrayList<>();
         for (int colNum = 0; colNum < size; colNum++) {
             ArrayList<String> potentialWords = InDictWordsFinder.getAll(board[colNum], holder);
-            ArrayList<Word> correctWords = CorrectWordsSelector.select(potentialWords);
+            ArrayList<Word> correctWords = CorrectWordsSelector.select(board, colNum, potentialWords);
 
             words.addAll(correctWords);
         }
