@@ -3,7 +3,7 @@ package test.scrabblewinner.solver.wordsfinder;
 import com.scrabblewinner.scrabble.board.StandardBoard;
 import com.scrabblewinner.scrabble.board.components.Direction;
 import com.scrabblewinner.scrabble.board.components.Word;
-import com.scrabblewinner.solver.wordsfinder.WordFitsChecker;
+import com.scrabblewinner.solver.wordsfinder.correctselector.WordFitsChecker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

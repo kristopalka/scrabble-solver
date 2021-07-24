@@ -1,14 +1,11 @@
 package com.scrabblewinner;
 
-import com.scrabblewinner.scrabble.board.StandardBoard;
-import com.scrabblewinner.scrabble.board.components.Word;
-import com.scrabblewinner.scrabble.holder.StandardHolder;
-import com.scrabblewinner.solver.wordsfinder.WordsFinder;
 
-import java.util.ArrayList;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 public class Main {
     public static void main(String[] args) {
-
+        log.error("XDDDDD");
     }
 }

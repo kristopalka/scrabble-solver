@@ -65,13 +65,21 @@ public abstract class Board {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        builder.append("+");
+        for (int y = 0; y < length; y++) builder.append("--");
+        builder.append("+\n");
+
         for (int y = 0; y < length; y++) {
+            builder.append("|");
             for (int x = 0; x < length; x++) {
                 builder.append(fields[x][y].getValue());
                 builder.append(' ');
             }
-            builder.append('\n');
+            builder.append("|\n");
         }
+        builder.append("+");
+        for (int y = 0; y < length; y++) builder.append("--");
+        builder.append("+\n");
         return builder.toString();
     }
 

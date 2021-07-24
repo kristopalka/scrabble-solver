@@ -1,9 +1,8 @@
-package com.scrabblewinner.solver.wordsfinder;
+package com.scrabblewinner.solver.wordsfinder.correctselector;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
 import com.scrabblewinner.scrabble.board.components.Direction;
 import com.scrabblewinner.scrabble.board.components.Word;
-import com.scrabblewinner.scrabble.dictionary.Dictionary;
 
 import java.util.ArrayList;
 

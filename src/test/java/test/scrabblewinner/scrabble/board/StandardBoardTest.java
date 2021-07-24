@@ -28,7 +28,7 @@ public class StandardBoardTest {
             //should throw exception
             Assertions.fail();
         }
-        catch (InvalidParameterException e) {}
+        catch (InvalidParameterException ignored) {}
      }
 
     @Test
