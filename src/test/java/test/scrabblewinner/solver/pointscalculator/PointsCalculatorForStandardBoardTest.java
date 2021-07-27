@@ -6,25 +6,27 @@ import com.scrabblewinner.solver.pointscalculator.PointsCalculatorForStandardBoa
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class PointsCalculatorForStandardBoardTest {
 
     @Test
-    public void getPointsForWordManyLettersTest() {
-        Word word = new Word("aąbcćdeę", 0, 0, Direction.HORIZONTAL);
-
-        int points = PointsCalculatorForStandardBoard.getPointsForWord(word);
-        Assertions.assertEquals(points, 243);
-    }
-
-    @Test
     public void getPointsForWordTestVerticalHorizontal() {
-        Word wordVert = new Word("aaaaaaaaaaaaaaa", 5, 0, Direction.VERTICAL);
-        Word wordHor = new Word( "aaaaaaaaaaaaaaa", 0, 5, Direction.HORIZONTAL);
+        Word word1 = new Word("aąbcćdeę", 0, 0, Direction.HORIZONTAL);
+        int points1 = 243;
+        Word word2 = new Word( "aaaaaaaaaaaaaaa", 5, 0, Direction.VERTICAL);
+        int points2 = 23;
+        Word word3 = new Word( "bbbbbbbbbbbbbbb", 0, 5, Direction.HORIZONTAL);
+        int points3 = 69;
 
-        int pointsVert = PointsCalculatorForStandardBoard.getPointsForWord(wordVert);
-        int pointsHor = PointsCalculatorForStandardBoard.getPointsForWord(wordHor);
-        int points = 23;
-        Assertions.assertEquals(points, pointsVert);
-        Assertions.assertEquals(points, pointsHor);
+        ArrayList<Word> words = new ArrayList<>();
+        words.add(word1);
+        words.add(word2);
+        words.add(word3);
+
+        Word bestWord = PointsCalculatorForStandardBoard.getBest(words);
+        Assertions.assertEquals(bestWord, word1);
     }
 }
+
