@@ -8,11 +8,11 @@ import java.security.InvalidParameterException;
 
 public class Field {
     @Getter
-    Bonuses bonus;
+    Bonus bonus;
     @Getter
     private char value;
 
-    public Field(Bonuses bonus) {
+    public Field(Bonus bonus) {
         this.value = Alphabet.getEmptySymbol();
         this.bonus = bonus;
     }

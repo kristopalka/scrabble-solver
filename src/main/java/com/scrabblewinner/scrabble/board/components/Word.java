@@ -15,7 +15,7 @@ public class Word {
         return value.length();
     }
 
-    public int charAt(int index) {
+    public char charAt(int index) {
         return value.charAt(index);
     }
 }

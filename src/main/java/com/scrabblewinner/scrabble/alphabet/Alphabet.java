@@ -32,7 +32,7 @@ public class Alphabet // singleton
 
     public static int valueOfLetter(char letter) {
         ifNoInstanceCreate();
-        if (!isLetter(letter)) throw new InvalidParameterException("Parameter is not a letter");
+        if (!isLetter(letter)) throw new InvalidParameterException("Parameter is not a letter: " + letter);
         return letters.get(letter);
     }
 
