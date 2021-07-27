@@ -27,7 +27,7 @@ public class WordsFinderTest {
             newBoard.addWord(new Word("mama", 4, 4, Direction.HORIZONTAL));
             newBoard.addWord(word);
 
-            System.out.println(newBoard);
+            //System.out.println(newBoard);
         }
 
 
