@@ -1,12 +1,12 @@
 package com.scrabblewinner.scrabble.board;
 
-import com.scrabblewinner.scrabble.board.components.Direction;
-import com.scrabblewinner.scrabble.board.components.Field;
-import com.scrabblewinner.scrabble.board.components.Word;
+import com.scrabblewinner.scrabble.Word;
+import com.scrabblewinner.scrabble.alphabet.Alphabet;
 import lombok.Getter;
 
 import java.security.InvalidParameterException;
-import java.util.Locale;
+
+import static com.scrabblewinner.scrabble.Word.Direction.VERTICAL;
 
 public abstract class Board {
     @Getter
@@ -15,35 +15,31 @@ public abstract class Board {
 
 
     public Board addWord(Word word) {
-        if (word.direction == Direction.VERTICAL) addWordVertically(word.value, word.xStart, word.yStart);
-        else addWordHorizontally(word.value, word.xStart, word.yStart);
+        if (word.getDirection() == Word.Direction.VERTICAL) addWordVertically(word.getValue(), word.getXBegin(), word.getYBegin());
+        else addWordHorizontally(word.getValue(), word.getXBegin(), word.getYBegin());
         return this;
     }
 
     private void addWordHorizontally(String word, int xStart, int yStart) {
-        if (xStart < 0 || xStart >= length || yStart < 0 || yStart >= length)
-            throw new InvalidParameterException("Start parameter out of range");
-        if (xStart + word.length() >= length + 1) throw new InvalidParameterException("Word goes off board");
-
         for (int x = 0; x < word.length(); x++) {
-            insertValueToField(word.charAt(x), x + xStart, yStart);
+            addLetter(word.charAt(x), x + xStart, yStart);
         }
     }
 
     private void addWordVertically(String word, int xStart, int yStart) {
-        if (xStart < 0 || xStart >= length || yStart < 0 || yStart >= length)
-            throw new InvalidParameterException("Start parameter out of range");
-        if (yStart + word.length() >= length + 1) throw new InvalidParameterException("Word goes off board");
-
         for (int y = 0; y < word.length(); y++) {
-            insertValueToField(word.charAt(y), xStart, yStart + y);
+            addLetter(word.charAt(y), xStart, yStart + y);
         }
     }
 
-    private void insertValueToField(char letter, int x, int y) {
+    public Board addLetter(char letter, int x, int y) {
+        if (x < 0 || x >= length || y < 0 || y >= length)
+            throw new InvalidParameterException(String.format("Given coordinates (%d,%d) goes beyond field", x, y));
         if (!fields[x][y].isEmpty() && fields[x][y].getValue() != letter)
             throw new InvalidParameterException(String.format("Cannot override existing field: '%c' with '%c' (%d,%d)", fields[x][y].getValue(), letter, x, y));
         fields[x][y].setValue(letter);
+
+        return this;
     }
 
 
@@ -66,23 +62,48 @@ public abstract class Board {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("+");
-        for (int y = 0; y < length; y++) builder.append("--");
-        builder.append("+\n");
+        builder.append("+").append("--".repeat(Math.max(0, length))).append("+\n");
 
         for (int y = 0; y < length; y++) {
             builder.append("|");
             for (int x = 0; x < length; x++) {
-                builder.append(fields[x][y].getValue());
-                builder.append(' ');
+                builder.append(fields[x][y].getValue()).append(' ');
             }
             builder.append("|\n");
         }
-        builder.append("+");
-        for (int y = 0; y < length; y++) builder.append("--");
-        builder.append("+\n");
+        builder.append("+").append("--".repeat(Math.max(0, length))).append("+\n");
         return builder.toString();
     }
 
+
+    public int howManyPointsForWord(Word word) {
+        int totalPoints = 0;
+        int multiplier = 1;
+
+        for (int i = 0; i < word.getLength(); i++) {
+            Field.Bonus bonus;
+            if (word.getDirection() == VERTICAL) bonus = getField(word.getXBegin(), word.getYBegin() + i).getBonus();
+            else bonus = getField(word.getXBegin() + i, word.getYBegin()).getBonus();
+
+
+            int letterPoints = Alphabet.valueOfLetter(word.charAt(i));
+
+            switch (bonus) {
+                case EMPTY -> totalPoints += letterPoints;
+                case DOUBLE_LETTER -> totalPoints += 2 * letterPoints;
+                case TRIPLE_LETTER -> totalPoints += 3 * letterPoints;
+                case DOUBLE_WORD -> {
+                    totalPoints += letterPoints;
+                    multiplier *= 2;
+                }
+                case TRIPLE_WORD -> {
+                    totalPoints += letterPoints;
+                    multiplier *= 3;
+                }
+            }
+        }
+        totalPoints *= multiplier;
+        return totalPoints;
+    }
 
 }

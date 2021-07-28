@@ -1,8 +1,7 @@
 package test.scrabblewinner.solver.wordsfinder;
 
 import com.scrabblewinner.scrabble.board.StandardBoard;
-import com.scrabblewinner.scrabble.board.components.Direction;
-import com.scrabblewinner.scrabble.board.components.Word;
+import com.scrabblewinner.scrabble.Word;
 import com.scrabblewinner.scrabble.holder.StandardHolder;
 import com.scrabblewinner.solver.wordsfinder.WordsFinder;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,7 @@ public class WordsFinderTest {
     @Test
     public void getAllPossibleWordsVisualTest()  {
         StandardBoard board = new StandardBoard();
-        board.addWord(new Word("mama", 4, 4, Direction.HORIZONTAL));
+        board.addWord(new Word("mama", 4, 4, Word.Direction.HORIZONTAL));
 
 
         StandardHolder holder = new StandardHolder();
@@ -24,7 +23,7 @@ public class WordsFinderTest {
 
         for (Word word : all) {
             StandardBoard newBoard = new StandardBoard();
-            newBoard.addWord(new Word("mama", 4, 4, Direction.HORIZONTAL));
+            newBoard.addWord(new Word("mama", 4, 4, Word.Direction.HORIZONTAL));
             newBoard.addWord(word);
 
             System.out.println(newBoard);

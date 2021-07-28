@@ -1,7 +1,6 @@
 package test.scrabblewinner.scrabble.holder;
 
-import com.scrabblewinner.scrabble.board.components.Direction;
-import com.scrabblewinner.scrabble.board.components.Word;
+import com.scrabblewinner.scrabble.Word;
 import com.scrabblewinner.scrabble.holder.StandardHolder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ public class StandardHolderTest {
         } catch (Exception ignored) {
         }
 
-        holder.selectLettersForWord(new Word("abcd", 0, 0, Direction.VERTICAL));
+        holder.selectLettersForWord(new Word("abcd", 0, 0, Word.Direction.VERTICAL));
         Assertions.assertEquals(holder.getLetters(),
                 new ArrayList<>(Arrays.asList('e', 'f', 'g')));
 

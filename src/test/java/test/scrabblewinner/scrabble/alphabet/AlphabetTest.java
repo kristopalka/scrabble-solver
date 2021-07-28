@@ -12,7 +12,7 @@ public class AlphabetTest {
 
     @Test
     public void valueOfLetterTest() {
-        Assertions.assertEquals(Alphabet.valueOfLetter('L'), 2);
+        Assertions.assertEquals(Alphabet.valueOfLetter('l'), 2);
     }
 
     @Test

@@ -1,9 +1,9 @@
 package com.scrabblewinner.solver.wordsfinder;
 
-import com.scrabblewinner.scrabble.board.components.Direction;
-import com.scrabblewinner.scrabble.board.components.Word;
+import com.scrabblewinner.scrabble.Word;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class HorizontalWordFinder {
     public static ArrayList<Word> getHorizontal(char[][] board, char[] holder, int size) {
@@ -23,14 +23,13 @@ public class HorizontalWordFinder {
 
 
     private static ArrayList<Word> rotateVerticalToHorizontal(ArrayList<Word> verticalToRotate) {
-        verticalToRotate
-                .forEach(word -> {
-                    word.direction = Direction.HORIZONTAL;
-                    int xStart = word.xStart;
-                    word.xStart = word.yStart;
-                    word.yStart = xStart;
-                });
-        return verticalToRotate;
+        return verticalToRotate
+                .stream().map(word -> new Word(
+                        word.getValue(),
+                        word.getYBegin(),
+                        word.getXBegin(),
+                        Word.Direction.HORIZONTAL))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
 }

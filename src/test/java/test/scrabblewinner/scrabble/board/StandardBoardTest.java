@@ -2,8 +2,7 @@ package test.scrabblewinner.scrabble.board;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
 import com.scrabblewinner.scrabble.board.StandardBoard;
-import com.scrabblewinner.scrabble.board.components.Direction;
-import com.scrabblewinner.scrabble.board.components.Word;
+import com.scrabblewinner.scrabble.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +12,7 @@ public class StandardBoardTest {
     @Test
     public void addWordTest() {
         StandardBoard board = new StandardBoard();
-        board.addWord(new Word("abcdefg", 0, 0, Direction.VERTICAL));
+        board.addWord(new Word("abcdefg", 0, 0, Word.Direction.VERTICAL));
 
         Assertions.assertEquals(board.getField(0, 0).getValue(), 'a');
         Assertions.assertEquals(board.getField(0, 6).getValue(), 'g');
@@ -24,7 +23,7 @@ public class StandardBoardTest {
     public void addWordErrorTest() {
         StandardBoard board = new StandardBoard();
         try {
-            board.addWord(new Word("abcdefg", 12, 12, Direction.HORIZONTAL));
+            board.addWord(new Word("abcdefg", 12, 12, Word.Direction.HORIZONTAL));
             //should throw exception
             Assertions.fail();
         }
@@ -34,10 +33,33 @@ public class StandardBoardTest {
     @Test
     public void toStringVisualTest() {
         StandardBoard board = new StandardBoard();
-        board.addWord(new Word("abcdefg", 0, 0, Direction.VERTICAL));
-        board.addWord(new Word("ajdhddjw", 6, 4, Direction.HORIZONTAL));
-        board.addWord(new Word("asdas", 9, 6, Direction.VERTICAL));
+        board.addWord(new Word("abcdefg", 0, 0, Word.Direction.VERTICAL));
+        board.addWord(new Word("ajdhddjw", 6, 4, Word.Direction.HORIZONTAL));
+        board.addWord(new Word("asdas", 9, 6, Word.Direction.VERTICAL));
 
         System.out.println(board);
    }
+
+
+
+    @Test
+    public void getPointsForWordManyLettersTest() {
+        Word word = new Word("aąbcćdeę", 0, 0, Word.Direction.HORIZONTAL);
+
+        //int points = word.getPoints(new StandardBoard());
+        int points = new StandardBoard().howManyPointsForWord(word);
+        Assertions.assertEquals(points, 243);
+    }
+
+    @Test
+    public void getPointsForWordTestVerticalHorizontal() {
+        Word wordVert = new Word("aaaaaaaaaaaaaaa", 5, 0, Word.Direction.VERTICAL);
+        Word wordHor = new Word( "aaaaaaaaaaaaaaa", 0, 5, Word.Direction.HORIZONTAL);
+        
+        int pointsVert = new StandardBoard().howManyPointsForWord(wordVert);
+        int pointsHor = new StandardBoard().howManyPointsForWord(wordHor);
+        int points = 23;
+        Assertions.assertEquals(points, pointsVert);
+        Assertions.assertEquals(points, pointsHor);
+    }
 }

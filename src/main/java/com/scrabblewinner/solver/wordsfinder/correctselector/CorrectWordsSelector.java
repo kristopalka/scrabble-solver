@@ -1,8 +1,7 @@
 package com.scrabblewinner.solver.wordsfinder.correctselector;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
-import com.scrabblewinner.scrabble.board.components.Direction;
-import com.scrabblewinner.scrabble.board.components.Word;
+import com.scrabblewinner.scrabble.Word;
 
 import java.util.ArrayList;
 
@@ -16,10 +15,10 @@ public class CorrectWordsSelector {
         CorrectWordsSelector.columnNumber = columnNumber;
         CorrectWordsSelector.potentialWords = potentialWords;
 
-        return getAllMatchingWordsForAllBlocksOfLetters();
+        return getAllMatchingWords();
     }
 
-    protected static ArrayList<Word> getAllMatchingWordsForAllBlocksOfLetters() {
+    protected static ArrayList<Word> getAllMatchingWords() {
         ArrayList<Word> correctWords = new ArrayList<>();
         int startOfBlock = -1;
         int endOfBlock = -1;
@@ -28,7 +27,7 @@ public class CorrectWordsSelector {
             if (endsBlock(i)) {
                 endOfBlock = i;
 
-                correctWords.addAll(getAllMatchingWords(startOfBlock, endOfBlock));
+                correctWords.addAll(getAllMatchingWordsForBlockOfLetters(startOfBlock, endOfBlock));
             }
         }
         return correctWords;
@@ -43,22 +42,23 @@ public class CorrectWordsSelector {
     }
 
 
-    protected static ArrayList<Word> getAllMatchingWords(int startOfBlock, int endOfBlock) {
-        ArrayList<Word> words = new ArrayList<>();
+    protected static ArrayList<Word> getAllMatchingWordsForBlockOfLetters(int startOfBlock, int endOfBlock) {
+        ArrayList<Word> matchingWords = new ArrayList<>();
 
         for (String potentialWord : potentialWords) {
             int wordLength = potentialWord.length();
 
+            if (wordLength <= endOfBlock - startOfBlock + 1) continue;
+
             for (int startingPoint = endOfBlock - wordLength + 1; startingPoint <= startOfBlock; startingPoint++) {
                 if (startingPoint >= 0 && startingPoint + wordLength < board[columnNumber].length) {
-                    Word word = new Word(potentialWord, columnNumber, startingPoint, Direction.VERTICAL);
-                    if (WordFitsChecker.doWordFits(word, board)) words.add(word);
+                    Word word = new Word(potentialWord, columnNumber, startingPoint, Word.Direction.VERTICAL);
+                    if (WordFitsChecker.doWordFits(word, board)) matchingWords.add(word);
                 }
             }
         }
-        return words;
+        return matchingWords;
     }
-
 
 
 }

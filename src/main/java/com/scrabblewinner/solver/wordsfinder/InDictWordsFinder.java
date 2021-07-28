@@ -6,7 +6,6 @@ import com.scrabblewinner.scrabble.dictionary.SortedDictionary;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class InDictWordsFinder {
     public static ArrayList<String> getAll(char[] column, char[] holder) {

@@ -1,9 +1,9 @@
 package com.scrabblewinner.scrabble.holder;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
-import com.scrabblewinner.scrabble.board.components.Word;
-import com.scrabblewinner.utility.exceptions.IncorrectLetter;
-import com.scrabblewinner.utility.exceptions.NoGivenLetterInHolder;
+import com.scrabblewinner.scrabble.Word;
+import com.scrabblewinner.utility.exceptions.IncorrectLetterException;
+import com.scrabblewinner.utility.exceptions.NoGivenLetterInHolderException;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public abstract class Holder {
         if (letters.size() >= maxLettersNumber)
             throw new RuntimeException("Holder is full, cannot add new letter: " + letter);
         if (!Alphabet.isLetter(letter))
-            throw new IncorrectLetter("This is not a letter to add: " + letter);
+            throw new IncorrectLetterException("This is not a letter to add: " + letter);
 
         letters.add(letter);
         return this;
@@ -26,12 +26,12 @@ public abstract class Holder {
 
     public Holder get(char letter) {
         if (!Alphabet.isLetter(letter))
-            throw new IncorrectLetter("This is not a letter to get: " + letter);
+            throw new IncorrectLetterException("This is not a letter to get: " + letter);
 
         try {
             letters.remove(letters.indexOf(letter));
         } catch (Exception e) {
-            throw new NoGivenLetterInHolder("Cannot find letter: " + letter + " in holder: " + this);
+            throw new NoGivenLetterInHolderException("Cannot find letter: " + letter + " in holder: " + this);
         }
         return this;
     }
@@ -62,7 +62,7 @@ public abstract class Holder {
     }
 
     public Holder selectLettersForWord (Word word) {
-        for(char letter : word.value.toCharArray()) {
+        for(char letter : word.getValue().toCharArray()) {
             get(letter);
         }
         return this;

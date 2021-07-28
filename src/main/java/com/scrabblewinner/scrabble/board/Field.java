@@ -1,13 +1,13 @@
-package com.scrabblewinner.scrabble.board.components;
+package com.scrabblewinner.scrabble.board;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
-import com.scrabblewinner.utility.exceptions.IncorrectLetter;
+import com.scrabblewinner.utility.exceptions.IncorrectLetterException;
 import lombok.Getter;
-
-import java.security.InvalidParameterException;
 
 
 public class Field {
+    public enum Bonus { EMPTY, DOUBLE_LETTER, TRIPLE_LETTER, DOUBLE_WORD, TRIPLE_WORD }
+
     @Getter
     Bonus bonus;
     @Getter
@@ -19,12 +19,11 @@ public class Field {
     }
 
     public void setValue(char value) {
-        if (!Alphabet.isAllowedCharacter(value)) throw new IncorrectLetter("This is not a letter: " + value);
+        if (!Alphabet.isAllowedCharacter(value)) throw new IncorrectLetterException("This is not a letter: " + value);
         this.value = value;
     }
 
     public boolean isEmpty() {
         return Alphabet.isEmptySymbol(this.value);
     }
-
 }

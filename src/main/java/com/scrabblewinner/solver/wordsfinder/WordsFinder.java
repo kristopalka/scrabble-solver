@@ -1,7 +1,7 @@
 package com.scrabblewinner.solver.wordsfinder;
 
 import com.scrabblewinner.scrabble.board.Board;
-import com.scrabblewinner.scrabble.board.components.Word;
+import com.scrabblewinner.scrabble.Word;
 import com.scrabblewinner.scrabble.dictionary.Dictionary;
 import com.scrabblewinner.scrabble.dictionary.SortedDictionary;
 import com.scrabblewinner.scrabble.holder.Holder;
