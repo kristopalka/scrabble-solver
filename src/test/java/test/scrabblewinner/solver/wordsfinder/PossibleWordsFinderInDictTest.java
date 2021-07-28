@@ -1,22 +1,21 @@
 package test.scrabblewinner.solver.wordsfinder;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
-import com.scrabblewinner.solver.wordsfinder.InDictWordsFinder;
+import com.scrabblewinner.solver.wordsfinder.possibleselector.PossibleWordsFinderInDict;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InDictWordsFinderTest extends InDictWordsFinder {
+public class PossibleWordsFinderInDictTest extends PossibleWordsFinderInDict {
     @Test
     void getLettersToUseTest() {
         char e = Alphabet.getEmptySymbol();
         char[] column = {e, 'r', e, 't', 'g', e, 'y'};
         char[] holder = {'a', 'b', 'c', 'd'};
 
-        char[] lettersToUse = InDictWordsFinder.getLettersToUse(column, holder);
+        char[] lettersToUse = PossibleWordsFinderInDict.getLettersToUse(column, holder);
         char[] correct = {'r', 't', 'g', 'y', 'a', 'b', 'c', 'd'};
 
         Object[] arr1 = {lettersToUse};
@@ -34,11 +33,11 @@ public class InDictWordsFinderTest extends InDictWordsFinder {
         String word5 = "fsdfgsdfg";
 
 
-        Assertions.assertTrue(InDictWordsFinder.isEnoughLettersToAlignWord(word1, letters));
-        Assertions.assertTrue(InDictWordsFinder.isEnoughLettersToAlignWord(word2, letters));
-        Assertions.assertTrue(InDictWordsFinder.isEnoughLettersToAlignWord(word3, letters));
-        Assertions.assertFalse(InDictWordsFinder.isEnoughLettersToAlignWord(word4, letters));
-        Assertions.assertFalse(InDictWordsFinder.isEnoughLettersToAlignWord(word5, letters));
+        Assertions.assertTrue(PossibleWordsFinderInDict.isEnoughLettersToAlignWord(word1, letters));
+        Assertions.assertTrue(PossibleWordsFinderInDict.isEnoughLettersToAlignWord(word2, letters));
+        Assertions.assertTrue(PossibleWordsFinderInDict.isEnoughLettersToAlignWord(word3, letters));
+        Assertions.assertFalse(PossibleWordsFinderInDict.isEnoughLettersToAlignWord(word4, letters));
+        Assertions.assertFalse(PossibleWordsFinderInDict.isEnoughLettersToAlignWord(word5, letters));
     }
 
     @Test
@@ -48,6 +47,6 @@ public class InDictWordsFinderTest extends InDictWordsFinder {
         char[] holder = {'a', 'b', 'e'};
 
         ArrayList<String> correct = new ArrayList<>(Arrays.asList("ba", "ar", "at", "ta", "be", "er", "re", "et", "te", "arb", "bar", "rab", "bat", "tab", "era", "rea", "ate", "eta", "rat", "tar", "tra", "ber", "erb", "reb", "bet", "ret", "ter", "berta", "bera", "rabe", "beat", "beta", "bart", "brat", "tera", "bert", "terb"));
-        Assertions.assertEquals(correct, InDictWordsFinder.getAll(column, holder));
+        Assertions.assertEquals(correct, PossibleWordsFinderInDict.getWordsPossibleToArrangeFromLetters(column, holder));
     }
 }

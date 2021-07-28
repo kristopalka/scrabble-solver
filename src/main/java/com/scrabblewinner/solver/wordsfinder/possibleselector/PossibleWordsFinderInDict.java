@@ -1,4 +1,4 @@
-package com.scrabblewinner.solver.wordsfinder;
+package com.scrabblewinner.solver.wordsfinder.possibleselector;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
 import com.scrabblewinner.scrabble.dictionary.SortedDictionary;
@@ -7,8 +7,8 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class InDictWordsFinder {
-    public static ArrayList<String> getAll(char[] column, char[] holder) {
+public class PossibleWordsFinderInDict {
+    public static ArrayList<String> getWordsPossibleToArrangeFromLetters(char[] column, char[] holder) {
         char[] lettersToUse = getLettersToUse(column, holder);
         Arrays.sort(lettersToUse);
 
@@ -56,7 +56,7 @@ public class InDictWordsFinder {
     }
 
 
-    public static boolean isEnoughLettersToAlignWord(String wordKey, char[] letters) {
+    protected static boolean isEnoughLettersToAlignWord(String wordKey, char[] letters) {
         int lettersPointer = 0;
         int lettersLength = letters.length;
         int wordPointer = 0;

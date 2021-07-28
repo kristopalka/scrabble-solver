@@ -9,11 +9,13 @@ public class CorrectWordsSelector {
     protected static char[][] board;
     protected static int columnNumber;
     protected static ArrayList<String> potentialWords;
+    private static char[] holder;
 
-    public static ArrayList<Word> select(char[][] board, int columnNumber, ArrayList<String> potentialWords) {
+    public static ArrayList<Word> select(char[][] board, char[] holder, int columnNumber, ArrayList<String> potentialWords) {
         CorrectWordsSelector.board = board;
         CorrectWordsSelector.columnNumber = columnNumber;
         CorrectWordsSelector.potentialWords = potentialWords;
+        CorrectWordsSelector.holder = holder;
 
         return getAllMatchingWords();
     }
@@ -55,6 +57,7 @@ public class CorrectWordsSelector {
                     Word word = new Word(potentialWord, columnNumber, startingPoint, Word.Direction.VERTICAL);
                     if (WordFitsChecker.doWordFits(word, board)) matchingWords.add(word);
                 }
+                //todo poprawić żeby sprawdzało czy można to slowo utworzyć z liter w holderze, czy nie zabraknie
             }
         }
         return matchingWords;

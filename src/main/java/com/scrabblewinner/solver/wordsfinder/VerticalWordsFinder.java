@@ -2,7 +2,7 @@ package com.scrabblewinner.solver.wordsfinder;
 
 import com.scrabblewinner.scrabble.Word;
 import com.scrabblewinner.solver.wordsfinder.correctselector.CorrectWordsSelector;
-import com.scrabblewinner.utility.Timer;
+import com.scrabblewinner.solver.wordsfinder.possibleselector.PossibleWordsFinderInDict;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
@@ -15,18 +15,18 @@ public class VerticalWordsFinder {
         for (int colNum = 0; colNum < size; colNum++) {
 
 
-            Timer potentialTimer = new Timer();
-            ArrayList<String> potentialWords = InDictWordsFinder.getAll(board[colNum], holder);
-            potentialTimer.stop();
+            //Timer potentialTimer = new Timer();
+            ArrayList<String> potentialWords = PossibleWordsFinderInDict.getWordsPossibleToArrangeFromLetters(board[colNum], holder);
+            //potentialTimer.stop();
 
-            Timer correctTimer = new Timer();
-            ArrayList<Word> correctWords = CorrectWordsSelector.select(board, colNum, potentialWords);
-            correctTimer.stop();
+            //Timer correctTimer = new Timer();
+            ArrayList<Word> correctWords = CorrectWordsSelector.select(board, holder, colNum, potentialWords);
+            //correctTimer.stop();
 
-            log.info(String.format("\t%d: %d strings in %fs | %d words in %fs\n",
-                    colNum,
-                    potentialWords.size(), potentialTimer.get(),
-                    correctWords.size(), correctTimer.get()));
+            //log.info(String.format("\t%d: %d strings in %fs | %d words in %fs\n",
+                    //colNum,
+                    //potentialWords.size(), potentialTimer.get(),
+                    //correctWords.size(), correctTimer.get()));
 
             words.addAll(correctWords);
         }
