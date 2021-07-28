@@ -1,7 +1,9 @@
 package com.scrabblewinner.scrabble.alphabet;
 
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 
 public class Alphabet // singleton
@@ -50,6 +52,13 @@ public class Alphabet // singleton
     public static boolean isAllowedCharacter(char symbol) {
         ifNoInstanceCreate();
         return isEmptySymbol(symbol) || isLetter(symbol);
+    }
+
+    public static char getRandomLetter() {
+        ifNoInstanceCreate();
+        Character[] letters = Alphabet.letters.keySet().toArray(new Character[0]);
+        int random = new Random().nextInt(letters.length);
+        return letters[random];
     }
 
 

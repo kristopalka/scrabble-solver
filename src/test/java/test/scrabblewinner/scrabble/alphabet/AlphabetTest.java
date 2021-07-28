@@ -28,4 +28,9 @@ public class AlphabetTest {
         Assertions.assertTrue(Alphabet.isAllowedCharacter(' '));
         Assertions.assertFalse(Alphabet.isAllowedCharacter('('));
     }
+
+    @Test
+    public void getRandomLetterVisualTest() {
+        System.out.println(Alphabet.getRandomLetter());
+    }
 }

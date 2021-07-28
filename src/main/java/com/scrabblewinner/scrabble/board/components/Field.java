@@ -1,6 +1,7 @@
 package com.scrabblewinner.scrabble.board.components;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
+import com.scrabblewinner.utility.exceptions.IncorrectLetter;
 import lombok.Getter;
 
 import java.security.InvalidParameterException;
@@ -18,7 +19,7 @@ public class Field {
     }
 
     public void setValue(char value) {
-        if (!Alphabet.isAllowedCharacter(value)) throw new InvalidParameterException("This is not a letter: " + value);
+        if (!Alphabet.isAllowedCharacter(value)) throw new IncorrectLetter("This is not a letter: " + value);
         this.value = value;
     }
 

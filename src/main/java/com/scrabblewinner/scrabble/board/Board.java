@@ -14,9 +14,10 @@ public abstract class Board {
     protected Field[/*x*/][/*y*/] fields;
 
 
-    public void addWord(Word word) {
+    public Board addWord(Word word) {
         if (word.direction == Direction.VERTICAL) addWordVertically(word.value, word.xStart, word.yStart);
         else addWordHorizontally(word.value, word.xStart, word.yStart);
+        return this;
     }
 
     private void addWordHorizontally(String word, int xStart, int yStart) {

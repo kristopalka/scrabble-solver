@@ -1,6 +1,9 @@
 package com.scrabblewinner.scrabble.holder;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
+import com.scrabblewinner.scrabble.board.components.Word;
+import com.scrabblewinner.utility.exceptions.IncorrectLetter;
+import com.scrabblewinner.utility.exceptions.NoGivenLetterInHolder;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -15,24 +18,32 @@ public abstract class Holder {
         if (letters.size() >= maxLettersNumber)
             throw new RuntimeException("Holder is full, cannot add new letter: " + letter);
         if (!Alphabet.isLetter(letter))
-            throw new RuntimeException("This is not correct letter to add: " + letter);
+            throw new IncorrectLetter("This is not a letter to add: " + letter);
 
         letters.add(letter);
         return this;
     }
 
     public Holder get(char letter) {
-        if (letters.size() == 0)
-            throw new RuntimeException("Holder is empty");
         if (!Alphabet.isLetter(letter))
-            throw new RuntimeException("This is not correct letter to get: " + letter);
+            throw new IncorrectLetter("This is not a letter to get: " + letter);
 
-        try{
+        try {
             letters.remove(letters.indexOf(letter));
         } catch (Exception e) {
-            throw new RuntimeException("Cannot find letter: " + letter + " in holder");
+            throw new NoGivenLetterInHolder("Cannot find letter: " + letter + " in holder: " + this);
         }
         return this;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append('[');
+        for (int i = 0; i < letters.size() - 1; i++) builder.append(letters.get(i)).append(", ");
+        builder.append(letters.get(letters.size() - 1)).append("]");
+
+        return builder.toString();
     }
 
     public char[] toCharArray() {
@@ -41,5 +52,19 @@ public abstract class Holder {
             array[i] = letters.get(i);
         }
         return array;
+    }
+
+    public Holder fillInWithRandomLetters() {
+        while (letters.size() < maxLettersNumber) {
+            letters.add(Alphabet.getRandomLetter());
+        }
+        return this;
+    }
+
+    public Holder selectLettersForWord (Word word) {
+        for(char letter : word.value.toCharArray()) {
+            get(letter);
+        }
+        return this;
     }
 }

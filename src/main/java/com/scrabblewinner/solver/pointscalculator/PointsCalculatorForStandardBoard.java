@@ -1,14 +1,9 @@
 package com.scrabblewinner.solver.pointscalculator;
 
-import com.scrabblewinner.scrabble.alphabet.Alphabet;
-import com.scrabblewinner.scrabble.board.Board;
 import com.scrabblewinner.scrabble.board.StandardBoard;
-import com.scrabblewinner.scrabble.board.components.Bonus;
 import com.scrabblewinner.scrabble.board.components.Word;
-import org.apache.commons.lang3.NotImplementedException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class PointsCalculatorForStandardBoard {
