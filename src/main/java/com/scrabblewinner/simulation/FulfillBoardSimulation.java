@@ -25,21 +25,24 @@ public class FulfillBoardSimulation {
     public int run(int numberOfMoves) {
         int score = 0;
         while (numberOfMoves > 0) {
+            Word bestWord;
             Timer timer = new Timer();
-            Word bestWord = Solver.getBestWord(board, holder);
-            timer.stop();
-            System.out.println("word " + bestWord + " with " + board.howManyPointsForWord(bestWord) + " points in " + timer.get() + " seconds");
-
             try {
-                placeWord(bestWord);
-                score += board.howManyPointsForWord(bestWord);
+                bestWord = Solver.getBestWord(board, holder);
             } catch (BoardIsFullException e) {
                 System.out.println(e.getMessage());
                 return score;
             } catch (NoGivenLetterInHolderException e) {
-                System.out.println(String.format("Try to add word %s and: %s", bestWord, e.getMessage()));
+                System.out.println(String.format("Try to add word: %s", e.getMessage()));
                 return score;
             }
+            timer.stop();
+            System.out.println("word " + bestWord + " with " + board.howManyPointsForWord(bestWord) + " points in " + timer.get() + " seconds");
+
+
+            placeWord(bestWord);
+            score += board.howManyPointsForWord(bestWord);
+
             numberOfMoves--;
         }
         return score;
