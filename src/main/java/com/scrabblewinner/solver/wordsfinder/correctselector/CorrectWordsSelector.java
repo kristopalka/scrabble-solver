@@ -2,66 +2,87 @@ package com.scrabblewinner.solver.wordsfinder.correctselector;
 
 import com.scrabblewinner.scrabble.alphabet.Alphabet;
 import com.scrabblewinner.scrabble.Word;
+import com.scrabblewinner.scrabble.holder.Holder;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class CorrectWordsSelector {
     protected static char[][] board;
+    protected static char[] column;
+    protected static int boardSize;
     protected static int columnNumber;
-    protected static ArrayList<String> potentialWords;
-    private static char[] holder;
+    protected static char[] holder;
+
+    protected static ArrayList<String> potentialStrings;
 
     public static ArrayList<Word> select(char[][] board, char[] holder, int columnNumber, ArrayList<String> potentialWords) {
         CorrectWordsSelector.board = board;
+        CorrectWordsSelector.column = board[columnNumber];
+        CorrectWordsSelector.boardSize = board.length;
         CorrectWordsSelector.columnNumber = columnNumber;
-        CorrectWordsSelector.potentialWords = potentialWords;
+        CorrectWordsSelector.potentialStrings = potentialWords;
         CorrectWordsSelector.holder = holder;
 
-        return getAllMatchingWords();
+        return considerWordsForBlocksOfLettersInColumn();
     }
 
-    protected static ArrayList<Word> getAllMatchingWords() {
+    protected static ArrayList<Word> considerWordsForBlocksOfLettersInColumn() {
         ArrayList<Word> correctWords = new ArrayList<>();
         int startOfBlock = -1;
         int endOfBlock = -1;
-        for (int i = 0; i < board[columnNumber].length; i++) {
+        for (int i = 0; i < boardSize; i++) {
             if (startsBlock(i)) startOfBlock = i;
             if (endsBlock(i)) {
                 endOfBlock = i;
 
-                correctWords.addAll(getAllMatchingWordsForBlockOfLetters(startOfBlock, endOfBlock));
+                correctWords.addAll(getAllMatchingWords(startOfBlock, endOfBlock));
             }
         }
         return correctWords;
     }
 
     private static boolean startsBlock(int i) {
-        return board[columnNumber][i] != Alphabet.getEmptySymbol() && (i == 0 || board[columnNumber][i - 1] == Alphabet.getEmptySymbol());
+        return column[i] != Alphabet.getEmptySymbol() && (i == 0 || column[i - 1] == Alphabet.getEmptySymbol());
     }
 
     private static boolean endsBlock(int i) {
-        return board[columnNumber][i] != Alphabet.getEmptySymbol() && (i == board[columnNumber].length - 1 || board[columnNumber][i + 1] == Alphabet.getEmptySymbol());
+        return column[i] != Alphabet.getEmptySymbol() && (i == boardSize - 1 || column[i + 1] == Alphabet.getEmptySymbol());
     }
 
 
-    protected static ArrayList<Word> getAllMatchingWordsForBlockOfLetters(int startOfBlock, int endOfBlock) {
+    protected static ArrayList<Word> getAllMatchingWords(int startOfBlock, int endOfBlock) {
         ArrayList<Word> matchingWords = new ArrayList<>();
 
-        for (String potentialWord : potentialWords) {
-            int wordLength = potentialWord.length();
+        for (String potentialString : potentialStrings) {
+            int wordLength = potentialString.length();
 
             if (wordLength <= endOfBlock - startOfBlock + 1) continue;
 
             for (int startingPoint = endOfBlock - wordLength + 1; startingPoint <= startOfBlock; startingPoint++) {
-                if (startingPoint >= 0 && startingPoint + wordLength < board[columnNumber].length) {
-                    Word word = new Word(potentialWord, columnNumber, startingPoint, Word.Direction.VERTICAL);
-                    if (WordFitsChecker.doWordFits(word, board)) matchingWords.add(word);
+                if (startingPoint >= 0 && startingPoint + wordLength < boardSize) {
+                    Word word = new Word(potentialString, columnNumber, startingPoint, Word.Direction.VERTICAL);
+                    if (WordFitsChecker.doWordFits(word, board) && isEnoughLetters(word)) matchingWords.add(word);
                 }
-                //todo poprawić żeby sprawdzało czy można to slowo utworzyć z liter w holderze, czy nie zabraknie
             }
         }
         return matchingWords;
     }
 
+    protected static boolean isEnoughLetters(Word word) {
+        ArrayList<Character> lettersToUse = new ArrayList<>();
+        for (char letter : holder) lettersToUse.add(letter);
 
+        for (int i = 0; i < word.getLength(); i++) {
+            char charAtBoard = board[columnNumber][i + word.getYBegin()];
+            if (charAtBoard == Alphabet.getEmptySymbol()) {
+                int letterIndex = lettersToUse.indexOf(word.charAt(i));
+                if (letterIndex == -1) return false;
+                else lettersToUse.remove(letterIndex);
+            }
+        }
+        return true;
+    }
 }

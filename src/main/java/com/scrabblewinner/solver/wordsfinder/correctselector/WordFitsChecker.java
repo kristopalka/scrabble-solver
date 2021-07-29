@@ -63,7 +63,7 @@ public class WordFitsChecker {
 
         StringBuilder newWordBuilder = new StringBuilder();
         for (int x = xStart; x < board.length && (board[x][yPos] != empty || x == word.getXBegin()); x++) {
-            if (x == word.getXBegin()) newWordBuilder.append((char) word.charAt(yPos - word.getYBegin()));
+            if (x == word.getXBegin()) newWordBuilder.append(word.charAt(yPos - word.getYBegin()));
             else newWordBuilder.append(board[x][yPos]);
         }
         String newWord = newWordBuilder.toString();

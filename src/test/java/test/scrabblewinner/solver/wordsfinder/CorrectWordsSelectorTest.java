@@ -36,4 +36,20 @@ public class CorrectWordsSelectorTest extends CorrectWordsSelector {
         Assertions.assertEquals(0, howManyCorrect2);
     }
 
+    @Test
+    public void isEnoughLettersTest() {
+        StandardBoard board = new StandardBoard();
+        board.addWord(new Word("mama", 2, 2, Word.Direction.HORIZONTAL));
+        CorrectWordsSelector.board = board.toCharArray();
+        CorrectWordsSelector.columnNumber = 3;
+
+        Word potentialWord = new Word("mama", 3, 1, Word.Direction.VERTICAL);
+
+        CorrectWordsSelector.holder = new char[]{'m','m','a'};
+        Assertions.assertTrue(isEnoughLetters(potentialWord));
+
+        CorrectWordsSelector.holder = new char[]{'m','a','a'};
+        Assertions.assertFalse(isEnoughLetters(potentialWord));
+    }
+
 }
