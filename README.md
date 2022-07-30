@@ -1,2 +1,2 @@
 # com.scrabblewinner.scrabble solver
-Library to simulate scrabble and win all round
+App to win all scrabble game
