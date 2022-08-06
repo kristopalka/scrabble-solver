@@ -1,12 +1,12 @@
 from libs.methods import *
 
-frame = cv.imread('../resources/photos/green/board_words.jpg')
-board, config = loader('../resources/boards/green')
+frame = cv.imread('resources/photos/red/_1.jpg')
+board, config = loader('resources/boards/red')
 
-match = find_board(frame, board)
+match = find_board(frame, board, debug=True)
 
 lines = draw_lines(match, config)
 
-cv.imshow('found', resize(lines, 1))
+cv.imshow('result', resize(lines, 1/3))
 cv.waitKey(0)
 cv.destroyAllWindows()
