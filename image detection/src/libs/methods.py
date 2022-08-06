@@ -1,5 +1,5 @@
 import json
-from math import trunc
+
 import cv2 as cv
 import numpy as np
 
@@ -34,10 +34,19 @@ def draw_lines(photo, config, color=(0, 255, 0), thickness=2):
     return photo
 
 
+def find_corner_harris(image):
+    image_gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+
+    mask = np.zeros_like(image_gray)
+    dst = cv.cornerHarris(image_gray, 10, 3, 0.04)
+    dst = cv.dilate(dst, None, iterations=5)
+    image[dst > 0.01 * dst.max()] = [0, 0, 255]
+    mask[dst > 0.01 * dst.max()] = 255
+
+    return image, mask
 
 
-
-def find_board(frame_original, board_original, fraction=1 / 3, align_image_sizes=False, debug=False):
+def find_board(frame_original, board_original, fraction=1 / 2, align_image_sizes=False, debug=False):
     if align_image_sizes:
         ratio = min(frame_original.shape[:2]) / min(board_original.shape[:2])
     else:
@@ -64,29 +73,35 @@ def find_board(frame_original, board_original, fraction=1 / 3, align_image_sizes
 
     # find matches between descriptors
     bf = cv.BFMatcher(normType=cv.NORM_HAMMING, crossCheck=True)
-
     matches = bf.match(descriptors_board, descriptors_frame)
-    matches = sorted(matches, key=lambda x: x.distance)
 
+    #matches = sorted(matches, key=lambda x: x.distance)
+
+    if debug:
+        print('Matches:', len(matches))
 
     # find homography
     board_pts = np.float32([keypoints_board[m.queryIdx].pt for m in matches]).reshape(-1, 1, 2)
     frame_pts = np.float32([keypoints_frame[m.trainIdx].pt for m in matches]).reshape(-1, 1, 2)
 
     if debug:
-        M, mask = cv.findHomography(board_pts, frame_pts, cv.RANSAC, 5.0)
+        M, mask = cv.findHomography(board_pts, frame_pts, cv.RANSAC, 100)
         h, w = board.shape[:2]
         pts = np.float32([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]]).reshape(-1, 1, 2)
         cv.polylines(frame, [np.int32(cv.perspectiveTransform(pts, M))], True, 255, 3, cv.LINE_AA)
 
-        draw_params = dict(matchColor=(0, 255, 0), singlePointColor=None, matchesMask=mask.ravel().tolist(), flags=2)
+        draw_params = dict(matchColor=(0, 255, 0), singlePointColor=None, flags=2, matchesMask=mask.ravel().tolist())
         debugImage = cv.drawMatches(board, keypoints_board, frame, keypoints_frame, matches, None, **draw_params)
-        cv.imshow('Debug matches', resize(debugImage, 2/3))
+        cv.imshow('Debug matches', resize(debugImage, 1 / 2))
+
+        draw_params = dict(matchColor=(255, 0, 0), singlePointColor=None, flags=2)
+        debugImage = cv.drawMatches(board, keypoints_board, frame, keypoints_frame, matches, None, **draw_params)
+        cv.imshow('Debug matches all', resize(debugImage, 1 / 2))
 
     board_pts_original = board_pts / (fraction * ratio)  # /factor to get output from original board img
     frame_pts_original = frame_pts / fraction  # /factor to get output from original (not scaled) image
 
-    M_original, mask_original = cv.findHomography(frame_pts_original, board_pts_original, cv.RANSAC, 5.0)
+    M_original, mask_original = cv.findHomography(frame_pts_original, board_pts_original, cv.RANSAC, 100)
 
     (h, w) = board_original.shape[:2]
     return cv.warpPerspective(frame_original, M_original, (w, h))
