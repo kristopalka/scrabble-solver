@@ -46,7 +46,7 @@ def find_corner_harris(image):
     return image, mask
 
 
-def find_board(frame_original, board_original, fraction=1 / 2, align_image_sizes=False, debug=False):
+def find_board(frame_original, board_original, fraction=1 / 2, align_image_sizes=False, debug=False, debug_resize_factor=1):
     if align_image_sizes:
         ratio = min(frame_original.shape[:2]) / min(board_original.shape[:2])
     else:
@@ -61,6 +61,7 @@ def find_board(frame_original, board_original, fraction=1 / 2, align_image_sizes
 
     board_gray = cv.cvtColor(board, cv.COLOR_BGR2GRAY)
     frame_gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+
 
     # find descriptors
     BRISK = cv.BRISK_create()
@@ -80,6 +81,10 @@ def find_board(frame_original, board_original, fraction=1 / 2, align_image_sizes
     if debug:
         print('Matches:', len(matches))
 
+    if len(matches) < 20:
+        print('Too low matches')
+        return
+
     # find homography
     board_pts = np.float32([keypoints_board[m.queryIdx].pt for m in matches]).reshape(-1, 1, 2)
     frame_pts = np.float32([keypoints_frame[m.trainIdx].pt for m in matches]).reshape(-1, 1, 2)
@@ -92,11 +97,11 @@ def find_board(frame_original, board_original, fraction=1 / 2, align_image_sizes
 
         draw_params = dict(matchColor=(0, 255, 0), singlePointColor=None, flags=2, matchesMask=mask.ravel().tolist())
         debugImage = cv.drawMatches(board, keypoints_board, frame, keypoints_frame, matches, None, **draw_params)
-        cv.imshow('Debug matches', resize(debugImage, 1 / 2))
+        cv.imshow('Debug matches', resize(debugImage, debug_resize_factor))
 
         draw_params = dict(matchColor=(255, 0, 0), singlePointColor=None, flags=2)
         debugImage = cv.drawMatches(board, keypoints_board, frame, keypoints_frame, matches, None, **draw_params)
-        cv.imshow('Debug matches all', resize(debugImage, 1 / 2))
+        cv.imshow('Debug matches all', resize(debugImage, debug_resize_factor))
 
     board_pts_original = board_pts / (fraction * ratio)  # /factor to get output from original board img
     frame_pts_original = frame_pts / fraction  # /factor to get output from original (not scaled) image
