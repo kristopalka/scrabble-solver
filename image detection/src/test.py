@@ -50,7 +50,7 @@ def calculate_mser(image):
 
 
 def imfill(image):  # filling holes https://learnopencv.com/filling-holes-in-an-image-using-opencv-python-c/
-    # todo repairdis
+    # todo repair this
     th, im_th = cv2.threshold(image, 220, 255, cv2.THRESH_BINARY_INV)
     im_floodfill = im_th.copy()
     h, w = im_th.shape[:2]
