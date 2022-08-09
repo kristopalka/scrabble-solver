@@ -1,8 +1,7 @@
-import cv2
-
 from libs.methods import *
+import cv2 as cv
 import math
-import statistics
+
 
 
 def calculate_region_dim(region):
@@ -49,27 +48,12 @@ def calculate_mser(image):
     return regions, image
 
 
-def imfill(image):  # filling holes https://learnopencv.com/filling-holes-in-an-image-using-opencv-python-c/
-    # todo repair this
-    th, im_th = cv2.threshold(image, 220, 255, cv2.THRESH_BINARY_INV)
-    im_floodfill = im_th.copy()
-    h, w = im_th.shape[:2]
-    mask = np.zeros((h+2, w+2), np.uint8)
-    cv2.floodFill(im_floodfill, mask, (0, 0), 255)
-    im_floodfill_inv = cv2.bitwise_not(im_floodfill)
-    return im_th | im_floodfill_inv
-
-
-frame = cv.imread('../resources/photos/red/_9.jpg')  # _1, _6, _8
+frame = cv.imread('../resources/photos/red/_1.jpg')  # _1, _6, _8
 frame = resize(frame, 1 / 4)
 
 regions, frame_with_regions = calculate_mser(frame)
 cv.imshow('frame_with_regions', frame_with_regions)
 
-# edges = cv.Canny(frame, 100, 200)
-# dialated = cv.morphologyEx(edges, cv2.MORPH_CLOSE, kernel=np.ones((5, 5), np.uint8))
-# im = imfill(frame)
-# cv.imshow('edges', im)
 
 cv.waitKey(0)
 cv.destroyAllWindows()
