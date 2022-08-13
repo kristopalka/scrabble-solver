@@ -1,13 +1,15 @@
 import os
 import json
-from libs.cv_utils import *
+from libs.cv_methods import *
 import cv2 as cv
 
 print('On each picture click on four corners or board clockwise. Then, click "N" key. To close, click ESC')
 path = '../resources/photos/green/'
-scale_fraction = 1/2
+marks_folder = 'marks/'
+
+scale_fraction = None
 image = None
-image_name = ''
+image_name = None
 click_counter = 0
 image_points = []
 
@@ -32,8 +34,8 @@ def save_result():
         "image": image_name,
         "points": image_points
     }
-    json_name = path + 'data/' + image_name + '.json'
-    with open(json_name, 'w') as outfile:
+    json_file = path + marks_folder + image_name + '.json'
+    with open(json_file, 'w') as outfile:
         json_string = json.dumps(obj)
         outfile.write(json_string)
 
@@ -41,7 +43,7 @@ def save_result():
 for filename in os.listdir(path):
     if filename.endswith(".jpg"):
         original = cv.imread(path + filename)
-        image = resize(original, scale_fraction)
+        image, scale_fraction = standardize_size(original)
         image_name = filename
         click_counter = 0
         image_points = []
