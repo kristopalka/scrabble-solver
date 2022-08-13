@@ -4,8 +4,8 @@ from libs.cv_utils import *
 import cv2 as cv
 
 print('On each picture click on four corners or board clockwise. Then, click "N" key. To close, click ESC')
-path = '../resources/photos/red/'
-scale_fraction = 1 / 4
+path = '../resources/photos/green/'
+scale_fraction = 1/2
 image = None
 image_name = ''
 click_counter = 0
