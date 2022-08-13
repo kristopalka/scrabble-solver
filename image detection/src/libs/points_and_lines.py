@@ -1,5 +1,6 @@
 import numpy as np
 import cv2 as cv
+from math import dist
 
 
 def get_intersection_point(line1, line2):
@@ -41,6 +42,31 @@ def find_good_intersections(lines, shape):
 
             intersections.append(point)
     return intersections
+
+
+def center_of_points(points):
+    length = len(points)
+    sum_x = sum([p[0] for p in points])
+    sum_y = sum([p[1] for p in points])
+    return int(sum_x / length), int(sum_y / length)
+
+
+def group_points(points, shape):
+    (h, w) = shape
+    corner_points = [[], [], [], []]
+
+    for point in points:
+        distances = [dist(point, (0, 0)), dist(point, (w, 0)), dist(point, (0, h)), dist(point, (w, h))]
+        index_min = min(range(len(distances)), key=distances.__getitem__)
+        corner_points[index_min].append(point)
+
+    corner_centers = []
+    for points in corner_points:
+        center = center_of_points(points)
+        corner_centers.append(center)
+
+    print(corner_centers)
+    return corner_centers
 
 
 def draw_lines(image, lines):

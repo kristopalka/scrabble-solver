@@ -1,4 +1,3 @@
-from cv_utils import *
 import cv2 as cv
 
 capture = cv.VideoCapture(2)

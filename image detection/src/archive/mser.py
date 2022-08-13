@@ -1,7 +1,12 @@
-from libs.utils import *
 import cv2 as cv
 import math
 
+
+def resize(img, fraction=1.0):
+    assert img is not None
+    x = int(round(img.shape[1] * fraction))
+    y = int(round(img.shape[0] * fraction))
+    return cv.resize(img, (x, y))
 
 
 def calculate_region_dim(region):
@@ -53,7 +58,6 @@ frame = resize(frame, 1 / 4)
 
 regions, frame_with_regions = calculate_mser(frame)
 cv.imshow('frame_with_regions', frame_with_regions)
-
 
 cv.waitKey(0)
 cv.destroyAllWindows()
