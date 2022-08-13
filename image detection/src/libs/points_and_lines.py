@@ -57,8 +57,8 @@ def draw_lines(image, lines):
     return image
 
 
-def draw_intersections(image, intersections):
+def draw_points(image, intersections, color=(0, 0, 255), radius=1, thickness=2):
     for intersection in intersections:
-        cv.circle(image, intersection, 1, (0, 0, 255), 2)
+        cv.circle(image, intersection, radius, color, thickness)
 
     return image

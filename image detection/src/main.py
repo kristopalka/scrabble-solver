@@ -1,7 +1,8 @@
 import cv2
 from skimage import morphology
-from libs.methods import *
-from libs.lines import *
+from libs.cv_utils import *
+from libs.points_and_lines import *
+from libs.k_means import kmeans
 
 
 def extract_board_mask_from_image(image, debug=False):
@@ -27,9 +28,6 @@ def extract_board_mask_from_image(image, debug=False):
     return largest_blob
 
 
-
-
-
 def get_corner_points_from_mask(board_mask, image, debug=False):
     edges = cv.Canny(board_mask, 100, 150)
     edges_with_marked_corners = cv.morphologyEx(edges, cv2.MORPH_CLOSE, morphology.diamond(50))
@@ -41,13 +39,17 @@ def get_corner_points_from_mask(board_mask, image, debug=False):
     intersections = find_good_intersections(lines, board_mask.shape)
     if debug:
         print(len(intersections))
-        cv.imshow('7. Lines and intersections', draw_intersections(draw_lines(image, lines), intersections))
+        cv.imshow('7. Lines and intersections', draw_points(draw_lines(image, lines), intersections))
+
+    kmean_points = kmeans(intersections, 4)
+
+    if debug: cv.imshow('8. k-means centers', draw_points(image, kmean_points, color=(255, 0, 0), radius=7, thickness=3))
 
 
 image = cv.imread('../resources/photos/red/_8.jpg')
 image = resize(image, 1 / 4)
 
-mask = extract_board_mask_from_image(image, debug=False)
+mask = extract_board_mask_from_image(image, debug=True)
 get_corner_points_from_mask(mask, image, debug=True)
 
 cv.waitKey(0)

@@ -1,4 +1,4 @@
-from libs.methods import *
+from libs.utils import *
 import json
 import cv2 as cv
 import numpy as np

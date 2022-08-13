@@ -1,4 +1,4 @@
-from libs.methods import *
+from libs.utils import *
 import cv2 as cv
 import math
 
@@ -48,7 +48,7 @@ def calculate_mser(image):
     return regions, image
 
 
-frame = cv.imread('../resources/photos/red/_1.jpg')  # _1, _6, _8
+frame = cv.imread('../../resources/photos/red/_1.jpg')  # _1, _6, _8
 frame = resize(frame, 1 / 4)
 
 regions, frame_with_regions = calculate_mser(frame)
