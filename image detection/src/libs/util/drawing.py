@@ -24,16 +24,3 @@ def draw_points(image, points, color=(0, 0, 255), radius=5, thickness=2):
     return img
 
 
-def draw_scrabble_mesh(image, margin=0, color=(0, 255, 0), thickness=2):
-    img = image.copy()
-    (top, left, bottom, right) = (margin, margin, img.shape[0] - margin, img.shape[1] - margin)
-
-    for width in np.linspace(left, right, 16):
-        width_int = round(width)
-        img = cv.line(img, (width_int, top), (width_int, bottom), color, thickness=thickness)
-
-    for height in np.linspace(top, bottom, 16):
-        height_int = round(height)
-        img = cv.line(img, (left, height_int), (right, height_int), color, thickness=thickness)
-
-    return img

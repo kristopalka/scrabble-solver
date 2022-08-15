@@ -8,7 +8,11 @@ from src.libs.util.drawing import *
 
 def find_board_mask(image, debug=False):
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    blur = cv.GaussianBlur(gray, (5, 5), 0)  # todo try bilateral filter https://docs.opencv.org/3.4/dc/dd3/tutorial_gausian_median_blur_bilateral_filter.html
+    blur = cv.GaussianBlur(gray, (5, 5), 0)
+    # todo try bilateral filter https://docs.opencv.org/3.4/dc/dd3/tutorial_gausian_median_blur_bilateral_filter.html
+    # https://www.tutorialspoint.com/opencv/opencv_bilateral_filter.htm
+
+    # todo a może jeszcze matchTemplate https://docs.opencv.org/4.x/d4/dc6/tutorial_py_template_matching.html
 
     edges = cv.Canny(blur, 40, 200)
     if debug: print_image('1. Canny edges', edges)

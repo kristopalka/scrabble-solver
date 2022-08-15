@@ -12,3 +12,7 @@ https://www.analyticsvidhya.com/blog/2021/06/feature-detection-description-and-m
 
 
 https://arccoder.medium.com/straighten-an-image-of-a-page-using-opencv-313182404b06
+
+### Teseract
+https://github.com/tesseract-ocr/tessdata
+https://muthu.co/all-tesseract-ocr-options/

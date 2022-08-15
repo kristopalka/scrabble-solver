@@ -2,38 +2,61 @@ from src.libs.util.cv_methods import *
 from src.libs.util.drawing import *
 
 
-def cut_board(image, corners, margin=20, debug=False):
-    min_rectangle = cv.minAreaRect(corners)
-    (x, y), (width, height), angle = min_rectangle
+def init_extract_board_from_raw_image(raw_image, corners, margin):
+    (x, y), (width, height), angle = cv.minAreaRect(corners)
+    board_size = int(min(width, height))
+    image_size = int(board_size + 2 * margin)
 
-    if debug:
-        cv.drawContours(image, [np.int0(cv.boxPoints(min_rectangle))], 0, (0, 255, 0), 2)
-        print_image('1. Minimal rectangle', image)
-        print(f"Size of extracted board (w: {width}, h: {height})")
-
-    dim = min(width, height) + 2 * margin
-    destination = [[margin, margin], [dim - margin, margin], [dim - margin, dim - margin], [margin, dim - margin]]
+    destination = [[margin, margin],
+                   [image_size - margin, margin],
+                   [image_size - margin, image_size - margin],
+                   [margin, image_size - margin]]
 
     matrix = cv.getPerspectiveTransform(np.float32(corners), np.float32(destination))
-    board = cv.warpPerspective(image, matrix, (int(dim), int(dim)))
+    board_image = cv.warpPerspective(raw_image, matrix, (image_size, image_size))
 
-    if debug: print_image('2. Cut board', board)
-    return board
+    return board_image, board_size
 
 
-def extract_field_from_board(board, coords, board_margin=0, field_margin=0):
-    (row, column) = coords
-    assert board.shape[0] == board.shape[1], "Board should be rectangle"
 
-    board_dim = board.shape[0] - 2 * board_margin
-    field_dim = board_dim // 15
+class Board:
+    board_image = None
+    board_size = None
+    margin = None
+    field_size = None
 
-    x = int(board_margin + (board_dim * (row / 15))) + 1
-    y = int(board_margin + (board_dim * (column / 15))) + 1
+    def __init__(self, raw_image, corners, margin=20):
+        self.board_image, self.board_size = init_extract_board_from_raw_image(raw_image, corners, margin)
+        self.margin = margin
+        self.field_size = self.board_size // 15
 
-    x1 = max(x - field_margin, 0)
-    y1 = max(y - field_margin, 0)
-    x2 = min(x + field_dim + field_margin, board_dim)
-    y2 = min(y + field_dim + field_margin, board_dim)
 
-    return board[x1:x2, y1:y2]
+
+    def get_field_image(self, coords, field_margin=0):
+        assert -field_margin < self.field_size // 2, "Minus field margin can not be grater than half of field"
+        (row, column) = coords
+
+        x = int(self.margin + (self.board_size * (row / 15))) + 1
+        y = int(self.margin + (self.board_size * (column / 15))) + 1
+
+        x1 = max(x - field_margin, 0)
+        y1 = max(y - field_margin, 0)
+        x2 = min(x + self.field_size + field_margin, self.board_size)
+        y2 = min(y + self.field_size + field_margin, self.board_size)
+
+        return self.board_image[x1:x2, y1:y2]
+
+
+    def get_board_with_grid(self, color=(0, 255, 0), thickness=2):
+        image = self.board_image.copy()
+        (top, left, bottom, right) = (self.margin, self.margin, image.shape[0] - self.margin, image.shape[1] - self.margin)
+
+        for width in np.linspace(left, right, 16):
+            width_int = round(width)
+            cv.line(image, (width_int, top), (width_int, bottom), color, thickness=thickness)
+
+        for height in np.linspace(top, bottom, 16):
+            height_int = round(height)
+            cv.line(image, (left, height_int), (right, height_int), color, thickness=thickness)
+
+        return image
