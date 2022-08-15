@@ -1,10 +1,10 @@
 import os
 import json
-from libs.cv_methods import *
+from src.libs.util.cv_methods import *
 import cv2 as cv
 
 print('On each picture click on four corners or board clockwise. Then, click "N" key. To close, click ESC')
-path = '../resources/photos/green/'
+path = '../../resources/photos/green/'
 marks_folder = 'marks/'
 
 scale_fraction = None
@@ -43,7 +43,7 @@ def save_result():
 for filename in os.listdir(path):
     if filename.endswith(".jpg"):
         original = cv.imread(path + filename)
-        image, scale_fraction = standardize_size(original)
+        image, scale_fraction = normalize_size(original)
         image_name = filename
         click_counter = 0
         image_points = []

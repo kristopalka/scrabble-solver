@@ -9,7 +9,7 @@ def resize(img, ratio=1.0):
     return cv.resize(img, (x, y))
 
 
-def standardize_size(image, lower_dim=1000):
+def normalize_size(image, lower_dim=1000):
     ratio = lower_dim / min(image.shape[:2])
     image = resize(image, ratio)
 
@@ -21,14 +21,30 @@ def restore_ratio(points, ratio):
     for point in points:
         restored = [int(point[0] // ratio), int(point[1] // ratio)]
         restored_points.append(restored)
-    return restored_points
+    return np.array(restored_points)
+
+
+def load_image(path, prefix="../resources/photos/"):
+    photo = cv.imread(prefix + path)
+    assert photo is not None, "Photo is null"
+    return photo
+
+
+def print_image(name, image, max_h=1000, max_w=1800):
+    (h, w) = image.shape[:2]
+    ratio_h = max_h / h
+    ratio_w = max_w / w
+
+    ratio = min(ratio_w, ratio_h)
+    image = resize(image, ratio)
+
+    cv.imshow(name, image)
 
 
 def fill_all_contours(img):
     contours, hierarchy = cv.findContours(img, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE)
     for contour in contours:
         cv.drawContours(img, [contour], 0, 255, -1)
-
     return img
 
 
@@ -44,23 +60,3 @@ def find_largest_contour(img):
             largest_index = i
 
     return contours[largest_index]
-
-
-def draw_lines(image, lines):
-    for line in lines:
-        rho, theta = line[0]
-        a, b = np.cos(theta), np.sin(theta)
-        x0, y0 = a * rho, b * rho
-        x1 = int(x0 + 1000 * (-b))
-        y1 = int(y0 + 1000 * a)
-        x2 = int(x0 - 1000 * (-b))
-        y2 = int(y0 - 1000 * a)
-        cv.line(image, (x1, y1), (x2, y2), (0, 255, 0), 1)
-
-    return image
-
-
-def draw_points(image, points, color=(0, 0, 255), radius=5, thickness=2):
-    for point in points:
-        cv.circle(image, point, radius, color, thickness)
-    return image

@@ -12,7 +12,6 @@ def center_of_points(points):
 
 
 def sort_points_clockwise(points):
-    assert len(points) == 4
     points = np.array(points)
     center = np.mean(points, axis=0)
 
@@ -25,7 +24,7 @@ def sort_points_clockwise(points):
     return np.array(cyclic_pts)
 
 
-def group_points(points, shape):
+def group_and_get_centers(points, shape):
     (h, w) = shape
     corner_points = [[], [], [], []]
 
