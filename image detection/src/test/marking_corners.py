@@ -4,7 +4,7 @@ from src.libs.util.cv_methods import *
 import cv2 as cv
 
 print('On each picture click on four corners or board clockwise. Then, click "N" key. To close, click ESC')
-path = '../../resources/photos/green/'
+path = '../../resources/photos/red/'
 marks_folder = 'marks/'
 
 scale_fraction = None
@@ -12,6 +12,11 @@ image = None
 image_name = None
 click_counter = 0
 image_points = []
+filenames = []
+
+for filename in os.listdir(path):
+    if filename.endswith(".jpg"):
+        filenames.append(filename)
 
 
 def click_event(event, x, y, flags, params):
@@ -40,24 +45,24 @@ def save_result():
         outfile.write(json_string)
 
 
-for filename in os.listdir(path):
-    if filename.endswith(".jpg"):
-        original = cv.imread(path + filename)
-        image, scale_fraction = normalize_size(original)
-        image_name = filename
-        click_counter = 0
-        image_points = []
 
-        print('Image:', image_name)
-        cv.imshow(image_name, image)
-        cv.setMouseCallback(image_name, click_event)
+for filename in filenames:
+    original = cv.imread(path + filename)
+    image, scale_fraction = normalize_size(original)
+    image_name = filename
+    click_counter = 0
+    image_points = []
 
-        while True:
-            k = cv.waitKey(0)
-            if k == ord('n'):
-                save_result()
-                cv.destroyWindow(image_name)
-                break
-            if k == 27:
-                cv.destroyAllWindows()
-                exit()
+    print('Image:', image_name)
+    cv.imshow(image_name, image)
+    cv.setMouseCallback(image_name, click_event)
+
+    while True:
+        k = cv.waitKey(0)
+        if k == ord('n'):
+            save_result()
+            cv.destroyWindow(image_name)
+            break
+        if k == 27:
+            cv.destroyAllWindows()
+            exit()

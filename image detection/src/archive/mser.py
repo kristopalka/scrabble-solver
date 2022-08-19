@@ -1,63 +1,64 @@
 import cv2 as cv
-import math
+from pytesseract import Output
+import pytesseract as tr
+from math import dist
+
+from src.libs.corners_detection import *
+from src.libs.util.board import *
 
 
-def resize(img, fraction=1.0):
-    assert img is not None
-    x = int(round(img.shape[1] * fraction))
-    y = int(round(img.shape[0] * fraction))
-    return cv.resize(img, (x, y))
+def box_comparator(box, image_center):
+    x, y, w, h = box
 
+    size = (w * h)
+    center = (x + w // 2, y + h // 2)
+    distance = dist(center, image_center)
 
-def calculate_region_dim(region):
-    max_x = region[0][0]
-    min_x = region[0][0]
-    max_y = region[0][1]
-    min_y = region[0][1]
-    for point in region:
-        if point[0] > max_x: max_x = point[0]
-        if point[0] < min_x: min_x = point[0]
-        if point[1] > max_y: max_y = point[1]
-        if point[1] < min_y: min_y = point[1]
-    x = max_x - min_x
-    y = max_y - min_y
-
-    return x, y
-
-
-def get_good_regions(regions, max_differ=0.2):
-    regions_good = []
-    for region in regions:
-        x, y = calculate_region_dim(region)
-        differ = math.fabs(x - y)
-        if differ < x * max_differ and differ < y * max_differ:
-            regions_good.append(region)
-    return regions_good
-
+    if distance == 0: return size
+    return size / distance
 
 def calculate_mser(image):
     board_gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     board_gray = cv.equalizeHist(board_gray)
 
-    max_tile_area = (image.shape[0] * image.shape[1]) // (15 * (15 + 5))
-    MSER = cv.MSER_create(max_area=max_tile_area, delta=20, max_variation=0.1)
+    max_tile_area = (image.shape[0] * image.shape[1]) // 4
+    min_tile_area = (image.shape[0] * image.shape[1]) // 25
+    MSER = cv.MSER_create(max_area=max_tile_area, min_area=min_tile_area, delta=30)
 
-    regions, _ = MSER.detectRegions(board_gray)
-    good_regions = get_good_regions(regions)
-    print(len(regions))
-    print(len(good_regions))
+    regions, boxes = MSER.detectRegions(board_gray)
 
-    hulls = [cv.convexHull(p.reshape(-1, 1, 2)) for p in good_regions]
-    cv.polylines(image, hulls, 1, (0, 0, 255), 2)
+    if len(boxes) == 0: return None
 
-    return regions, image
+    image_center = (image.shape[0] // 2, image.shape[1] // 2)
+    sorted_boxes = sorted(boxes, reverse=True, key=lambda box: box_comparator(box, image_center))
+
+    return sorted_boxes[0]
 
 
-frame = cv.imread('../../resources/photos/red/_1.jpg')  # _1, _6, _8
-frame = resize(frame, 1 / 4)
+photo = load_image('red/001.jpg')
 
-regions, frame_with_regions = calculate_mser(frame)
-cv.imshow('frame_with_regions', frame_with_regions)
+corners = find_corners(photo, debug=False)
+
+board = Board(photo, corners, margin=50)
+print_image('Scrabble', board.get_board_with_grid())
+
+
+board_image = board.board_image
+for x in range(0, 15):
+    for y in range(0, 15):
+        field_image = board.get_field((x, y), field_margin=0)
+
+        box = calculate_mser(field_image)
+        if box is not None:
+            field = board.get_field_coords(x, y)
+
+            p1 = (field[0] + box[0], field[1] + box[1])
+            p2 = (field[0] + box[0] + box[2], field[1] + box[1] + box[3])
+
+            cv.rectangle(board_image, p1, p2, red, 2)
+
+print_image('Letters', board_image)
+
 
 cv.waitKey(0)
 cv.destroyAllWindows()

@@ -1,11 +1,12 @@
 import json
 import os
-from src.libs.input_photo_processing import *
+from src.libs.corners_detection import *
 from math import dist
 from statistics import mean
 import pandas as pd
 import numpy as np
 import time
+import traceback
 
 path = '../../resources/photos/red/'
 marks_folder = 'marks/'
@@ -42,8 +43,9 @@ def try_to_perform_algorithm(image_name):
 
         data_processing_times.append(end - start)
         return corners
-    except Exception:
-        print('Error occurs on photo', image_name, )
+    except Exception as e:
+        print('Error occurs on photo', image_name, e)
+        # traceback.print_exc()
         return None
 
 

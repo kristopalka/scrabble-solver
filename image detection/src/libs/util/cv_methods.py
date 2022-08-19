@@ -1,5 +1,10 @@
 import cv2 as cv
 import numpy as np
+from random import randrange
+
+red = (0, 0, 255)
+green = (0, 255, 0)
+blue = (255, 0, 0)
 
 
 def resize(img, ratio=1.0):
@@ -39,6 +44,11 @@ def print_image(name, image, max_h=1000, max_w=1800):
     image = resize(image, ratio)
 
     cv.imshow(name, image)
+
+
+def print_image_random_name(image, max_h=1000, max_w=1800):
+    name = str(randrange(99999999))
+    print_image(name, image, max_h, max_w)
 
 
 def fill_all_contours(img):
