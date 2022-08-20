@@ -1,13 +1,13 @@
 import pytesseract as tr
 from pytesseract import Output
 
-from src.libs.corners_detection import *
-from src.libs.letters_mask import calculate_letters_mask
-from src.libs.util.cv_methods import *
-from src.libs.util.grouping_points import *
-from src.libs.util.intersections import *
-from src.libs.util.drawing import *
-from src.libs.util.board import *
+from corners_detection import *
+from letters_mask import calculate_letters_mask
+from util.cv_methods import *
+from util.grouping_points import *
+from util.intersections import *
+from util.drawing import *
+from util.board import *
 
 config = "--psm 10  -c tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUWXYZ"
 

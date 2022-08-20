@@ -1,8 +1,8 @@
 import cv2 as cv
 from statistics import stdev, mean
 
-from src.libs.corners_detection import find_corners
-from src.libs.util.board import *
+from corners_detection import find_corners
+from util.board import *
 import numpy as np
 
 
