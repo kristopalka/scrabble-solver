@@ -86,7 +86,8 @@ class BoardExtractor:
         corners = _get_corners_from_mask(image_resized, mask, self._debug)
         assert len(corners) == 4, f"Should be 4 corners. There is {len(corners)}"
 
-        self._corners = _restore_ratio(corners, ratio)
+        corners = _restore_ratio(corners, ratio)
+        self._corners = sort_points_clockwise(corners)
         return self
 
     def get_board(self, margin=0):

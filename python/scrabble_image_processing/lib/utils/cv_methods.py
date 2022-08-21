@@ -13,9 +13,14 @@ def resize(img, ratio=1.0):
 
 
 def load_image(path):
-    photo = cv.imread(path)
-    assert photo is not None, "Photo is null!"
-    return photo
+    image = cv.imread(path)
+    assert image is not None, "Photo is null!"
+    return image
+
+
+def save_image(path, image):
+    assert image is not None, "Photo is null!"
+    cv.imwrite(path, image)
 
 
 def print_image(name, image, max_h=1000, max_w=1800):

@@ -1,8 +1,8 @@
 package com.scrabble.backend;
 
-import com.scrabble.backend.dto.PointsDto;
 import com.scrabble.backend.util.PythonExecutor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,8 +18,13 @@ public class ImageController {
         return PythonExecutor.executeScript("test.py", "world");
     }
 
-    @PostMapping(value = "/corners-detection")
-    public @ResponseBody String cornersDetection(@RequestParam MultipartFile image) throws IOException {
-        return service.cornersDetection(image.getBytes());
+    @PostMapping(value = "/find-corners")
+    public @ResponseBody String findCorners(@RequestParam MultipartFile image) throws IOException {
+        return service.findCorners(image.getBytes());
+    }
+
+    @PostMapping(value = "/extract-board", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] extractBoard(@RequestParam MultipartFile image) throws IOException {
+        return service.extractBoard(image.getBytes());
     }
 }

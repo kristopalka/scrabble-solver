@@ -1,6 +1,5 @@
 package com.scrabble.backend.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -8,8 +7,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PythonExecutor {
     private static final String python = "python";
@@ -32,7 +31,15 @@ public class PythonExecutor {
         return out.toString();
     }
 
-    public static String executeScript(String file, String ... args) throws IOException {
+    private static String getReturnedValue(String output) {
+        Matcher matcher = Pattern.compile(".*\\{\"output\": (.*)}$").matcher(output);
+        if(matcher.find()) {
+            return matcher.group(1);
+        }
+        return "";
+    }
+
+    public static String executeScript(String file, String... args) throws IOException {
         String scriptPath = getPythonScriptPath(file);
         String[] command = new String[]{python, scriptPath, String.join(" ", args)};
 
@@ -40,15 +47,14 @@ public class PythonExecutor {
 
         Process process = processBuilder.start();
 
-        String in = readStream(process.getInputStream());
+        String out = readStream(process.getInputStream());
         String err = readStream(process.getErrorStream());
 
-        if(err.contains("Traceback")){
-            System.out.println("Python script output:");
-            System.out.println(in);
-            throw new RuntimeException("Error while processing python script: ", new Throwable(err));
-        }
 
-        return in;
+        System.out.println("Python script output:\n" + out);
+        if (err.contains("Traceback")) throw new RuntimeException(
+                "Error while processing python script:\n", new Throwable(err));
+
+        return getReturnedValue(out);
     }
 }
