@@ -1,1 +1,0 @@
-from .BoardExtractor import BoardExtractor

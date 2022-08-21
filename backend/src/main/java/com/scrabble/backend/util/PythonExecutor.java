@@ -9,10 +9,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class PythonExecutor {
     private static final String python = "python";
-    private static final String src = "python/src/";
+    private static final String src = "python/";
 
 
     public static String getPythonScriptPath(String file) throws IOException {
@@ -26,14 +27,14 @@ public class PythonExecutor {
         StringBuilder out = new StringBuilder();
         String s;
         while ((s = std.readLine()) != null) {
-            out.append(s);
+            out.append(s).append("\n");
         }
         return out.toString();
     }
 
     public static String executeScript(String file, String ... args) throws IOException {
         String scriptPath = getPythonScriptPath(file);
-        String[] command = new String[]{python, scriptPath, Arrays.toString(args)};
+        String[] command = new String[]{python, scriptPath, String.join(" ", args)};
 
         ProcessBuilder processBuilder = new ProcessBuilder(command);
 
@@ -43,7 +44,9 @@ public class PythonExecutor {
         String err = readStream(process.getErrorStream());
 
         if(err.contains("Traceback")){
-            throw new RuntimeException("Error while processing python script", new Throwable(err));
+            System.out.println("Python script output:");
+            System.out.println(in);
+            throw new RuntimeException("Error while processing python script: ", new Throwable(err));
         }
 
         return in;
