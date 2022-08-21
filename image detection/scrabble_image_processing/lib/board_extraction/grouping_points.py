@@ -2,15 +2,6 @@ from math import dist
 import numpy as np
 
 
-def center_of_points(points):
-    length = len(points)
-    assert length != 0
-
-    sum_x = sum([p[0] for p in points])
-    sum_y = sum([p[1] for p in points])
-    return int(sum_x / length), int(sum_y / length)
-
-
 def sort_points_clockwise(points):
     points = np.array(points)
     center = np.mean(points, axis=0)
@@ -24,7 +15,7 @@ def sort_points_clockwise(points):
     return np.array(cyclic_pts)
 
 
-def group_and_get_centers(points, shape):
+def find_four_corners(points, shape):
     (h, w) = shape
     corner_points = [[], [], [], []]
 
@@ -35,7 +26,7 @@ def group_and_get_centers(points, shape):
 
     corner_centers = []
     for points in corner_points:
-        center = center_of_points(points)
+        center = np.mean(points, axis=0).astype(int)
         corner_centers.append(center)
 
     return corner_centers

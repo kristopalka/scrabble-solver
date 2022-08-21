@@ -1,16 +1,22 @@
 import json
 import os
-from src.libs.corners_detection import *
-from math import dist
-from statistics import mean
-import pandas as pd
-import numpy as np
 import time
-import traceback
+from math import dist
 
-path = '../../resources/photos/red/'
-marks_folder = 'marks/'
-debug = False
+import pandas as pd
+from statistics import mean
+
+from scrabble_image_processing.lib import *
+from scrabble_image_processing.lib.board_extraction.grouping_points import sort_points_clockwise
+
+# -------------------------------------------
+path = '/home/krist/Projects/Scrabble-Solver/image detection/resources/photos/red/'
+marks_folder = '.marks/'
+debug = True
+# -------------------------------------------
+
+
+if debug: print("correct=green, detected=blue")
 data_image_name = []
 data_errors = []
 data_mean_errors = []
@@ -26,6 +32,8 @@ def load_marks(image_name):
 
 
 def calculate_distances(array_a, array_b):
+    array_a = sort_points_clockwise(array_a)
+    array_b = sort_points_clockwise(array_b)
     distances = []
     assert len(array_a) == len(array_b)
     for i in range(len(array_b)):
@@ -36,12 +44,13 @@ def calculate_distances(array_a, array_b):
 
 def try_to_perform_algorithm(image_name):
     try:
-        img = cv.imread(path + image_name)
+        image = cv.imread(path + image_name)
         start = time.time()
-        corners = find_corners(img, debug=False)
-        end = time.time()
 
-        data_processing_times.append(end - start)
+        extractor = BoardExtractor(image).process()
+        corners = extractor.get_corners()
+
+        data_processing_times.append(time.time() - start)
         return corners
     except Exception as e:
         print('Error occurs on photo', image_name, e)
@@ -53,8 +62,8 @@ def debugging(image_name, corners, corners_correct, errors, error_mean):
     if error_mean > 100:
         print(image_name, error_mean, errors)
 
-        image = draw_points(cv.imread(path + image_name), corners_correct, color=(0, 255, 0), thickness=-1, radius=20)
-        image = draw_points(image, corners, color=(255, 0, 0), thickness=-1, radius=10)
+        image = draw_points(cv.imread(path + image_name), corners_correct, color=green, thickness=-1, radius=20)
+        image = draw_points(image, corners, color=blue, thickness=-1, radius=10)
         cv.imshow(image_name, resize(image, 1 / 4))
 
         while True:
@@ -84,11 +93,11 @@ for image_name in os.listdir(path):
 array_data_errors = np.array(data_errors)
 df = pd.DataFrame()
 df['image_name'] = data_image_name
-df['top_left'] = array_data_errors[:, 0]
-df['top_right'] = array_data_errors[:, 1]
-df['bottom_right'] = array_data_errors[:, 2]
-df['bottom_left'] = array_data_errors[:, 3]
-df['mean'] = data_mean_errors
+df['top_left'] = np.array(array_data_errors[:, 0]).astype(int)
+df['top_right'] = np.array(array_data_errors[:, 1]).astype(int)
+df['bottom_right'] = np.array(array_data_errors[:, 2]).astype(int)
+df['bottom_left'] = np.array(array_data_errors[:, 3]).astype(int)
+df['mean'] = np.array(data_mean_errors).astype(int)
 df['time'] = data_processing_times
 description = df.describe(percentiles=[]).loc[['mean', 'std', '50%', 'min', 'max']]
 

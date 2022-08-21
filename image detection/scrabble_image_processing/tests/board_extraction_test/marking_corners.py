@@ -1,22 +1,23 @@
-import os
 import json
-from src.libs.util.cv_methods import *
-import cv2 as cv
+import os
 
+from scrabble_image_processing import *
+
+# -------------------------------------------
 print('On each picture click on four corners or board clockwise. Then, click "N" key. To close, click ESC')
-path = '../../resources/photos/red/'
-marks_folder = 'marks/'
+path = '/home/krist/Projects/Scrabble-Solver/image detection/resources/photos/red/'
+marks_folder = '.marks/'
+# -------------------------------------------
 
 scale_fraction = None
 image = None
 image_name = None
 click_counter = 0
 image_points = []
-filenames = []
+filenames = ["020.jpg", "016.jpg"]
+# filenames = [file for file in os.listdir(path) if file.endswith(".jpg")]
 
-for filename in os.listdir(path):
-    if filename.endswith(".jpg"):
-        filenames.append(filename)
+
 
 
 def click_event(event, x, y, flags, params):
@@ -45,10 +46,15 @@ def save_result():
         outfile.write(json_string)
 
 
+def change_image_size(img, lower_dim):
+    ratio = lower_dim / min(img.shape[:2])
+    img = resize(img, ratio)
+    return img, ratio
+
 
 for filename in filenames:
     original = cv.imread(path + filename)
-    image, scale_fraction = normalize_size(original)
+    image, scale_fraction = change_image_size(original, 800)
     image_name = filename
     click_counter = 0
     image_points = []
