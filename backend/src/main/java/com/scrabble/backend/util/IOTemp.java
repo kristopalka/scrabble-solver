@@ -20,7 +20,7 @@ public class IOTemp {
 
     public IOTemp(byte[] image) throws IOException {
         createTempDirIfNotExist();
-        imageFile = new File(nameAsHash(image));
+        imageFile = new File(generateUniquePath(image));
         FileOutputStream out = new FileOutputStream(imageFile);
         out.write(image);
         out.close();
@@ -33,7 +33,7 @@ public class IOTemp {
         return image;
     }
 
-    private String nameAsHash(byte[] image) {
+    private String generateUniquePath(byte[] image) {
         return tempDir.getName() + "/" + imagePref + Arrays.hashCode(image) + imageExt;
     }
 
