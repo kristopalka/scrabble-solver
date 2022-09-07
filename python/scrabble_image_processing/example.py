@@ -1,6 +1,6 @@
 from scrabble_image_processing import *
 
-image = load_image('/home/krist/Projects/Scrabble-Solver/image detection/resources/photos/red/008.jpg')
+image = load_image('/run/media/krist/Data/Projects/Scrabble-Solver/resources/red_boards/001.jpg')
 
 extractor = BoardExtractor(image).set_debug(True).process()
 board = extractor.get_board(margin=50)
