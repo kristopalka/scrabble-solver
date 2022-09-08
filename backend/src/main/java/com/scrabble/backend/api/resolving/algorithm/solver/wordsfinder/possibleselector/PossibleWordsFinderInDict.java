@@ -1,7 +1,7 @@
 package com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.possibleselector;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.Alphabet;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.dictionary.SortedDictionary;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Alphabet;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.SortedDictionary;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;

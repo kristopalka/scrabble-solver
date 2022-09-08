@@ -1,29 +1,25 @@
-package com.scrabble.backend.api.resolving.algorithm.scrabble;
+package com.scrabble.backend.api.resolving.algorithm.scrabble.util;
 
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 
-public class StandardBoard { // singleton
+public class StandardScrabbleSettings {
     public enum Bonus {EMPTY, DOUBLE_LETTER, TRIPLE_LETTER, DOUBLE_WORD, TRIPLE_WORD}
 
-    private static StandardBoard instance;
-    private static int size;
-    private static Bonus[][] bonuses;
+    private static final int holderSize;
+    private static final int boardSize;
+    private static final Bonus[][] bonuses;
 
-    private static void ifNoInstanceCreate() {
-        if (instance == null) instance = new StandardBoard();
-    }
-
-    private StandardBoard() {
-        size = 15;
-        bonuses = new Bonus[size][size];
+    static {
+        holderSize = 7;
+        boardSize = 15;
+        bonuses = new Bonus[boardSize][boardSize];
         initializeBonuses();
     }
 
-    private void initializeBonuses() {
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
-                bonuses[x][y] = Bonus.EMPTY;
-            }
+    private static void initializeBonuses() {
+        for (Bonus[] row : bonuses) {
+            Arrays.fill(row, Bonus.EMPTY);
         }
 
         initializeBonusesDOUBLELETTER();
@@ -32,7 +28,7 @@ public class StandardBoard { // singleton
         initializeBonusesTRIPLEWORD();
     }
 
-    private void initializeBonusesDOUBLELETTER() {
+    private static void initializeBonusesDOUBLELETTER() {
         bonuses[0][3] = Bonus.DOUBLE_LETTER;
         bonuses[0][11] = Bonus.DOUBLE_LETTER;
 
@@ -69,7 +65,7 @@ public class StandardBoard { // singleton
         bonuses[8][12] = Bonus.DOUBLE_LETTER;
     }
 
-    private void initializeBonusesTRIPLELETTER() {
+    private static void initializeBonusesTRIPLELETTER() {
 
         bonuses[1][5] = Bonus.TRIPLE_LETTER;
         bonuses[1][9] = Bonus.TRIPLE_LETTER;
@@ -88,7 +84,7 @@ public class StandardBoard { // singleton
         bonuses[13][9] = Bonus.TRIPLE_LETTER;
     }
 
-    private void initializeBonusesDOUBLEWORD() {
+    private static void initializeBonusesDOUBLEWORD() {
         bonuses[1][1] = Bonus.DOUBLE_WORD;
         bonuses[2][2] = Bonus.DOUBLE_WORD;
         bonuses[3][3] = Bonus.DOUBLE_WORD;
@@ -111,7 +107,7 @@ public class StandardBoard { // singleton
 
     }
 
-    private void initializeBonusesTRIPLEWORD() {
+    private static void initializeBonusesTRIPLEWORD() {
         bonuses[0][0] = Bonus.TRIPLE_WORD;
         bonuses[14][0] = Bonus.TRIPLE_WORD;
         bonuses[0][14] = Bonus.TRIPLE_WORD;
@@ -124,21 +120,17 @@ public class StandardBoard { // singleton
     }
 
 
-    public static Bonus[][] getBonuses() {
-        ifNoInstanceCreate();
-        return bonuses;
-    }
-
     public static Bonus getBonusAt(int x, int y) {
-        ifNoInstanceCreate();
-        if (x < 0 || x >= size || y < 0 || y >= size)
+        if (x < 0 || x >= boardSize || y < 0 || y >= boardSize)
             throw new InvalidParameterException(String.format("Given coordinates (%d,%d) goes beyond field", x, y));
         return bonuses[x][y];
     }
 
-    public static int getSize() {
-        ifNoInstanceCreate();
-        return size;
+    public static int getHolderSize() {
+        return holderSize;
     }
 
+    public static int getBoardSize() {
+        return boardSize;
+    }
 }

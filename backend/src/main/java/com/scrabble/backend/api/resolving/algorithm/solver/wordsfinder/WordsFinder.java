@@ -1,6 +1,6 @@
 package com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.StandardBoard;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.StandardScrabbleSettings;
 import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
 import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.correctselector.CorrectWordsSelector;
 import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.possibleselector.PossibleWordsFinderInDict;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 
 public class WordsFinder {
-    private static final int size = StandardBoard.getSize();
+    private static final int size = StandardScrabbleSettings.getBoardSize();
 
     public static ArrayList<Word> getAllPossibleWords(char[][] board, char[] holder) {
         ArrayList<Word> allWords = new ArrayList<>();

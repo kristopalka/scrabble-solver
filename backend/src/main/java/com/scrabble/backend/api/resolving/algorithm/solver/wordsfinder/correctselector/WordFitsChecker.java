@@ -1,8 +1,8 @@
 package com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.correctselector;
 
 import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.Alphabet;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.dictionary.Dictionary;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Alphabet;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Dictionary;
 
 public class WordFitsChecker {
     protected static char[][] board;

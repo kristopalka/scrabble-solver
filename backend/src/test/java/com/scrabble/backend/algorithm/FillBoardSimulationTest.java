@@ -1,9 +1,8 @@
 package com.scrabble.backend.algorithm;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.Alphabet;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.BoardBuilder;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.StandardHolder;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.*;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Alphabet;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.StandardScrabbleSettings;
 import com.scrabble.backend.api.resolving.algorithm.solver.Solver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,7 +47,7 @@ public class FillBoardSimulationTest {
     }
 
     private char[] getRandomHolder() {
-        char[] holder = new char[StandardHolder.getSize()];
+        char[] holder = new char[StandardScrabbleSettings.getHolderSize()];
         for (int i=0; i<holder.length; i++) {
             holder[i] = Alphabet.getRandomLetter();
         }

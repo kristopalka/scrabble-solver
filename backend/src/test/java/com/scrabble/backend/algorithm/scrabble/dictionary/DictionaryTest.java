@@ -1,7 +1,7 @@
 package com.scrabble.backend.algorithm.scrabble.dictionary;
 
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.dictionary.Dictionary;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Dictionary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ public class DictionaryTest {
 
         int size = allWords.size();
 
-        Assertions.assertTrue(size == 3045853);
+        Assertions.assertEquals(3045853, size);
     }
 
 

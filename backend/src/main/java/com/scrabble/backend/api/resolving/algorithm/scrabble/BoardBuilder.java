@@ -1,5 +1,7 @@
 package com.scrabble.backend.api.resolving.algorithm.scrabble;
 
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Alphabet;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.StandardScrabbleSettings;
 import lombok.Getter;
 
 import java.security.InvalidParameterException;
@@ -11,7 +13,7 @@ public class BoardBuilder {
     protected char[/*x*/][/*y*/] fields;
 
     public BoardBuilder() {
-        this.size = StandardBoard.getSize();
+        this.size = StandardScrabbleSettings.getBoardSize();
         this.fields = new char[size][size];
 
         for(char[] row : fields) {

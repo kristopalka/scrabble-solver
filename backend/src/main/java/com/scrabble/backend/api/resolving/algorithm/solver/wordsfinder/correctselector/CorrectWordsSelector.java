@@ -1,7 +1,7 @@
 package com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.correctselector;
 
 import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.Alphabet;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Alphabet;
 
 import java.util.*;
 
@@ -28,7 +28,7 @@ public class CorrectWordsSelector {
     protected static ArrayList<Word> considerWordsForBlocksOfLettersInColumn() {
         ArrayList<Word> correctWords = new ArrayList<>();
         int startOfBlock = -1;
-        int endOfBlock = -1;
+        int endOfBlock;
         for (int i = 0; i < boardSize; i++) {
             if (startsBlock(i)) startOfBlock = i;
             if (endsBlock(i)) {

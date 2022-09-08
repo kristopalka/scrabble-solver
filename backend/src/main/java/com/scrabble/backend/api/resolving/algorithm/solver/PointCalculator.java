@@ -1,10 +1,10 @@
 package com.scrabble.backend.api.resolving.algorithm.solver;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.Alphabet;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.StandardBoard;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Alphabet;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.util.StandardScrabbleSettings;
 import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
 
-import static com.scrabble.backend.api.resolving.algorithm.scrabble.StandardBoard.getBonusAt;
+import static com.scrabble.backend.api.resolving.algorithm.scrabble.util.StandardScrabbleSettings.getBonusAt;
 
 public class PointCalculator {
     public static int calculatePoints(Word word, char[][] board) { //todo add advanced points (based on board)
@@ -12,7 +12,7 @@ public class PointCalculator {
         int multiplier = 1;
 
         for (int i = 0; i < word.getLength(); i++) {
-            StandardBoard.Bonus bonus;
+            StandardScrabbleSettings.Bonus bonus;
             if (word.getDirection() == Word.Direction.VERTICAL) bonus = getBonusAt(word.getXBegin(), word.getYBegin() + i);
             else bonus = getBonusAt(word.getXBegin() + i, word.getYBegin());
 
