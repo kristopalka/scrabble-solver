@@ -1,6 +1,6 @@
 package com.scrabble.backend.algorithm.scrabble.alphabet;
 
-import com.scrabble.backend.algorithm.scrabble.Alphabet;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.Alphabet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

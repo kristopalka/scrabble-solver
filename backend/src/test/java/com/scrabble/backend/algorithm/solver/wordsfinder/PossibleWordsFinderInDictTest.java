@@ -1,7 +1,7 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.algorithm.scrabble.Alphabet;
-import com.scrabble.backend.algorithm.solver.wordsfinder.possibleselector.PossibleWordsFinderInDict;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.Alphabet;
+import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.possibleselector.PossibleWordsFinderInDict;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

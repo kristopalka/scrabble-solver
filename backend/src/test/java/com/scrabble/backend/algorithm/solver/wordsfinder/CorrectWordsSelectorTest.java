@@ -1,9 +1,9 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.algorithm.scrabble.board.StandardBoard;
-import com.scrabble.backend.algorithm.scrabble.Word;
-import com.scrabble.backend.algorithm.scrabble.holder.StandardHolder;
-import com.scrabble.backend.algorithm.solver.wordsfinder.correctselector.CorrectWordsSelector;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.board.StandardBoard;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.holder.StandardHolder;
+import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.correctselector.CorrectWordsSelector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

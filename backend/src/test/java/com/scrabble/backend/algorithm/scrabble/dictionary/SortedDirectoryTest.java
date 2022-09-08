@@ -1,5 +1,6 @@
 package com.scrabble.backend.algorithm.scrabble.dictionary;
 
+import com.scrabble.backend.api.resolving.algorithm.scrabble.dictionary.SortedDictionary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

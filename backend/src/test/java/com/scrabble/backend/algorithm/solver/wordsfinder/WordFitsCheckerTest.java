@@ -1,8 +1,8 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.algorithm.scrabble.board.StandardBoard;
-import com.scrabble.backend.algorithm.scrabble.Word;
-import com.scrabble.backend.algorithm.solver.wordsfinder.correctselector.WordFitsChecker;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.board.StandardBoard;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
+import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.correctselector.WordFitsChecker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -45,11 +45,9 @@ public class WordFitsCheckerTest extends WordFitsChecker {
 
         WordFitsChecker.board = board.toCharArray();
 
-        //System.out.println(board);
-
-        Assertions.assertFalse(WordFitsChecker.doWordDisturbNeighborhood(
+        Assertions.assertTrue(WordFitsChecker.doNotDisturbNeighborhood(
                 new Word("absyd", 5, 3, Word.Direction.VERTICAL)));
-        Assertions.assertTrue(WordFitsChecker.doWordDisturbNeighborhood(
+        Assertions.assertFalse(WordFitsChecker.doNotDisturbNeighborhood(
                 new Word("absyd", 5, 2, Word.Direction.VERTICAL)));
     }
 

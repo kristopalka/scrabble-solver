@@ -1,8 +1,9 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.algorithm.scrabble.board.StandardBoard;
-import com.scrabble.backend.algorithm.scrabble.Word;
-import com.scrabble.backend.algorithm.scrabble.holder.StandardHolder;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.board.StandardBoard;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.holder.StandardHolder;
+import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.WordsFinder;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
