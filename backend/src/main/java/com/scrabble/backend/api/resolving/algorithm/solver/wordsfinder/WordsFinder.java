@@ -1,8 +1,7 @@
 package com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder;
 
+import com.scrabble.backend.api.resolving.algorithm.scrabble.StandardBoard;
 import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.board.Board;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.holder.Holder;
 import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.correctselector.CorrectWordsSelector;
 import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.possibleselector.PossibleWordsFinderInDict;
 
@@ -11,21 +10,18 @@ import java.util.stream.Collectors;
 
 
 public class WordsFinder {
-    public static ArrayList<Word> getAllPossibleWords(Board boardObject, Holder holderObject) {
-        char[][] board = boardObject.toCharArray();
-        char[] holder = holderObject.toCharArray();
+    private static final int size = StandardBoard.getSize();
 
-        int size = boardObject.getLength();
-
+    public static ArrayList<Word> getAllPossibleWords(char[][] board, char[] holder) {
         ArrayList<Word> allWords = new ArrayList<>();
-        allWords.addAll(getVertical(board, holder, size));
-        allWords.addAll(getHorizontal(board, holder, size));
+        allWords.addAll(getVertical(board, holder));
+        allWords.addAll(getHorizontal(board, holder));
 
         return allWords;
     }
 
 
-    public static ArrayList<Word> getVertical(char[][] board, char[] holder, int size) {
+    public static ArrayList<Word> getVertical(char[][] board, char[] holder) {
         ArrayList<Word> words = new ArrayList<>();
         for (int colNum = 0; colNum < size; colNum++) {
             ArrayList<String> potentialWords = PossibleWordsFinderInDict.getWordsPossibleToArrangeFromLetters(board[colNum], holder);
@@ -35,16 +31,16 @@ public class WordsFinder {
         return words;
     }
 
-    public static ArrayList<Word> getHorizontal(char[][] board, char[] holder, int size) {
-        ArrayList<Word> verticalToRotate = getVertical(transpose(board, size), holder, size);
+    public static ArrayList<Word> getHorizontal(char[][] board, char[] holder) {
+        ArrayList<Word> verticalToRotate = getVertical(transpose(board), holder);
         return rotateVerticalToHorizontal(verticalToRotate);
     }
 
 
-    private static char[][] transpose(char[][] board, int size) {
-        char[][] transposedBoard = new char[size][size];
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
+    private static char[][] transpose(char[][] board) {
+        char[][] transposedBoard = new char[WordsFinder.size][WordsFinder.size];
+        for (int x = 0; x < WordsFinder.size; x++) {
+            for (int y = 0; y < WordsFinder.size; y++) {
                 transposedBoard[x][y] = board[y][x];
             }
         }

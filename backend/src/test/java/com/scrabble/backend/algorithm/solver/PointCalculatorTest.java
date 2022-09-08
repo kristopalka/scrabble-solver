@@ -1,13 +1,12 @@
-package com.scrabble.backend.algorithm.scrabble;
+package com.scrabble.backend.algorithm.solver;
 
 import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.BoardBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.scrabble.backend.api.resolving.algorithm.solver.PointCalculator.calculatePoints;
 
-public class WordTest {
+public class PointCalculatorTest {
     @Test
     public void getPointsForWordManyLettersTest() {
         Word word = new Word("aąbcćdeę", 0, 0, Word.Direction.HORIZONTAL);

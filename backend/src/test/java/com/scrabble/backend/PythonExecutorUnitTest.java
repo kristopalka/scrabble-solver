@@ -1,4 +1,4 @@
-package com.scrabble.backend.simulation;
+package com.scrabble.backend;
 
 import org.junit.jupiter.api.Test;
 

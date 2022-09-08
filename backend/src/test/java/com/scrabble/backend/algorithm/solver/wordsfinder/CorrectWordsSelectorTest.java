@@ -1,8 +1,7 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.board.StandardBoard;
+import com.scrabble.backend.api.resolving.algorithm.scrabble.BoardBuilder;
 import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.holder.StandardHolder;
 import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.correctselector.CorrectWordsSelector;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,23 +12,23 @@ public class CorrectWordsSelectorTest extends CorrectWordsSelector {
 
     @Test
     public void test() {
-        StandardBoard board = new StandardBoard();
-        board.addWord(new Word("mama", 0, 0, Word.Direction.HORIZONTAL));
+        BoardBuilder boardBuilder = new BoardBuilder();
+        boardBuilder.addWord(new Word("mama", 0, 0, Word.Direction.HORIZONTAL));
 
         ArrayList<String> potentialWords = new ArrayList<>();
         potentialWords.add("adam");
 
 
         int howManyCorrect = CorrectWordsSelector.select(
-                board.toCharArray(),
-                new StandardHolder().add('d').add('a').add('m').toCharArray(),
+                boardBuilder.toCharArray(),
+                new char[]{'d', 'a', 'm'},
                 1,
                 potentialWords).size();
         Assertions.assertEquals(1, howManyCorrect);
 
         int howManyCorrect2 = CorrectWordsSelector.select(
-                board.toCharArray(),
-                new StandardHolder().toCharArray(),
+                boardBuilder.toCharArray(),
+                new char[]{},
                 1,
                 potentialWords).size();
         Assertions.assertEquals(0, howManyCorrect2);
@@ -37,17 +36,17 @@ public class CorrectWordsSelectorTest extends CorrectWordsSelector {
 
     @Test
     public void isEnoughLettersTest() {
-        StandardBoard board = new StandardBoard();
-        board.addWord(new Word("mama", 2, 2, Word.Direction.HORIZONTAL));
-        CorrectWordsSelector.board = board.toCharArray();
+        BoardBuilder boardBuilder = new BoardBuilder();
+        boardBuilder.addWord(new Word("mama", 2, 2, Word.Direction.HORIZONTAL));
+        CorrectWordsSelector.board = boardBuilder.toCharArray();
         CorrectWordsSelector.columnNumber = 3;
 
         Word potentialWord = new Word("mama", 3, 1, Word.Direction.VERTICAL);
 
-        CorrectWordsSelector.holder = new char[]{'m','m','a'};
+        CorrectWordsSelector.holder = new char[]{'m', 'm', 'a'};
         Assertions.assertTrue(isEnoughLetters(potentialWord));
 
-        CorrectWordsSelector.holder = new char[]{'m','a','a'};
+        CorrectWordsSelector.holder = new char[]{'m', 'a', 'a'};
         Assertions.assertFalse(isEnoughLetters(potentialWord));
     }
 
