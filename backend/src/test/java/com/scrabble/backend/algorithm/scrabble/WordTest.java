@@ -1,7 +1,6 @@
-package com.scrabble.backend.algo.scrabble;
+package com.scrabble.backend.algorithm.scrabble;
 
 import com.scrabble.backend.algorithm.scrabble.board.StandardBoard;
-import com.scrabble.backend.algorithm.scrabble.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

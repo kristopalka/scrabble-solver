@@ -10,9 +10,6 @@ public class Dictionary { // singleton
     private static Dictionary instance;
     private static ArrayList<String> dictionary;
 
-    public static void initialize() {
-        ifNoInstanceCreate();
-    }
 
     private static void ifNoInstanceCreate() {
         if (instance == null) instance = new Dictionary();

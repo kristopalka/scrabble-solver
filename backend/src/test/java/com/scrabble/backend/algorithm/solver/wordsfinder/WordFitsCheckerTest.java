@@ -1,4 +1,4 @@
-package com.scrabble.backend.algo.solver.wordsfinder;
+package com.scrabble.backend.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.algorithm.scrabble.board.StandardBoard;
 import com.scrabble.backend.algorithm.scrabble.Word;

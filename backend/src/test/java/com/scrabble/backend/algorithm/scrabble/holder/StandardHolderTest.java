@@ -1,7 +1,6 @@
-package com.scrabble.backend.algo.scrabble.holder;
+package com.scrabble.backend.algorithm.scrabble.holder;
 
 import com.scrabble.backend.algorithm.scrabble.Word;
-import com.scrabble.backend.algorithm.scrabble.holder.StandardHolder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

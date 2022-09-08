@@ -11,12 +11,14 @@ import java.util.ArrayList;
 
 public class WordsFinder {
     public static ArrayList<Word> getAllPossibleWords(Board boardObject, Holder holderObject) {
-        int size = boardObject.getLength();
         char[][] board = boardObject.toCharArray();
         char[] holder = holderObject.toCharArray();
 
-        Dictionary.initialize();
-        SortedDictionary.initialize();
+        return getAllPossibleWords(board, holder);
+    }
+
+    public static ArrayList<Word> getAllPossibleWords(char[][] board, char[] holder) {
+        int size = board.length;
 
         ArrayList<Word> allWords = new ArrayList<>();
         allWords.addAll(VerticalWordsFinder.getVertical(board, holder, size));

@@ -10,8 +10,8 @@ import com.scrabble.backend.algorithm.utility.exceptions.NoGivenLetterInHolderEx
 
 
 public class FulfillBoardSimulation {
-    private Board board;
-    private Holder holder;
+    private final Board board;
+    private final Holder holder;
 
 
     public FulfillBoardSimulation(Board board, Holder holder) {
@@ -31,7 +31,7 @@ public class FulfillBoardSimulation {
                 System.out.println(e.getMessage());
                 return score;
             } catch (NoGivenLetterInHolderException e) {
-                System.out.println(String.format("Try to add word: %s", e.getMessage()));
+                System.out.printf("Try to add word: %s%n", e.getMessage());
                 return score;
             }
             timer.stop();

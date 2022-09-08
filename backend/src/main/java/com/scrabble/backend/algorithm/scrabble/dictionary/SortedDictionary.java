@@ -9,10 +9,6 @@ public class SortedDictionary {  // singleton
     private static HashMap<String, ArrayList<String>> sortedDictionary;
     private static ArrayList<String> keysList;
 
-    public static void initialize() {
-        ifNoInstanceCreate();
-    }
-
     private static void ifNoInstanceCreate() {
         if (instance == null) instance = new SortedDictionary();
     }
@@ -37,7 +33,7 @@ public class SortedDictionary {  // singleton
     }
 
     public static String sortString(String input) {
-        char array[] = input.toCharArray();
+        char[] array = input.toCharArray();
         Arrays.sort(array);
         return new String(array);
     }

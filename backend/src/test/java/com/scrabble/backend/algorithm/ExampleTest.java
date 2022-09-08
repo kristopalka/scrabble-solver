@@ -1,4 +1,4 @@
-package com.scrabble.backend.algo;
+package com.scrabble.backend.algorithm;
 
 import com.scrabble.backend.algorithm.scrabble.Word;
 import com.scrabble.backend.algorithm.scrabble.board.Board;
