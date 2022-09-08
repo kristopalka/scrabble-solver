@@ -1,1 +1,0 @@
-from .LettersRecognizer import LettersRecognizer
