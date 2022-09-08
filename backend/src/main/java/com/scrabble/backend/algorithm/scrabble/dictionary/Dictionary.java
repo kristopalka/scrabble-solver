@@ -16,7 +16,7 @@ public class Dictionary { // singleton
     }
 
     private Dictionary() {
-        loadWordsFromDictionary("/home/krist/Projects/Scrabble-Solver/backend/src/main/resources/dictionary/dictionary_pl.txt"); //todo replace absolute path
+        loadWordsFromDictionary("/home/krist/Projects/Scrabble-Solver/backend/src/main/resources/dictionaries/dictionary_pl.txt"); //todo replace absolute path
     }
 
     private void loadWordsFromDictionary(String patch) {

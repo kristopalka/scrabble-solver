@@ -36,7 +36,7 @@ public class SolverTest {
         words.add(word2);
         words.add(word3);
 
-        Word bestWord = Solver.getBestPointedWord(words, new StandardBoard());
+        Word bestWord = Solver.getBestPointed(words, new StandardBoard());
         Assertions.assertEquals(bestWord, word1);
     }
 }

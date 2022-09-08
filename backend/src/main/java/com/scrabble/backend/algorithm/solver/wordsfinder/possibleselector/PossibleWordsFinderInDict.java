@@ -34,7 +34,7 @@ public class PossibleWordsFinderInDict {
 
     protected static char[] getLettersToUse(char[] column, char[] holder) {
         int number = countNumberOfLetters(column, holder);
-        char lettersToUse[] = new char[number];
+        char[] lettersToUse = new char[number];
         int i = 0;
 
         for (char field : column) {

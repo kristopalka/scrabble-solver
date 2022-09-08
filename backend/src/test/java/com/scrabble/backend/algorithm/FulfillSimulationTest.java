@@ -1,22 +1,35 @@
-package com.scrabble.backend.algorithm.simulation;
+package com.scrabble.backend.algorithm;
 
 import com.scrabble.backend.algorithm.scrabble.Word;
 import com.scrabble.backend.algorithm.scrabble.board.Board;
+import com.scrabble.backend.algorithm.scrabble.board.StandardBoard;
 import com.scrabble.backend.algorithm.scrabble.holder.Holder;
+import com.scrabble.backend.algorithm.scrabble.holder.StandardHolder;
 import com.scrabble.backend.algorithm.solver.Solver;
 import com.scrabble.backend.algorithm.utility.Timer;
 import com.scrabble.backend.algorithm.utility.exceptions.BoardIsFullException;
 import com.scrabble.backend.algorithm.utility.exceptions.NoGivenLetterInHolderException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+public class FulfillSimulationTest {
+    private Board board;
+    private Holder holder;
 
-public class FulfillBoardSimulation {
-    private final Board board;
-    private final Holder holder;
+    @BeforeEach
+    void prepare() {
+        board = new StandardBoard();
+        board.addWord(new Word("a", 7, 7, Word.Direction.VERTICAL));
 
+        holder = new StandardHolder().fillInWithRandomLetters();
+    }
 
-    public FulfillBoardSimulation(Board board, Holder holder) {
-        this.board = board;
-        this.holder = holder;
+    @Test
+    void main() {
+        int score = run(5);
+
+        System.out.println("Score: " + score);
+        System.out.println(board);
     }
 
 

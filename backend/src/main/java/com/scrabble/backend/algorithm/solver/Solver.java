@@ -11,14 +11,12 @@ import java.util.ArrayList;
 public class Solver {
     public static Word getBestWord(Board board, Holder holder) {
         ArrayList<Word> possibleWords = WordsFinder.getAllPossibleWords(board, holder);
-        if (possibleWords.size() == 0) throw new BoardIsFullException("Cannot add any new word with existing stack of letters: " + holder);
+        if (possibleWords.size() == 0) throw new RuntimeException("Not found words to add");
 
-        return getBestPointedWord(possibleWords, board);
+        return getBestPointed(possibleWords, board);
     }
 
-    public static Word getBestPointedWord(ArrayList<Word> words, Board board) {
-        if(words.size() == 0) throw new RuntimeException("List of words cannot be empty");
-
+    public static Word getBestPointed(ArrayList<Word> words, Board board) {
         Word bestWord = null;
         int bestPoints = 0;
         for (Word currentWord : words) {
