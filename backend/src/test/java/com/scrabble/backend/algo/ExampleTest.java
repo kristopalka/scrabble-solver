@@ -8,7 +8,7 @@ import com.scrabble.backend.algorithm.scrabble.holder.StandardHolder;
 import com.scrabble.backend.algorithm.simulation.FulfillBoardSimulation;
 import org.junit.jupiter.api.Test;
 
-public class Example {
+public class ExampleTest {
     @Test
     void main() {
         Board board = new StandardBoard();
