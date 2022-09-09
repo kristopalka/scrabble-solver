@@ -1,13 +1,14 @@
 package com.scrabble.backend.algorithm;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.*;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Alphabet;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.util.StandardScrabbleSettings;
-import com.scrabble.backend.api.resolving.algorithm.solver.Solver;
+import com.scrabble.backend.resolving.algorithm.BoardBuilder;
+import com.scrabble.backend.resolving.algorithm.Word;
+import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
+import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
+import com.scrabble.backend.resolving.algorithm.solver.Solver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.scrabble.backend.api.resolving.algorithm.solver.PointCalculator.calculatePoints;
+import static com.scrabble.backend.resolving.algorithm.solver.PointsCalculator.calculatePoints;
 import static java.lang.System.currentTimeMillis;
 
 public class FillBoardSimulationTest {
@@ -47,7 +48,7 @@ public class FillBoardSimulationTest {
     }
 
     private char[] getRandomHolder() {
-        char[] holder = new char[StandardScrabbleSettings.getHolderSize()];
+        char[] holder = new char[ScrabbleSettings.getHolderSize()];
         for (int i=0; i<holder.length; i++) {
             holder[i] = Alphabet.getRandomLetter();
         }

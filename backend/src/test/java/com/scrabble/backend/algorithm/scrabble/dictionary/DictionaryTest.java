@@ -1,7 +1,7 @@
 package com.scrabble.backend.algorithm.scrabble.dictionary;
 
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Dictionary;
+import com.scrabble.backend.resolving.algorithm.settings.Dictionary;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ public class DictionaryTest {
 
     @Test
     void getAllFromDictionaryTest() {
-        ArrayList<String> allWords = Dictionary.getAllWords();
+        ArrayList<String> allWords = Dictionary.getDictionary();
 
         int size = allWords.size();
 

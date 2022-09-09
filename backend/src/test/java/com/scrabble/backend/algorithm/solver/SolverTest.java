@@ -1,8 +1,8 @@
 package com.scrabble.backend.algorithm.solver;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.BoardBuilder;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
-import com.scrabble.backend.api.resolving.algorithm.solver.Solver;
+import com.scrabble.backend.resolving.algorithm.BoardBuilder;
+import com.scrabble.backend.resolving.algorithm.Word;
+import com.scrabble.backend.resolving.algorithm.solver.Solver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ public class SolverTest {
         BoardBuilder boardBuilder = new BoardBuilder();
         boardBuilder.addWord(new Word("mama", 4, 4, Word.Direction.HORIZONTAL));
 
-        Word bestWord = Solver.getBestWord(boardBuilder.toCharArray(), new char[]{'a', 'b', 'c', 'd', 'e'});
+        Word bestWord = Solver.getBestWords(boardBuilder.toCharArray(), new char[]{'a', 'b', 'c', 'd', 'e'}, 1).get(0);
         boardBuilder.addWord(bestWord);
         System.out.println(boardBuilder);
     }
@@ -31,7 +31,7 @@ public class SolverTest {
         words.add(word2);
         words.add(word3);
 
-        Word bestWord = Solver.getBestPointed(words, null);
+        Word bestWord = Solver.getNBestPointed(words, null, 1).get(0);
         Assertions.assertEquals(bestWord, word1);
     }
 }

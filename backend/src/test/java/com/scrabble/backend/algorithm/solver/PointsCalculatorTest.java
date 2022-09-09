@@ -1,4 +1,4 @@
-package com.scrabble.backend.algorithm.scrabble;
+package com.scrabble.backend.algorithm.solver;
 
 import com.scrabble.backend.resolving.algorithm.Word;
 import org.junit.jupiter.api.Assertions;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.scrabble.backend.resolving.algorithm.solver.PointsCalculator.calculatePoints;
 
-public class WordTest {
+public class PointsCalculatorTest {
     @Test
     public void getPointsForWordManyLettersTest() {
         Word word = new Word("aąbcćdeę", 0, 0, Word.Direction.HORIZONTAL);

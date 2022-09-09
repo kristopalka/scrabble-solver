@@ -1,11 +1,10 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.BoardBuilder;
-import com.scrabble.backend.api.resolving.algorithm.scrabble.Word;
-import com.scrabble.backend.api.resolving.algorithm.solver.wordsfinder.WordsFinder;
+import com.scrabble.backend.resolving.algorithm.BoardBuilder;
+import com.scrabble.backend.resolving.algorithm.Word;
+import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.WordsFinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 

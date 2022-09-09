@@ -1,6 +1,6 @@
 package com.scrabble.backend.algorithm.scrabble.alphabet;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.util.Alphabet;
+import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,9 +17,9 @@ public class AlphabetTest {
 
     @Test
     public void isLetterTest() {
-        Assertions.assertTrue(Alphabet.isLetter('l'));
-        Assertions.assertFalse(Alphabet.isLetter('3'));
-        Assertions.assertFalse(Alphabet.isLetter('%'));
+        Assertions.assertTrue(Alphabet.isCorrectLetter('l'));
+        Assertions.assertFalse(Alphabet.isCorrectLetter('3'));
+        Assertions.assertFalse(Alphabet.isCorrectLetter('%'));
     }
 
     @Test

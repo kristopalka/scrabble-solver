@@ -1,6 +1,6 @@
 package com.scrabble.backend.algorithm.scrabble.dictionary;
 
-import com.scrabble.backend.api.resolving.algorithm.scrabble.util.SortedDictionary;
+import com.scrabble.backend.resolving.algorithm.settings.DictionarySorted;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -10,8 +10,8 @@ public class SortedDirectoryTest {
 
     @Test
     void getAllFromDictionaryTest() {
-        Assertions.assertEquals(SortedDictionary.getWordsByKey(SortedDictionary.sortString("krzysztof")) , new ArrayList<>());
-        Assertions.assertEquals(SortedDictionary.getWordsByKey(SortedDictionary.sortString("pałka")) , new ArrayList<>() {{
+        Assertions.assertEquals(DictionarySorted.getWordsByKey(DictionarySorted.sortString("krzysztof")) , new ArrayList<>());
+        Assertions.assertEquals(DictionarySorted.getWordsByKey(DictionarySorted.sortString("pałka")) , new ArrayList<>() {{
             add("kapał");
             add("łapak");
             add("łapka");
