@@ -1,5 +1,12 @@
 import sys
+import json
 
 
-name = sys.argv[1][1:-1]
-print(f"Hello {name}!")
+name = sys.argv[1]
+
+output = json.dumps({
+    "output": {
+        "hello": name
+    }})
+
+print(output)

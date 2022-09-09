@@ -12,7 +12,7 @@ class PythonRunnerUnitTest {
 	@Test
 	void executeTestScript() throws IOException {
 		String out = executeScript("test.py", "world");
-		assertThat(out).isEqualTo("Hello world!");
+		assertThat(out).isEqualTo("{\"hello\": \"world\"}");
 	}
 
 }
