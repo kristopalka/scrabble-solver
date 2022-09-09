@@ -7,11 +7,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PythonRunner {
-    private static final String python = "scripts";
+    private static final String python = "python";
     private static final String src = "scripts/";
 
 

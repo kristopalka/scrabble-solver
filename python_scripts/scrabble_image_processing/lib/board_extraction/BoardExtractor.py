@@ -1,12 +1,11 @@
+import numpy as np
+import cv2 as cv
 from skimage import morphology
 
-from scrabble_image_processing.lib.board_extraction.grouping_points import *
-from scrabble_image_processing.lib.board_extraction.intersections import *
-from scrabble_image_processing.lib.board_extraction.contours import fill_all_contours, largest_contour_image
-from scrabble_image_processing.lib.utils.Board import Board
-
-from scrabble_image_processing.lib.utils.cv_drawing import *
-from scrabble_image_processing.lib.utils.cv_methods import *
+from scrabble_image_processing.lib.utils import resize, print_image, draw_points, draw_hough_lines, Board
+from .contours import *
+from .grouping_points import *
+from .intersections import *
 
 
 def _change_image_size(img, lower_dim):

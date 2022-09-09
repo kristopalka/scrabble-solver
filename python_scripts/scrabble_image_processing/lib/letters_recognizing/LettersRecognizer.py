@@ -1,8 +1,10 @@
+import numpy as np
 import pytesseract as tr
+import cv2 as cv
 from pytesseract import Output
 
-from scrabble_image_processing.lib.utils.Board import *
-from scrabble_image_processing.lib.letters_recognizing.letters_mask_creator import get_letters_mask
+from scrabble_image_processing.lib.utils import print_image, blue, draw_scrabble_grid_on_board, draw_grid_letters_and_confidences_on_board
+from .letters_mask_creator import get_letters_mask
 
 
 def _preprocess(image):
@@ -21,7 +23,6 @@ def _recognize_letter(field):
 
     data = tr.image_to_data(field, output_type=Output.DICT, config=config, lang='eng')
 
-    print(data)
     best_id = data['conf'].index(max(data['conf']))
 
 

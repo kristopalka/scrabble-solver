@@ -1,5 +1,7 @@
-from scrabble_image_processing.lib.utils.Board import *
 import numpy as np
+import cv2 as cv
+
+from scrabble_image_processing.lib.utils import draw_scrabble_grid_on_board, print_image
 
 
 def _count_black_pixels(image, threshold=20):

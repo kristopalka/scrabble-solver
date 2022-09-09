@@ -13,11 +13,6 @@ import java.io.IOException;
 public class ImageProcessingController {
     private final ImageProcessingService service;
 
-    @GetMapping("/test")
-    public @ResponseBody String test() throws IOException {
-        return PythonRunner.executeScript("test.py", "world");
-    }
-
     @PostMapping(value = "/find-corners")
     public @ResponseBody String findCorners(@RequestParam MultipartFile image) throws IOException {
         return service.findCorners(image.getBytes());

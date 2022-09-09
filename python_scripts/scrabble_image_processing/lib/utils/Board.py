@@ -1,9 +1,3 @@
-import cv2 as cv
-
-from scrabble_image_processing.lib.utils.cv_methods import *
-from scrabble_image_processing.lib.utils.cv_drawing import *
-
-
 class Board:
     def __init__(self, board_image, board_size, margin):
         self.image = board_image

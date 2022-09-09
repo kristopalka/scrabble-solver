@@ -1,7 +1,6 @@
 import json
-import os
 
-from scrabble_image_processing import *
+from scrabble_image_processing.lib import *
 
 # -------------------------------------------
 print('On each picture click on four corners or board clockwise. Then, click "N" key. To close, click ESC')

@@ -1,4 +1,4 @@
-from scrabble_image_processing import *
+from lib import *
 
 image = load_image('/run/media/krist/Data/Projects/Scrabble-Solver/resources/red_boards/001.jpg')
 
