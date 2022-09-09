@@ -1,7 +1,7 @@
 import {Camera, CameraType} from 'expo-camera';
 import {useState} from 'react';
 import {StyleSheet, TouchableOpacity, useWindowDimensions, View} from 'react-native';
-import Lens from "./Lenx";
+import Lens from "./camera/Lenx";
 
 export default function CameraView() {
     const {width, height} = useWindowDimensions();

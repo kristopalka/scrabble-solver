@@ -1,11 +1,11 @@
 import {Button, StyleSheet, View} from 'react-native';
-import Field from "./Field";
+import Field from "./board/Field";
 import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
-import Board from "./Board";
+import Board from "./board/Board";
 import {useState} from "react";
 
 
-export default function BoardView(props) {
+export default function SummaryView(props) {
     const [content, updateContent] = useState(example);
 
     return (

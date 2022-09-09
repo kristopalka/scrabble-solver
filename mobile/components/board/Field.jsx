@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import {getLetterValue, isValidLetter} from '../../util/scrabble';
+import {getLetterValue, isValidLetter} from '../../javascript/scrabble';
 import {useState} from "react";
 
 function preprocessLetter(letter) {

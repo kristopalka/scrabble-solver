@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import CameraView from "./components/camera/CameraView";
-import BoardView from "./components/board/BoardView";
+import CameraView from "./components/CameraView";
+import EditBoardView from "./components/EditBoardView";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <BoardView/>
+      <CameraView/>
       <StatusBar style="auto" />
     </View>
   );
