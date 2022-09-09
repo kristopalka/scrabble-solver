@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SolverTest {
 
@@ -31,7 +32,11 @@ public class SolverTest {
         words.add(word2);
         words.add(word3);
 
-        Word bestWord = Solver.getNBestPointed(words, null, 1).get(0);
-        Assertions.assertEquals(bestWord, word1);
+        List<Word> bestWords = Solver.getNBestPointed(words, null, 10);
+
+        System.out.println(bestWords);
+
+        Assertions.assertEquals(bestWords.get(0), word1);
+        Assertions.assertEquals(bestWords.size(), 3);
     }
 }

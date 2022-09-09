@@ -2,10 +2,8 @@ package com.scrabble.backend.resolving.algorithm.solver;
 
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.WordsFinder;
-import org.javatuples.Pair;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.scrabble.backend.resolving.algorithm.solver.PointsCalculator.calculatePoints;
@@ -23,17 +21,11 @@ public class Solver {
     }
 
     public static List<Word> getNBestPointed(ArrayList<Word> words, char[][] board, int number) {
-        List<Pair<Word, Integer>> wordsWithValues = new ArrayList<>();
+        words.forEach(w -> w.setPoints(calculatePoints(w, board)));
 
-        for(Word word : words) {
-            Integer points = calculatePoints(word, board);
-            wordsWithValues.add(new Pair<>(word, points));
-        }
-
-        return wordsWithValues.stream()
-                .sorted(Comparator.comparing(Pair::getValue1))
+        return words.stream()
+                .sorted((w1, w2) -> Integer.compare(w2.getPoints(), w1.getPoints()))
                 .limit(number)
-                .map(Pair::getValue0)
                 .toList();
     }
 

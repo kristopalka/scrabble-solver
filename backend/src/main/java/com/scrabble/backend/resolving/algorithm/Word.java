@@ -1,11 +1,12 @@
 package com.scrabble.backend.resolving.algorithm;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
-import static com.scrabble.backend.resolving.algorithm.Word.Direction.*;
+import static com.scrabble.backend.resolving.algorithm.Word.Direction.HORIZONTAL;
+import static com.scrabble.backend.resolving.algorithm.Word.Direction.VERTICAL;
 
-@AllArgsConstructor
+
 @Getter
 public class Word {
     public enum Direction {VERTICAL, HORIZONTAL}
@@ -14,6 +15,16 @@ public class Word {
     private final int xBegin;
     private final int yBegin;
     private final Direction direction;
+    @Setter
+    private int points;
+
+
+    public Word(String value, int xBegin, int yBegin, Direction direction) {
+        this.value = value;
+        this.xBegin = xBegin;
+        this.yBegin = yBegin;
+        this.direction = direction;
+    }
 
 
     public int getXEnd() {
@@ -37,6 +48,6 @@ public class Word {
 
     @Override
     public String toString() {
-        return String.format("[\"%s\" (%d, %d) %s]", getValue(), getXBegin(), getYBegin(), getDirection().toString());
+        return String.format("[\"%s\" (%d, %d) %s %d]", getValue(), getXBegin(), getYBegin(), getDirection().toString(), points);
     }
 }
