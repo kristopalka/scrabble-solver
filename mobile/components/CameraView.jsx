@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {StyleSheet, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 import Lens from "./camera/Lenx";
 import {imageToText} from "../javascript/api"
+import {logger} from "../javascript/logger";
 
 export default function CameraView() {
     const {width, height} = useWindowDimensions();
@@ -13,7 +14,7 @@ export default function CameraView() {
     if (!permission.granted) requestPermission();
 
     async function takeAPicture() {
-        console.log("Taking photo")
+        logger("Taking photo")
         const data = await camera.takePictureAsync({base64: true, quality: 0.7});
         await imageToText(data.base64)
     }
