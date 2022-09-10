@@ -10,10 +10,16 @@ export default function EditBoardView(props) {
     const [board, updateBoard] = useState(props.board);
     const [holder, updateHolder] = useState("");
 
-
     function applyBoard() {
         console.log("apply")
     }
+
+    async function holderTextChange(text) {
+        await updateHolder('');
+        const onlyLetters = text.replace(/[^a-zA-Z]/gi, '')
+        await updateHolder(onlyLetters.toUpperCase());
+    }
+
 
 
     return (
@@ -27,11 +33,11 @@ export default function EditBoardView(props) {
 
             <View style={styles.edit}>
                 <TextInput
-                    style={styles.holderInput}
                     value={holder}
-                    onChangeText={updateHolder}
-                    placeholder=""
-                    keyboardType="default"
+                    autoCapitalize="characters"
+                    style={styles.holderInput}
+                    onChangeText={holderTextChange}
+                    placeholder="HOLDER"
                     maxLength={maxHolderSize}
                 />
                 <View style={styles.buttons}>
@@ -52,15 +58,16 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         padding: 20,
         borderTopWidth: 1,
-        borderColor: "gray",
+        borderColor: "black",
     },
     holderInput: {
+        letterSpacing: 5,
         textAlign: "center",
         textAlignVertical: "center",
         includeFontPadding: false,
         fontWeight: "bold",
         fontSize: 22,
-        marginBottom: 10,
+        margin: 10,
         borderWidth: 1,
         borderColor: "gray",
         height: 50,

@@ -39,7 +39,6 @@ export default function App() {
     return (
         <View style={styles.container}>
             {currentView()}
-            <StatusBar style="auto"/>
         </View>
     );
 }

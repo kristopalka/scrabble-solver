@@ -22,8 +22,13 @@ export default function Field(props) {
 
     }
 
-    const textInput = <TextInput style={styles.letter} maxLength={1}
-                                 onChangeText={(l) => changeLetter(l)} value={letter}/>
+    const textInput = <TextInput
+        style={styles.letter}
+        maxLength={1}
+        clearTextOnFocus={true}
+        onChangeText={(l) => changeLetter(l)}
+        value={letter}/>
+
     return (
         <View style={styles.field}>
             {editMode ? textInput : <Text style={styles.letter}>{letter}</Text>}
