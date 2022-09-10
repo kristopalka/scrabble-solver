@@ -1,5 +1,5 @@
-import sys
 import json
+import sys
 from importlib.machinery import SourceFileLoader
 
 import cv2 as cv
@@ -11,16 +11,14 @@ path = sys.argv[1]
 
 print(f'File path: {path}')
 image = sip.load_image(path)
-board = sip.BoardExtractor(image).set_debug(False).process().get_board(margin=50)
 
-letters = sip.LettersRecognizer(board.copy()).set_debug(False).process().get_letters()
+try:
+    board = sip.BoardExtractor(image).set_debug(False).process().get_board(margin=50)
+    letters = sip.LettersRecognizer(board.copy()).set_debug(False).process().get_letters()
+    output = {"board": letters.tolist()}
+except:
+    output = "ERROR"
 
-output = json.dumps({
-    "output": {
-        "board": letters.tolist()
-    }})
-
-print(output)
-
+print(json.dumps({"output": output}))
 cv.waitKey(0)
 cv.destroyAllWindows()
