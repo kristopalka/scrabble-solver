@@ -5,7 +5,7 @@ import Lens from "./camera/Lenx";
 import {imageToText} from "../javascript/api"
 import {logger} from "../javascript/logger";
 
-export default function CameraView() {
+export default function CameraView(props) {
     const {width, height} = useWindowDimensions();
     const [camera, setCamera] = useState(null);
     const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -16,7 +16,16 @@ export default function CameraView() {
     async function takeAPicture() {
         logger("Taking photo")
         const data = await camera.takePictureAsync({base64: true, quality: 0.7});
-        await imageToText(data.base64)
+        logger("Sending to backend");
+        const output = await imageToText(data.base64)
+
+        if(output === "ERROR") {
+            logger("Error while processing photo");
+        }
+        else {
+            logger("Processing OK");
+            props.goToEditBoardView(output);
+        }
     }
 
 

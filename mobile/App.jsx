@@ -1,11 +1,44 @@
 import {StatusBar} from 'expo-status-bar';
 import {StyleSheet, View} from 'react-native';
+import {useState} from "react";
 import CameraView from "./components/CameraView";
+import EditBoardView from "./components/EditBoardView";
+import SummaryView from "./components/SummaryView";
 
 export default function App() {
+    const [view, changeView] = useState("camera")
+    const [object, changeObject] = useState(null)
+
+    function goToSummaryView(data) {
+        changeObject(data)
+        changeView("edit-board")
+    }
+
+    function goToEditBoardView(board) {
+        changeObject(board)
+        changeView("edit-board")
+    }
+
+    function goToCameraView() {
+        changeView("camera");
+    }
+
+    function currentView() {
+        switch (view) {
+            case "camera":
+                return <CameraView goToEditBoardView={goToEditBoardView}/>;
+            case "edit-board":
+                return <EditBoardView goToCameraView={goToCameraView} board={object}/>;
+            case "summary":
+                return <SummaryView goToCameraView={goToCameraView}/>;
+            default:
+                return <View/>;
+        }
+    }
+
     return (
         <View style={styles.container}>
-            <CameraView/>
+            {currentView()}
             <StatusBar style="auto"/>
         </View>
     );
