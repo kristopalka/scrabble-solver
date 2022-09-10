@@ -29,11 +29,11 @@ public class ImageProcessingService {
     }
 
     public String imageToText(byte[] image) throws IOException {
-        log.warn("Starting processing image to text");
+        log.warn("Starting processing image to text, image_size=" + image.length);
         IOTemp temp = new IOTemp(image);
         String output = executeScript("image_to_text.py", temp.getPath());
-        //temp.delete();
-        log.warn("Finished processing image to text");
+        temp.delete();
+        log.warn("Finished processing image to text, output=" + output);
 
         return output;
     }

@@ -1,5 +1,6 @@
 package com.scrabble.backend.image_processing.scripts;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -11,6 +12,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class PythonRunner {
     private static final String python = "python";
     private static final String src = "scripts/";
@@ -52,7 +54,7 @@ public class PythonRunner {
         String err = readStream(process.getErrorStream());
 
 
-        System.out.println("Python script output:\n" + out);
+        //log.warn("Python script output:\n" + out);
         if (err.contains("Traceback")) throw new RuntimeException(
                 "Error while processing python script:\n", new Throwable(err));
 
