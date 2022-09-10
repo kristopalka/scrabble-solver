@@ -14,6 +14,9 @@ def largest_contour_image(img):
     largest_index = 0
 
     contours, hierarchy = cv.findContours(img, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE)
+
+    assert len(contours) > 0, "There should be contours on image"
+
     for i, contour in enumerate(contours):
         area = cv.contourArea(contour)
         if area > largest_area:
