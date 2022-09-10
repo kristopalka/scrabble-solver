@@ -18,7 +18,7 @@ export default function Lens(props) {
     );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
     container: (size) => ({
         height: size,
         width: size,

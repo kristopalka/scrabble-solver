@@ -15,5 +15,3 @@ export function getLetterValue(letter) {
     let index = letters.indexOf(letter);
     return index === -1 ? "" : values[index];
 }
-
-export default {getLetters, getLetterValue, isValid: isValidLetter}

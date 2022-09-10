@@ -1,6 +1,7 @@
 package com.scrabble.backend.image_processing;
 
 import com.scrabble.backend.image_processing.scripts.IOTemp;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import static com.scrabble.backend.image_processing.scripts.PythonRunner.executeScript;
 
 @Service
+@Slf4j
 public class ImageProcessingService {
     public String findCorners(byte[] image) throws IOException {
         IOTemp temp = new IOTemp(image);
@@ -27,9 +29,11 @@ public class ImageProcessingService {
     }
 
     public String imageToText(byte[] image) throws IOException {
+        log.warn("Starting processing image to text");
         IOTemp temp = new IOTemp(image);
         String output = executeScript("image_to_text.py", temp.getPath());
-        temp.delete();
+        //temp.delete();
+        log.warn("Finished processing image to text");
 
         return output;
     }

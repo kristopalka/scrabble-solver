@@ -2,6 +2,7 @@ import {Camera, CameraType} from 'expo-camera';
 import {useState} from 'react';
 import {StyleSheet, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 import Lens from "./camera/Lenx";
+import {imageToText} from "../javascript/api"
 
 export default function CameraView() {
     const {width, height} = useWindowDimensions();
@@ -11,10 +12,12 @@ export default function CameraView() {
     if (!permission) return <View/>;
     if (!permission.granted) requestPermission();
 
-    async function click() {
-        console.log(width)
-        console.log(height)
+    async function takeAPicture() {
+        console.log("Taking photo")
+        const data = await camera.takePictureAsync({base64: true, quality: 0.7});
+        await imageToText(data.base64)
     }
+
 
     return (
         <View style={styles.container}>
@@ -26,7 +29,7 @@ export default function CameraView() {
                     <Lens size={3 * width / 4}/>
                 </View>
             </Camera>
-            <TouchableOpacity style={styles.captureButton} onPress={click}></TouchableOpacity>
+            <TouchableOpacity style={styles.captureButton} onPress={takeAPicture}></TouchableOpacity>
         </View>
     );
 }
