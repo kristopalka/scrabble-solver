@@ -1,16 +1,18 @@
 import {StyleSheet, TextInput, View} from 'react-native';
 import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
-import Board from "./board/Board";
+import Board from "./scrabble/Board";
 import {useState} from "react";
 import CustomButton from "./utils/CustomButton";
-import {exampleBoard, maxHolderSize} from "../javascript/scrabble";
+import {emptyHolder, exampleBoard, maxHolderSize} from "../javascript/scrabble";
 import {solveScrabble} from "../javascript/api";
 import {logger} from "../javascript/logger";
+import Holder from "./scrabble/Holder";
+
 
 
 export default function EditBoardView(props) {
-    const [board, updateBoard] = useState(exampleBoard); //todo change for props.board
-    const [holder, updateHolder] = useState("");
+    const [board, updateBoard] = useState(exampleBoard); //todo change for props.scrabble
+    const [holder, updateHolder] = useState(emptyHolder);
 
     function applyBoard() {
         logger("Applying changes")
@@ -37,14 +39,7 @@ export default function EditBoardView(props) {
             </ReactNativeZoomableView>
 
             <View style={styles.edit}>
-                <TextInput
-                    value={holder}
-                    autoCapitalize="characters"
-                    style={styles.holderInput}
-                    onChangeText={holderTextChange}
-                    placeholder="HOLDER"
-                    maxLength={maxHolderSize}
-                />
+                <Holder content={holder} editMode={true} onUpdateContent={updateHolder}/>
                 <View style={styles.buttons}>
                     <CustomButton title={"Cancel"} style={styles.button} onPress={props.goToCameraView}></CustomButton>
                     <CustomButton title={"Ok"} style={styles.button} onPress={applyBoard}></CustomButton>

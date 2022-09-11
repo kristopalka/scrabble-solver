@@ -1,6 +1,6 @@
 import {Button, StyleSheet, View} from 'react-native';
 import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
-import Board from "./board/Board";
+import Board from "./scrabble/Board";
 
 
 export default function SummaryView(props) {

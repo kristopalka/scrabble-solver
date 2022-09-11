@@ -1,5 +1,6 @@
 const letters = "aąbcćdeęfghijklłmnńoóprsśtuwyzźż".toUpperCase();
 const values =  "15326215533132232171521152312195";
+export const empty = " ";
 
 export const maxHolderSize = 7;
 
@@ -8,19 +9,20 @@ export function getLetters() {
 }
 
 export function isValidLetter(letter) {
-    return letters.toUpperCase().indexOf(letter.toUpperCase()) !== -1;
+    return letters.indexOf(letter.toUpperCase()) !== -1;
 }
 
 export function getLetterValue(letter) {
-    if(letter === "") return ""
+    if(letter === empty) return ""
 
     let index = letters.indexOf(letter);
     return index === -1 ? "" : values[index];
 }
 
+export const emptyHolder = ['a','b','b','d',' ',' ',' '];
 
 export const exampleBoard = [
-    ['X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X'],
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -34,4 +36,4 @@ export const exampleBoard = [
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-    ['X', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'X']]
+    [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]

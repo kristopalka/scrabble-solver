@@ -9,5 +9,15 @@ export function imageToText(image) {
 }
 
 export function solveScrabble(gameState) {
-    return "bestWordsNotImplemented";
+    console.log(JSON.stringify(gameState))
+
+    return fetch(backendUrl + "/solve-scrabble", {
+        method: 'POST',
+        body: JSON.stringify(gameState),
+        headers: {'Content-Type': 'application/json'},
+    })
+        .then(response => response.json())
+        .then((data) => {
+            console.log(data)
+        })
 }
