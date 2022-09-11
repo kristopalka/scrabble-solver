@@ -8,5 +8,4 @@ import lombok.NoArgsConstructor;
 public class ResolveRequestDto {
     private char[][] board;
     private char[] holder;
-    private int number;
 }
