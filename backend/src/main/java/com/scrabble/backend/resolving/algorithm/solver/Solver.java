@@ -10,6 +10,9 @@ import static com.scrabble.backend.resolving.algorithm.solver.PointsCalculator.c
 
 public class Solver {
     public static List<Word> getBestWords(char[][] board, char[] holder, int number) {
+        toLowerCase(board);
+        toLowerCase(holder);
+
         ArrayList<Word> possibleWords = WordsFinder.getAllPossibleWords(board, holder);
         if (possibleWords.size() == 0) throw new RuntimeException("Not found words to add");
 
@@ -27,6 +30,18 @@ public class Solver {
                 .sorted((w1, w2) -> Integer.compare(w2.getPoints(), w1.getPoints()))
                 .limit(number)
                 .toList();
+    }
+
+    private static void toLowerCase(char[][] array) {
+        for (char[] chars : array) {
+            toLowerCase(chars);
+        }
+    }
+
+    private static void toLowerCase(char[] array) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] = Character.toLowerCase(array[i]);
+        }
     }
 
 }

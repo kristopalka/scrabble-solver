@@ -42,11 +42,15 @@ public class WordFitsChecker {
 
         for (int i = 0; i < word.getLength(); i++) {
             int yPos = i + word.getYBegin();
+            int xPos = word.getXBegin();
 
-            if ((word.getXBegin() != 0 && board[word.getXBegin() - 1][yPos] != empty) ||
-                    (word.getXBegin() != board.length && board[word.getXBegin() + 1][yPos] != empty)) {
-                if (!wordDisturbButStillFits(word, yPos)) return false;
-            }
+            if(xPos != 0)
+                if(board[xPos - 1][yPos] != empty)
+                    if (!wordDisturbButStillFits(word, yPos)) return false;
+
+            if(xPos != board.length-1)
+                if(board[xPos + 1][yPos] != empty)
+                    if (!wordDisturbButStillFits(word, yPos)) return false;
         }
         return true;
     }
