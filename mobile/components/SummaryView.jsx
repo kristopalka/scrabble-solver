@@ -1,12 +1,12 @@
 import {Button, StyleSheet, View} from 'react-native';
 import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
 import Board from "./board/Board";
-import {useState} from "react";
-import {exampleBoard} from "../javascript/scrabble";
 
 
 export default function SummaryView(props) {
-    const [content, updateContent] = useState(exampleBoard);
+    const board = props.gameStateAndBestWords.gameState.board
+    const holder = props.gameStateAndBestWords.gameState.holder
+    const bestWords = props.gameStateAndBestWords.bestWords
 
     return (
         <View style={styles.container}>
@@ -15,12 +15,8 @@ export default function SummaryView(props) {
                 maxZoom={4} minZoom={0.7}
                 initialZoom={1}>
 
-                <Board content={content} onUpdateContent={updateContent}/>
-
+                <Board content={board} editMode={false}/>
             </ReactNativeZoomableView>
-            <Button title={"OK"} onPress={() => {
-                console.log(content)
-            }}></Button>
         </View>
     );
 }

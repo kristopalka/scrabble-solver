@@ -10,7 +10,6 @@ function preprocessLetter(letter) {
 
 export default function Field(props) {
     const [letter, setLetter] = useState(preprocessLetter(props.letter))
-    const editMode = props.onUpdateLetter;
 
 
     function changeLetter(newLetter) {
@@ -31,7 +30,7 @@ export default function Field(props) {
 
     return (
         <View style={styles.field}>
-            {editMode ? textInput : <Text style={styles.letter}>{letter}</Text>}
+            {props.editMode ? textInput : <Text style={styles.letter}>{letter}</Text>}
             <Text style={styles.value}>{getLetterValue(letter)}</Text>
         </View>
     );

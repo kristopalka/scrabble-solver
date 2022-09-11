@@ -7,3 +7,7 @@ export function imageToText(image) {
             return data["board"];
         })
 }
+
+export function solveScrabble(gameState) {
+    return "bestWordsNotImplemented";
+}

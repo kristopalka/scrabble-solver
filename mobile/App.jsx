@@ -6,12 +6,12 @@ import EditBoardView from "./components/EditBoardView";
 import SummaryView from "./components/SummaryView";
 
 export default function App() {
-    const [view, changeView] = useState("camera")
+    const [view, changeView] = useState("edit-board") //todo change for "camera"
     const [object, changeObject] = useState(null)
 
-    function goToSummaryView(data) {
-        changeObject(data)
-        changeView("edit-board")
+    function goToSummaryView(gameStateAndBestWords) {
+        changeObject(gameStateAndBestWords)
+        changeView("summary")
     }
 
     function goToEditBoardView(board) {
@@ -28,9 +28,9 @@ export default function App() {
             case "camera":
                 return <CameraView goToEditBoardView={goToEditBoardView}/>;
             case "edit-board":
-                return <EditBoardView goToCameraView={goToCameraView} board={object}/>;
+                return <EditBoardView goToCameraView={goToCameraView} goToSummaryView={goToSummaryView} board={object}/>;
             case "summary":
-                return <SummaryView goToCameraView={goToCameraView}/>;
+                return <SummaryView goToCameraView={goToCameraView} gameStateAndBestWords={object}/>;
             default:
                 return <View/>;
         }

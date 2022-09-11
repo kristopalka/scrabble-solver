@@ -17,6 +17,7 @@ export default function Board(props) {
                             <Field
                                 letter={field}
                                 x={x} y={y}
+                                editMode={props.editMode}
                                 onUpdateLetter={(newLetter) => updateLetter(x, y, newLetter)}
                             />
                         </View>

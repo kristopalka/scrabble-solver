@@ -3,15 +3,21 @@ import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/s
 import Board from "./board/Board";
 import {useState} from "react";
 import CustomButton from "./utils/CustomButton";
-import {maxHolderSize} from "../javascript/scrabble";
+import {exampleBoard, maxHolderSize} from "../javascript/scrabble";
+import {solveScrabble} from "../javascript/api";
+import {logger} from "../javascript/logger";
 
 
 export default function EditBoardView(props) {
-    const [board, updateBoard] = useState(props.board);
+    const [board, updateBoard] = useState(exampleBoard); //todo change for props.board
     const [holder, updateHolder] = useState("");
 
     function applyBoard() {
-        console.log("apply")
+        logger("Applying changes")
+        const gameState = {"board": board, "holder": holder}
+        const bestWords = solveScrabble(gameState);
+
+        props.goToSummaryView({"gameState": gameState, "bestWords": bestWords});
     }
 
     async function holderTextChange(text) {
@@ -21,14 +27,13 @@ export default function EditBoardView(props) {
     }
 
 
-
     return (
         <View style={styles.container}>
             <ReactNativeZoomableView
                 contentWidth={550} contentHeight={550}
                 maxZoom={4} minZoom={0.7}
                 initialZoom={1}>
-                <Board content={board} onUpdateContent={updateBoard}/>
+                <Board content={board} editMode={true} onUpdateContent={updateBoard}/>
             </ReactNativeZoomableView>
 
             <View style={styles.edit}>
