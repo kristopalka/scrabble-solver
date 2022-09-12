@@ -14,7 +14,7 @@ public class CorrectWordsSelector {
 
     protected static ArrayList<String> potentialStrings;
 
-    public static ArrayList<Word> select(char[][] board, char[] holder, int columnNumber, ArrayList<String> potentialWords) {
+    public static ArrayList<Word> selectCorrectWords(char[][] board, char[] holder, int columnNumber, ArrayList<String> potentialWords) {
         CorrectWordsSelector.board = board;
         CorrectWordsSelector.column = board[columnNumber];
         CorrectWordsSelector.boardSize = board.length;
@@ -72,7 +72,7 @@ public class CorrectWordsSelector {
         for (char letter : holder) lettersToUse.add(letter);
 
         for (int i = 0; i < word.getLength(); i++) {
-            char charAtBoard = board[columnNumber][i + word.getYBegin()];
+            char charAtBoard = column[i + word.getYBegin()];
             if (charAtBoard == Alphabet.getEmptySymbol()) {
                 int letterIndex = lettersToUse.indexOf(word.charAt(i));
                 if (letterIndex == -1) return false;

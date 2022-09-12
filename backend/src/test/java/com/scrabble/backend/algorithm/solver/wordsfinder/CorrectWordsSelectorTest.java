@@ -19,14 +19,14 @@ public class CorrectWordsSelectorTest extends CorrectWordsSelector {
         potentialWords.add("adam");
 
 
-        int howManyCorrect = CorrectWordsSelector.select(
+        int howManyCorrect = CorrectWordsSelector.selectCorrectWords(
                 boardBuilder.toCharArray(),
                 new char[]{'d', 'a', 'm'},
                 1,
                 potentialWords).size();
         Assertions.assertEquals(1, howManyCorrect);
 
-        int howManyCorrect2 = CorrectWordsSelector.select(
+        int howManyCorrect2 = CorrectWordsSelector.selectCorrectWords(
                 boardBuilder.toCharArray(),
                 new char[]{},
                 1,

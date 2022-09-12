@@ -1,12 +1,15 @@
 package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.CorrectWordsSelector;
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.possibleselector.PossibleWordsFinderInDict;
 import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.CorrectWordsSelector.selectCorrectWords;
+import static com.scrabble.backend.resolving.algorithm.solver.wordsfinder.possibleselector.PossibleWordsFinderInDict.getWordsPossibleToArrangeFromLetters;
 
 
 public class WordsFinder {
@@ -24,14 +27,25 @@ public class WordsFinder {
     public static ArrayList<Word> getVertical(char[][] board, char[] holder) {
         ArrayList<Word> words = new ArrayList<>();
         for (int colNum = 0; colNum < size; colNum++) {
-            ArrayList<String> potentialWords = PossibleWordsFinderInDict.getWordsPossibleToArrangeFromLetters(board[colNum], holder);
-            ArrayList<Word> correctWords = CorrectWordsSelector.select(board, holder, colNum, potentialWords);
+            ArrayList<String> potentialWords = getWordsPossibleToArrangeFromLetters(board[colNum], holder);
+            ArrayList<Word> correctWords = selectCorrectWords(board, holder, colNum, potentialWords);
             words.addAll(correctWords);
         }
         return words;
+
+//        return (ArrayList<Word>) IntStream.range(0, board.length)
+//                .mapToObj(colNum -> getWords(board, holder, colNum))
+//                .flatMap(List::stream)
+//                .toList();
+////todo
     }
 
-    public static ArrayList<Word> getHorizontal(char[][] board, char[] holder) {
+    private static ArrayList<Word> getWords(char[][] board, char[] holder, int colNum) {
+        ArrayList<String> potentialWords = getWordsPossibleToArrangeFromLetters(board[colNum], holder);
+        return selectCorrectWords(board, holder, colNum, potentialWords);
+    }
+
+    private static ArrayList<Word> getHorizontal(char[][] board, char[] holder) {
         ArrayList<Word> verticalToRotate = getVertical(transpose(board), holder);
         return rotateVerticalToHorizontal(verticalToRotate);
     }

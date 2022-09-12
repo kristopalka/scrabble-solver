@@ -14,7 +14,6 @@ public class Solver {
         toLowerCase(holder);
 
         ArrayList<Word> possibleWords = WordsFinder.getAllPossibleWords(board, holder);
-        if (possibleWords.size() == 0) throw new RuntimeException("Not found words to add");
 
         return getNBestPointed(possibleWords, board, number);
     }
