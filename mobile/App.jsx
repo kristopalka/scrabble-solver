@@ -1,36 +1,57 @@
-import {StatusBar} from 'expo-status-bar';
-import {StyleSheet, View} from 'react-native';
+import {BackHandler, StyleSheet, View} from 'react-native';
 import {useState} from "react";
 import CameraView from "./components/CameraView";
-import EditBoardView from "./components/EditBoardView";
+import EditView from "./components/EditBoardView";
 import SummaryView from "./components/SummaryView";
+import {exampleBestWords, exampleBoard, exampleHolder} from "./javascript/scrabble";
 
 export default function App() {
-    const [view, changeView] = useState("edit-scrabble") //todo change for "camera"
-    const [object, changeObject] = useState(null)
+    const [view, changeView] = useState("summary")
+    const [board, changeBoard] = useState(exampleBoard)
+    const [holder, changeHolder] = useState(exampleHolder)
+    const [bestWords, changeBestWords] = useState(exampleBestWords)
 
-    function goToSummaryView(gameStateAndBestWords) {
-        changeObject(gameStateAndBestWords)
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    function backAction() {
+        switch(view) {
+            case "camera":
+                return false;
+            case "edit":
+                changeView("camera");
+                return true;
+            case "summary":
+                changeView("edit");
+                return true;
+        }
+    }
+
+
+    function goToSummaryView(board, holder, bestWords) {
+        changeBoard(board);
+        changeHolder(holder);
+        changeBestWords(bestWords);
         changeView("summary")
     }
 
     function goToEditBoardView(board) {
-        changeObject(board)
-        changeView("edit-scrabble")
+        changeBoard(board)
+        changeView("edit")
     }
 
-    function goToCameraView() {
+    function goToCameraView(){
         changeView("camera");
     }
 
+
     function currentView() {
-        switch (view) {
+        switch(view) {
             case "camera":
                 return <CameraView goToEditBoardView={goToEditBoardView}/>;
-            case "edit-scrabble":
-                return <EditBoardView goToCameraView={goToCameraView} goToSummaryView={goToSummaryView} board={object}/>;
+            case "edit":
+                return <EditView goToCameraView={goToCameraView} goToSummaryView={goToSummaryView} board={board} holder={holder}/>;
             case "summary":
-                return <SummaryView goToCameraView={goToCameraView} gameStateAndBestWords={object}/>;
+                return <SummaryView goToCameraView={goToCameraView} board={board} holder={holder} bestWords={bestWords}/>;
             default:
                 return <View/>;
         }

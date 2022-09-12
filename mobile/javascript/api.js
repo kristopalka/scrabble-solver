@@ -9,8 +9,6 @@ export function imageToText(image) {
 }
 
 export function solveScrabble(gameState) {
-    console.log(JSON.stringify(gameState))
-
     return fetch(backendUrl + "/solve-scrabble", {
         method: 'POST',
         body: JSON.stringify(gameState),
@@ -18,6 +16,6 @@ export function solveScrabble(gameState) {
     })
         .then(response => response.json())
         .then((data) => {
-            console.log(data)
+            return data;
         })
 }

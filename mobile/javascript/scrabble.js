@@ -19,7 +19,7 @@ export function getLetterValue(letter) {
     return index === -1 ? "" : values[index];
 }
 
-export const emptyHolder = ['a','b','b','d',' ',' ',' '];
+export const exampleHolder = ['a','b','b','d',' ',' ',' '];
 
 export const exampleBoard = [
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -37,3 +37,36 @@ export const exampleBoard = [
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
+
+export const exampleBestWords = [
+    {
+        "value": "bid",
+        "direction": "VERTICAL",
+        "ybegin": 11,
+        "xbegin": 0
+    },
+    {
+        "value": "bi",
+        "direction": "VERTICAL",
+        "ybegin": 11,
+        "xbegin": 0
+    },
+    {
+        "value": "bai",
+        "direction": "VERTICAL",
+        "ybegin": 10,
+        "xbegin": 0
+    },
+    {
+        "value": "bam",
+        "direction": "VERTICAL",
+        "ybegin": 11,
+        "xbegin": 4
+    },
+    {
+        "value": "ci",
+        "direction": "VERTICAL",
+        "ybegin": 11,
+        "xbegin": 0
+    }
+]

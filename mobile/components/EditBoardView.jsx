@@ -1,31 +1,23 @@
-import {StyleSheet, TextInput, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
 import Board from "./scrabble/Board";
 import {useState} from "react";
 import CustomButton from "./utils/CustomButton";
-import {emptyHolder, exampleBoard, maxHolderSize} from "../javascript/scrabble";
 import {solveScrabble} from "../javascript/api";
 import {logger} from "../javascript/logger";
 import Holder from "./scrabble/Holder";
 
 
-
 export default function EditBoardView(props) {
-    const [board, updateBoard] = useState(exampleBoard); //todo change for props.scrabble
-    const [holder, updateHolder] = useState(emptyHolder);
+    const [board, updateBoard] = useState(props.board);
+    const [holder, updateHolder] = useState(props.holder);
 
-    function applyBoard() {
-        logger("Applying changes")
-        const gameState = {"board": board, "holder": holder}
-        const bestWords = solveScrabble(gameState);
+    async function applyBoard() {
+        logger("Solving in backend");
+        const bestWords = await solveScrabble({"board": board, "holder": holder});
+        logger("Solving OK");
 
-        props.goToSummaryView({"gameState": gameState, "bestWords": bestWords});
-    }
-
-    async function holderTextChange(text) {
-        await updateHolder('');
-        const onlyLetters = text.replace(/[^a-zA-Z]/gi, '')
-        await updateHolder(onlyLetters.toUpperCase());
+        props.goToSummaryView(board, holder, bestWords);
     }
 
 
@@ -59,18 +51,6 @@ const styles = StyleSheet.create({
         padding: 20,
         borderTopWidth: 1,
         borderColor: "black",
-    },
-    holderInput: {
-        letterSpacing: 5,
-        textAlign: "center",
-        textAlignVertical: "center",
-        includeFontPadding: false,
-        fontWeight: "bold",
-        fontSize: 22,
-        margin: 10,
-        borderWidth: 1,
-        borderColor: "gray",
-        height: 50,
     },
     buttons: {
         flexDirection: "row",
