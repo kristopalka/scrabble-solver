@@ -5,15 +5,17 @@ import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
 import com.scrabble.backend.resolving.algorithm.settings.Dictionary;
 
 public class SurroundingFiltering {
-    protected static char[][] board;
-    
-    public static boolean doFits(Word word, char[][] board) {
-        SurroundingFiltering.board = board;
-  
+    protected final char[][] board;
+
+    public SurroundingFiltering(char[][] board) {
+        this.board = board;
+    }
+
+    public boolean doFits(Word word) {
         return doLettersAgree(word) && doNotDisturbNeighborhood(word);
     }
 
-    protected static boolean doLettersAgree(Word word) {
+    public boolean doLettersAgree(Word word) {
         for (int i = 0; i < word.length(); i++) {
             char charAtBoard = board[word.xBegin()][i + word.yBegin()];
             if (word.charAt(i) != charAtBoard && charAtBoard != Alphabet.getEmptySymbol()) return false;
@@ -21,11 +23,11 @@ public class SurroundingFiltering {
         return true;
     }
 
-    protected static boolean doNotDisturbNeighborhood(Word word) {
+    public boolean doNotDisturbNeighborhood(Word word) {
         return notDisturbTheSides(word) && notDisturbUpOrDown(word);
     }
 
-    protected static boolean notDisturbUpOrDown(Word word) {
+    public boolean notDisturbUpOrDown(Word word) {
         char empty = Alphabet.getEmptySymbol();
 
         if(word.yBegin() > 0) {
@@ -37,10 +39,12 @@ public class SurroundingFiltering {
         return true;
     }
 
-    protected static boolean notDisturbTheSides(Word word) {
+    public boolean notDisturbTheSides(Word word) {
         char empty = Alphabet.getEmptySymbol();
 
         for (int i = 0; i < word.length(); i++) {
+            if(thisIsEntryPoint(word, i)) continue;
+
             int yPos = i + word.yBegin();
             int xPos = word.xBegin();
 
@@ -55,7 +59,12 @@ public class SurroundingFiltering {
         return true;
     }
 
-    protected static boolean wordDisturbButStillFits(Word word, int yPos) {
+    private boolean thisIsEntryPoint(Word word, int position) {
+        int absolutePosition = word.begin.y + position;
+        return absolutePosition >= word.entryBegin.y && absolutePosition <= word.entryBegin.y + word.entryLength;
+    }
+
+    public boolean wordDisturbButStillFits(Word word, int yPos) {
         char empty = Alphabet.getEmptySymbol();
         int xStart = word.xBegin();
 

@@ -16,10 +16,12 @@ public class WordsFinderForColumn {
 
 
     public static List<Word> find(char[][] board, int columnNumber, String holder) {
+        SurroundingFiltering surrounding = new SurroundingFiltering(board);
+
         return findAllBlocks(board[columnNumber]).stream().parallel()
                 .map(block -> getAllForBlock(holder, block, columnNumber))
                 .flatMap(List::stream)
-                .filter(w -> SurroundingFiltering.doFits(w, board))
+                .filter(surrounding::doFits)
                 .toList();
     }
 
