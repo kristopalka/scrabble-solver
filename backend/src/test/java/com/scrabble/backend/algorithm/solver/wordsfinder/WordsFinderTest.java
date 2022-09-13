@@ -29,6 +29,6 @@ public class WordsFinderTest {
         List<String> expectedWords = Arrays.asList("am", "ma", "em", "me", "amb", "bam", "mac", "dam", "mad", "dem", "cabem", "maceb", "badem", "damce", "madce", "dbam", "ameb", "mace", "dame", "dema", "aa", "aa", "ba", "ad", "da", "bad", "dba", "cab", "abace", "abace", "baca", "baca", "caba", "caba", "bada", "bada", "bace", "maa", "mac", "mad", "maceb", "madce", "maceba", "dama", "mada", "maca", "mace", "dema");
         List<String> actualWords = words.stream().map(w -> w.value).toList();
         Assertions.assertEquals(48, words.size());
-        Assertions.assertEquals(expectedWords, actualWords);
+        Assertions.assertEquals(expectedWords.stream().sorted().toList(), actualWords.stream().sorted().toList());
     }
 }

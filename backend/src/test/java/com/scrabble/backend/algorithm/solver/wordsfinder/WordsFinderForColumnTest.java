@@ -23,7 +23,7 @@ public class WordsFinderForColumnTest extends WordsFinderForColumn {
 
     @Test
     public void findAllBlocksTest() {
-        char[] column = {'a', e, e, e, 'b', 'c', 'd', e, e, e, 'g', 'h'};
+        char[] column = {'a', e, e, e, 'b', 'c', 'd', e, e, e, e, e, e, 'g', 'h'};
         List<Block> allBlocks = findAllBlocks(column);
 
         Assertions.assertEquals(3, allBlocks.size());

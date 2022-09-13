@@ -32,7 +32,7 @@ public class DictionaryFinderTest extends DictionaryFinder {
         String holder = "abe";
 
         ArrayList<String> correct = new ArrayList<>(Arrays.asList("ba", "ar", "at", "ta", "be", "er", "re", "et", "te", "arb", "bar", "rab", "bat", "tab", "era", "rea", "ate", "eta", "rat", "tar", "tra", "ber", "erb", "reb", "bet", "ret", "ter", "berta", "bera", "rabe", "beat", "beta", "bart", "brat", "tera", "bert", "terb"));
-        Assertions.assertEquals(correct, DictionaryFinder.getPotentialWords(column, holder));
+        Assertions.assertEquals(correct.stream().sorted().toList(), DictionaryFinder.getPotentialWords(column, holder).stream().sorted().toList());
 
     }
 }
