@@ -14,8 +14,8 @@ import static com.scrabble.backend.resolving.algorithm.Word.transposePoint;
 public class WordsFinder {
     private static final int size = ScrabbleSettings.getBoardSize();
 
-    public static ArrayList<Word> getVerticalAndHorizontal(char[][] board, String holder) {
-        ArrayList<Word> allWords = new ArrayList<>();
+    public static List<Word> getVerticalAndHorizontal(char[][] board, String holder) {
+        List<Word> allWords = new ArrayList<>();
         allWords.addAll(getVertical(board, holder));
         allWords.addAll(getHorizontal(board, holder));
 
@@ -23,17 +23,16 @@ public class WordsFinder {
     }
 
 
-    public static ArrayList<Word> getVertical(char[][] board, String holder) {
-        List<Word> list = IntStream.range(0, board.length).parallel()
+    public static List<Word> getVertical(char[][] board, String holder) {
+        return IntStream.range(0, board.length).parallel()
                 .mapToObj(colNum -> WordsFinderForColumn.find(board, colNum, holder))
                 .flatMap(List::stream)
                 .toList();
-        return new ArrayList<>(list);
     }
 
 
-    private static ArrayList<Word> getHorizontal(char[][] board, String holder) {
-        ArrayList<Word> verticalToRotate = getVertical(transpose(board), holder);
+    private static List<Word> getHorizontal(char[][] board, String holder) {
+        List<Word> verticalToRotate = getVertical(transpose(board), holder);
         return rotateVerticalToHorizontal(verticalToRotate);
     }
 
@@ -49,9 +48,9 @@ public class WordsFinder {
     }
 
 
-    private static ArrayList<Word> rotateVerticalToHorizontal(ArrayList<Word> verticalToRotate) {
+    private static List<Word> rotateVerticalToHorizontal(List<Word> verticalToRotate) {
         return verticalToRotate.stream()
                 .map(word -> new Word(word.value, transposePoint(word.begin), Word.Direction.HORIZONTAL, transposePoint(word.entryBegin), word.entryLength))
-                .collect(Collectors.toCollection(ArrayList::new));
+                .toList();
     }
 }

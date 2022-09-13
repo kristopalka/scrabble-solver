@@ -14,7 +14,7 @@ public class Solver {
         String holder = extractCorrectLetters(holderArray).toLowerCase();
         toLowerCase(board);
 
-        ArrayList<Word> possibleWords = WordsFinder.getVerticalAndHorizontal(board, holder);
+        List<Word> possibleWords = WordsFinder.getVerticalAndHorizontal(board, holder);
         return getNBestPointed(possibleWords, board, number);
     }
 
@@ -22,7 +22,7 @@ public class Solver {
         return getBestWords(board, holderArray, 1).get(0);
     }
 
-    public static List<Word> getNBestPointed(ArrayList<Word> words, char[][] board, int number) {
+    public static List<Word> getNBestPointed(List<Word> words, char[][] board, int number) {
         words.forEach(w -> w.score = calculatePoints(w, board));
 
         return words.stream()

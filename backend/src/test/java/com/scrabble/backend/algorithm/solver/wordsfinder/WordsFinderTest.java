@@ -22,7 +22,7 @@ public class WordsFinderTest {
 
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        ArrayList<Word> words = WordsFinder.getVerticalAndHorizontal(boardBuilder.toCharArray(), "abcde");
+        List<Word> words = WordsFinder.getVerticalAndHorizontal(boardBuilder.toCharArray(), "abcde");
         stopWatch.stop();
         System.out.println("Calculated in: " + stopWatch.getTotalTimeMillis() + " [ms]");
 
