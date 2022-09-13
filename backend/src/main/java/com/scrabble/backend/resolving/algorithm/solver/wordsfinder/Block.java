@@ -1,4 +1,4 @@
-package com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector;
+package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

@@ -11,6 +11,7 @@ public class ScrabbleSettings {
     private static final Bonus[][] bonuses;
 
     static {
+        System.out.println("Processing scrabble settings...");
         holderSize = 7;
         boardSize = 15;
         bonuses = new Bonus[boardSize][boardSize];

@@ -1,4 +1,4 @@
-package com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector;
+package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
@@ -10,15 +10,16 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class PotentialWordsFinder {
+public class WordsFinderForColumn {
     private static final char empty = Alphabet.getEmptySymbol();
     private static final int length = ScrabbleSettings.getBoardSize();
 
 
-    public static List<Word> selectCorrectWords(char[] column, int columnNumber, String holder) {
-        return findAllBlocks(column).stream()
-                .map(block -> collectFromPotential(holder, block, columnNumber))
+    public static List<Word> find(char[][] board, int columnNumber, String holder) {
+        return findAllBlocks(board[columnNumber]).stream().parallel()
+                .map(block -> getAllForBlock(holder, block, columnNumber))
                 .flatMap(List::stream)
+                .filter(w -> SurroundingFiltering.doFits(w, board))
                 .toList();
     }
 
@@ -50,15 +51,16 @@ public class PotentialWordsFinder {
 
 
 
-    protected static List<Word> collectFromPotential(String holder, Block block, int columnNumber) {
-        return DictionaryFinder.getPotentialWords(block.content, holder).stream()
-                .filter(potentialWord -> potentialWord.length() > block.length())
-                .map(potentialWord -> getPossibleToArrangeWords(potentialWord, block, columnNumber))
-                .flatMap(List::stream)
-                .toList();
+    protected static List<Word> getAllForBlock(String holder, Block block, int columnNumber) {
+        List<Word> words = new ArrayList<>();
+        for(String potentialWord : DictionaryFinder.getPotentialWords(block.content, holder)) {
+            if(potentialWord.length() <= block.length()) continue;
+            words.addAll(getAllFromPotential(potentialWord, block, columnNumber));
+        }
+        return words;
     }
 
-    protected static List<Word> getPossibleToArrangeWords(String potentialWord, Block block, int columnNumber) {
+    protected static List<Word> getAllFromPotential(String potentialWord, Block block, int columnNumber) {
         List<Word> words = new ArrayList<>();
         for (Integer position : findOccurrences(block.content, potentialWord)) {
             Point begin = new Point(columnNumber, block.start - position);

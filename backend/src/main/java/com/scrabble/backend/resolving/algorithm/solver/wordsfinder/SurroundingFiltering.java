@@ -1,14 +1,14 @@
-package com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector;
+package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
 import com.scrabble.backend.resolving.algorithm.settings.Dictionary;
 
-public class WordFitsChecker {
+public class SurroundingFiltering {
     protected static char[][] board;
     
-    public static boolean doWordFits(Word word, char[][] board) {
-        WordFitsChecker.board = board;
+    public static boolean doFits(Word word, char[][] board) {
+        SurroundingFiltering.board = board;
   
         return doLettersAgree(word) && doNotDisturbNeighborhood(word);
     }

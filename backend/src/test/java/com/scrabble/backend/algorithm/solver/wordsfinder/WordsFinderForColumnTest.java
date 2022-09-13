@@ -2,15 +2,15 @@ package com.scrabble.backend.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.Block;
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.PotentialWordsFinder;
+import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.Block;
+import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.WordsFinderForColumn;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.util.List;
 
-public class PotentialWordsFinderTest extends PotentialWordsFinder {
+public class WordsFinderForColumnTest extends WordsFinderForColumn {
     char e = Alphabet.getEmptySymbol();
 
     @Test
@@ -35,7 +35,7 @@ public class PotentialWordsFinderTest extends PotentialWordsFinder {
         String str = "mama";
         Block block = new Block(4, "a");
 
-        List<Word> words = getPossibleToArrangeWords(str, block, 9);
+        List<Word> words = getAllFromPotential(str, block, 9);
         Assertions.assertEquals(new Point(9, 3), words.get(0).begin);
         Assertions.assertEquals(new Point(9, 4), words.get(0).entryBegin);
         Assertions.assertEquals(str, words.get(0).value);
@@ -49,7 +49,7 @@ public class PotentialWordsFinderTest extends PotentialWordsFinder {
     public void getPossibleToArrangeWordsMaxLengthTest() {
         String str = "aaaaaaaaaa";
         Block block = new Block(7, "a");
-        List<Word> words = getPossibleToArrangeWords(str, block, 9);
+        List<Word> words = getAllFromPotential(str, block, 9);
 
         Assertions.assertEquals(6, words.size());
     }
@@ -58,7 +58,7 @@ public class PotentialWordsFinderTest extends PotentialWordsFinder {
     public void getPossibleToArrangeWordsLongBlockTest() {
         String str = "wblocking";
         Block block = new Block(5, "block");
-        List<Word> words = getPossibleToArrangeWords(str, block, 9);
+        List<Word> words = getAllFromPotential(str, block, 9);
 
         Assertions.assertEquals(1, words.size());
         Assertions.assertEquals(str, words.get(0).value);
@@ -81,7 +81,7 @@ public class PotentialWordsFinderTest extends PotentialWordsFinder {
 
     @Test
     public void collectFromPotentialTest() {
-        List<Word> words = collectFromPotential("abe", new Block(5, "rt"), 1);
+        List<Word> words = getAllForBlock("abe", new Block(5, "rt"), 1);
         words.forEach(w -> System.out.println(w.value + " " + w.begin + " " + w.entryBegin));
         Assertions.assertEquals(3, words.size());
     }
@@ -89,8 +89,10 @@ public class PotentialWordsFinderTest extends PotentialWordsFinder {
     @Test
     public void selectCorrectWordsTest() {
         char[] column = {e, e, e, e, e, e, e, 'r', 't', e, e, e, e, 'r', 't'};
+        char[] ec = {e, e, e, e, e, e, e, e, e, e, e, e, e, e, e};
+        char[][] board = {ec, column, ec, ec, ec, ec, ec, ec, ec, ec, ec, ec, ec, ec, ec};
 
-        List<Word> words = selectCorrectWords(column, 1, "abe");
+        List<Word> words = find(board, 1, "abe");
 
         words.forEach(w -> System.out.println(w.value + " " + w.begin + " " + w.entryBegin));
         Assertions.assertEquals(5, words.size());

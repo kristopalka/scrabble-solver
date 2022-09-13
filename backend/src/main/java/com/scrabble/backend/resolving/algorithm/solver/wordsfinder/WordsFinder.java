@@ -6,9 +6,9 @@ import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static com.scrabble.backend.resolving.algorithm.Word.transposePoint;
-import static com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.PotentialWordsFinder.selectCorrectWords;
 
 
 public class WordsFinder {
@@ -24,25 +24,13 @@ public class WordsFinder {
 
 
     public static ArrayList<Word> getVertical(char[][] board, String holder) {
-        ArrayList<Word> words = new ArrayList<>();
-        for (int colNum = 0; colNum < size; colNum++) {
-            List<Word> correctWords = selectCorrectWords(board[colNum], colNum, holder);
-            //todo for each WordFitsChecker.doWordFits(word, board)
-            words.addAll(correctWords);
-        }
-        return words;
-
-//        List<Word> list = IntStream.range(0, board.length)
-//                .mapToObj(colNum -> getWords(board, holder, colNum))
-//                .flatMap(List::stream)
-//                .toList();
-//        return new ArrayList<>(list);
+        List<Word> list = IntStream.range(0, board.length).parallel()
+                .mapToObj(colNum -> WordsFinderForColumn.find(board, colNum, holder))
+                .flatMap(List::stream)
+                .toList();
+        return new ArrayList<>(list);
     }
 
-//    private static ArrayList<Word> getWords(char[][] board, char[] holder, int colNum) {
-//        ArrayList<String> potentialWords = getWordsPossibleToArrangeInColumn(board[colNum], holder);
-//        return selectCorrectWords(board, holder, colNum, potentialWords);
-//    }
 
     private static ArrayList<Word> getHorizontal(char[][] board, String holder) {
         ArrayList<Word> verticalToRotate = getVertical(transpose(board), holder);

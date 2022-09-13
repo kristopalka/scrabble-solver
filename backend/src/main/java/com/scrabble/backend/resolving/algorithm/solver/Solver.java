@@ -18,8 +18,8 @@ public class Solver {
         return getNBestPointed(possibleWords, board, number);
     }
 
-    public static Word getBestWord(char[][] board, char[] holder) {
-        return getBestWords(board, holder, 1).get(0);
+    public static Word getBestWord(char[][] board, char[] holderArray) {
+        return getBestWords(board, holderArray, 1).get(0);
     }
 
     public static List<Word> getNBestPointed(ArrayList<Word> words, char[][] board, int number) {

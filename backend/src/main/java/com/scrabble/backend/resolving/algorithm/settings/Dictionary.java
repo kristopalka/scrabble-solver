@@ -10,6 +10,7 @@ public class Dictionary {
     private static ArrayList<String> dictionary;
 
     static {
+        System.out.println("Processing dictionary...");
         String path = "/home/krist/Projects/Scrabble-Solver/backend/src/main/resources/dictionaries/dictionary_pl.txt"; //todo replace absolute path
 
         try (Stream<String> lines = Files.lines(Paths.get(path))) {

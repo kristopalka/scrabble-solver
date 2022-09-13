@@ -10,6 +10,8 @@ public class Alphabet {
     private static final char emptySymbol;
 
     static {
+        System.out.println("Processing alphabet...");
+
         String letters = "aąbcćdeęfghijklłmnńoóprsśtuwyzźż";
         String values =  "15326215533132232171521152312195";
 

@@ -1,6 +1,6 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.DictionaryFinder;
+import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.DictionaryFinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,12 +11,12 @@ public class DictionaryFinderTest extends DictionaryFinder {
 
     @Test
     void isSubsetOfTest() {
-        String letters = "abcdefg";
-        String word1 = "abcd";
-        String word2 = "adg";
-        String word3 = "a";
-        String word4 = "chrtyzół";
-        String word5 = "fsdfgsdfg";
+        char[] letters = "abcdefg".toCharArray();
+        char[] word1 = "abcd".toCharArray();
+        char[] word2 = "adg".toCharArray();
+        char[] word3 = "a".toCharArray();
+        char[] word4 = "chrtyzół".toCharArray();
+        char[] word5 = "fsdfgsdfg".toCharArray();
 
 
         Assertions.assertTrue(DictionaryFinder.isSubsetOf(word1, letters));

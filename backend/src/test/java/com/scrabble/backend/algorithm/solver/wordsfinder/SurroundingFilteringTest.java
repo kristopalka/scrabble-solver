@@ -2,13 +2,11 @@ package com.scrabble.backend.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.BoardBuilder;
 import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.WordFitsChecker;
+import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.SurroundingFiltering;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-
-public class WordFitsCheckerTest extends WordFitsChecker {
+public class SurroundingFilteringTest extends SurroundingFiltering {
 
 
     @Test
@@ -20,9 +18,9 @@ public class WordFitsCheckerTest extends WordFitsChecker {
         boardBuilder.addWord(new Word("ynt", 4, 5, Word.Direction.HORIZONTAL));
 
 
-        Assertions.assertTrue(WordFitsChecker.doWordFits(
+        Assertions.assertTrue(SurroundingFiltering.doFits(
                 new Word("abszmak", 3, 3, Word.Direction.VERTICAL), boardBuilder.toCharArray()));
-        Assertions.assertFalse(WordFitsChecker.doWordFits(
+        Assertions.assertFalse(SurroundingFiltering.doFits(
                 new Word("abszmak", 7, 3, Word.Direction.VERTICAL), boardBuilder.toCharArray()));
     }
 
@@ -32,11 +30,11 @@ public class WordFitsCheckerTest extends WordFitsChecker {
         BoardBuilder boardBuilder = new BoardBuilder();
         boardBuilder.addWord(new Word("absyd", 0, 0, Word.Direction.VERTICAL));
 
-        WordFitsChecker.board = boardBuilder.toCharArray();
+        SurroundingFiltering.board = boardBuilder.toCharArray();
 
-        Assertions.assertTrue(WordFitsChecker.doLettersAgree(
+        Assertions.assertTrue(SurroundingFiltering.doLettersAgree(
                 new Word("absyda", 0, 0, Word.Direction.VERTICAL)));
-        Assertions.assertFalse(WordFitsChecker.doLettersAgree(
+        Assertions.assertFalse(SurroundingFiltering.doLettersAgree(
                 new Word("abdyda", 0, 0, Word.Direction.VERTICAL)));
     }
 
@@ -45,11 +43,11 @@ public class WordFitsCheckerTest extends WordFitsChecker {
         BoardBuilder boardBuilder = new BoardBuilder();
         boardBuilder.addWord(new Word("absyd", 0, 3, Word.Direction.HORIZONTAL));
 
-        WordFitsChecker.board = boardBuilder.toCharArray();
+        SurroundingFiltering.board = boardBuilder.toCharArray();
 
-        Assertions.assertTrue(WordFitsChecker.doNotDisturbNeighborhood(
+        Assertions.assertTrue(SurroundingFiltering.doNotDisturbNeighborhood(
                 new Word("absyd", 5, 3, Word.Direction.VERTICAL)));
-        Assertions.assertFalse(WordFitsChecker.doNotDisturbNeighborhood(
+        Assertions.assertFalse(SurroundingFiltering.doNotDisturbNeighborhood(
                 new Word("absyd", 5, 2, Word.Direction.VERTICAL)));
     }
 
@@ -58,12 +56,12 @@ public class WordFitsCheckerTest extends WordFitsChecker {
         BoardBuilder boardBuilder = new BoardBuilder();
         boardBuilder.addWord(new Word("absyd", 0, 0, Word.Direction.HORIZONTAL));
 
-        WordFitsChecker.board = boardBuilder.toCharArray();
+        SurroundingFiltering.board = boardBuilder.toCharArray();
 
-        Assertions.assertTrue(WordFitsChecker.wordDisturbButStillFits(
+        Assertions.assertTrue(SurroundingFiltering.wordDisturbButStillFits(
                 new Word("absyd", 5, 0, Word.Direction.VERTICAL), 0));
 
-        Assertions.assertFalse(WordFitsChecker.wordDisturbButStillFits(
+        Assertions.assertFalse(SurroundingFiltering.wordDisturbButStillFits(
                 new Word("xbsyd", 5, 0, Word.Direction.VERTICAL), 0));
 
     }

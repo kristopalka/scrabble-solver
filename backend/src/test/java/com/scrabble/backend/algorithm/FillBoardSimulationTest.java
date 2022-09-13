@@ -7,12 +7,14 @@ import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
 import com.scrabble.backend.resolving.algorithm.solver.Solver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.StopWatch;
 
 import static com.scrabble.backend.resolving.algorithm.solver.PointsCalculator.calculatePoints;
 import static java.lang.System.currentTimeMillis;
 
 public class FillBoardSimulationTest {
     private BoardBuilder boardBuilder;
+    private long totalTime = 0;
 
     @BeforeEach
     void prepare() {
@@ -22,9 +24,11 @@ public class FillBoardSimulationTest {
 
     @Test
     void fillBoardWithNWords() {
-        int score = run(5);
+        int moves = 10;
+        int score = run(moves);
 
         System.out.println("Score: " + score);
+        System.out.println("Average time: " + (totalTime/moves));
         System.out.println(boardBuilder);
     }
 
@@ -33,10 +37,14 @@ public class FillBoardSimulationTest {
         int score = 0;
         for (int i = 0; i < numberOfMoves; i++) {
             try {
-                long startTime = currentTimeMillis();
-                Word bestWord = Solver.getBestWord(boardBuilder.toCharArray(), getRandomHolder());
+                final StopWatch stopWatch = new StopWatch();
+                stopWatch.start();
+                Word bestWord = Solver.getBestWord(boardBuilder.toCharArray(), "abcdefgh".toCharArray());
+                stopWatch.stop();
+
                 int wordScore = calculatePoints(bestWord, null);
-                System.out.printf("word %s with %s points in %s ms\n", bestWord, wordScore, currentTimeMillis() - startTime);
+                System.out.printf("word %s with %s points in %s ms\n", bestWord, wordScore, stopWatch.getTotalTimeMillis());
+                totalTime += stopWatch.getTotalTimeMillis();
 
                 boardBuilder.addWord(bestWord);
                 score += wordScore;

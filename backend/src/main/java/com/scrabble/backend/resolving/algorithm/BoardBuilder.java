@@ -12,11 +12,20 @@ public class BoardBuilder {
     protected int size;
     protected char[/*x*/][/*y*/] fields;
 
+    public BoardBuilder(char[][] board) {
+        this.size = ScrabbleSettings.getBoardSize();
+        this.fields = new char[size][size];
+
+        for (int i = 0; i < size; i++) {
+            fields[i] = Arrays.copyOf(board[i], size);
+        }
+    }
+
     public BoardBuilder() {
         this.size = ScrabbleSettings.getBoardSize();
         this.fields = new char[size][size];
 
-        for(char[] row : fields) {
+        for (char[] row : fields) {
             Arrays.fill(row, Alphabet.getEmptySymbol());
         }
     }
@@ -33,6 +42,7 @@ public class BoardBuilder {
             addLetter(word.charAt(x), x + xStart, yStart);
         }
     }
+
     private void addWordVertically(String word, int xStart, int yStart) {
         for (int y = 0; y < word.length(); y++) {
             addLetter(word.charAt(y), xStart, yStart + y);
