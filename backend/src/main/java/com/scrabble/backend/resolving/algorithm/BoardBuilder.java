@@ -22,9 +22,9 @@ public class BoardBuilder {
     }
 
     public BoardBuilder addWord(Word word) {
-        if (word.getDirection() == Word.Direction.VERTICAL)
-            addWordVertically(word.getValue(), word.getXBegin(), word.getYBegin());
-        else addWordHorizontally(word.getValue(), word.getXBegin(), word.getYBegin());
+        if (word.direction == Word.Direction.VERTICAL)
+            addWordVertically(word.value, word.xBegin(), word.yBegin());
+        else addWordHorizontally(word.value, word.xBegin(), word.yBegin());
         return this;
     }
 

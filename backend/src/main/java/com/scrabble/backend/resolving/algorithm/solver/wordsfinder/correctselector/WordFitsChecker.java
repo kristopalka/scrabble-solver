@@ -14,8 +14,8 @@ public class WordFitsChecker {
     }
 
     protected static boolean doLettersAgree(Word word) {
-        for (int i = 0; i < word.getLength(); i++) {
-            char charAtBoard = board[word.getXBegin()][i + word.getYBegin()];
+        for (int i = 0; i < word.length(); i++) {
+            char charAtBoard = board[word.xBegin()][i + word.yBegin()];
             if (word.charAt(i) != charAtBoard && charAtBoard != Alphabet.getEmptySymbol()) return false;
         }
         return true;
@@ -28,11 +28,11 @@ public class WordFitsChecker {
     protected static boolean notDisturbUpOrDown(Word word) {
         char empty = Alphabet.getEmptySymbol();
 
-        if(word.getYBegin() > 0) {
-            if (board[word.getXBegin()][word.getYBegin() - 1] != empty) return false;
+        if(word.yBegin() > 0) {
+            if (board[word.xBegin()][word.yBegin() - 1] != empty) return false;
         }
-        if(word.getYBegin() + word.getLength() + 1 < board.length) {
-            if (board[word.getXBegin()][word.getYEnd() + 1] != empty) return false;
+        if(word.yBegin() + word.length() + 1 < board.length) {
+            if (board[word.xBegin()][word.yEnd() + 1] != empty) return false;
         }
         return true;
     }
@@ -40,9 +40,9 @@ public class WordFitsChecker {
     protected static boolean notDisturbTheSides(Word word) {
         char empty = Alphabet.getEmptySymbol();
 
-        for (int i = 0; i < word.getLength(); i++) {
-            int yPos = i + word.getYBegin();
-            int xPos = word.getXBegin();
+        for (int i = 0; i < word.length(); i++) {
+            int yPos = i + word.yBegin();
+            int xPos = word.xBegin();
 
             if(xPos != 0)
                 if(board[xPos - 1][yPos] != empty)
@@ -57,13 +57,13 @@ public class WordFitsChecker {
 
     protected static boolean wordDisturbButStillFits(Word word, int yPos) {
         char empty = Alphabet.getEmptySymbol();
-        int xStart = word.getXBegin();
+        int xStart = word.xBegin();
 
         while (xStart != 0 && board[xStart - 1][yPos] != empty) xStart--;
 
         StringBuilder newWordBuilder = new StringBuilder();
-        for (int x = xStart; x < board.length && (board[x][yPos] != empty || x == word.getXBegin()); x++) {
-            if (x == word.getXBegin()) newWordBuilder.append(word.charAt(yPos - word.getYBegin()));
+        for (int x = xStart; x < board.length && (board[x][yPos] != empty || x == word.xBegin()); x++) {
+            if (x == word.xBegin()) newWordBuilder.append(word.charAt(yPos - word.yBegin()));
             else newWordBuilder.append(board[x][yPos]);
         }
         String newWord = newWordBuilder.toString();

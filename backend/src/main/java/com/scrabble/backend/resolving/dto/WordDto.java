@@ -13,9 +13,9 @@ public class WordDto {
     private String direction;
 
     public WordDto(Word word) {
-        this.value = word.getValue();
-        this.xBegin = word.getXBegin();
-        this.yBegin = word.getYBegin();
-        this.direction = word.getDirection().toString();
+        this.value = word.value;
+        this.xBegin = word.begin.x;
+        this.yBegin = word.begin.y;
+        this.direction = word.direction.toString();
     }
 }

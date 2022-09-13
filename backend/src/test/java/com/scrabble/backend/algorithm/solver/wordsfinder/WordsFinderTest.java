@@ -15,7 +15,7 @@ public class WordsFinderTest {
         BoardBuilder boardBuilder = new BoardBuilder();
         boardBuilder.addWord(new Word("mama",  4, 4, Word.Direction.HORIZONTAL));
 
-        ArrayList<Word> all = WordsFinder.getVerticalAndHorizontal(boardBuilder.toCharArray(), new char[]{'a', 'b', 'c', 'd', 'e'});
+        ArrayList<Word> all = WordsFinder.getVerticalAndHorizontal(boardBuilder.toCharArray(), "abcde");
 
         Assertions.assertEquals(66, all.size());
     }

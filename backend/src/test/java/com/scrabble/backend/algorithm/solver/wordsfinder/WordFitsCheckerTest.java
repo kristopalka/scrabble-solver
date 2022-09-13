@@ -6,6 +6,8 @@ import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselect
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+
 public class WordFitsCheckerTest extends WordFitsChecker {
 
 

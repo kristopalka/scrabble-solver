@@ -43,11 +43,8 @@ public class AlphabetTest {
         char e = Alphabet.getEmptySymbol();
         char[] column = {e, 'r', e, 't', 'g', e, 'y'};
 
-        char[] lettersToUse = extractCorrectLetters(column);
-        char[] correct = {'r', 't', 'g', 'y'};
+        String lettersToUse = extractCorrectLetters(column);
 
-        Object[] arr1 = {lettersToUse};
-        Object[] arr2 = {correct};
-        Assertions.assertTrue(Arrays.deepEquals(arr1, arr2));
+        Assertions.assertEquals("rtgy", lettersToUse);
     }
 }

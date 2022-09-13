@@ -2,18 +2,19 @@ package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.possibleselector.DictionaryFinder;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.CorrectWordsSelector.selectCorrectWords;
+import static com.scrabble.backend.resolving.algorithm.Word.transposePoint;
+import static com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.PotentialWordsFinder.selectCorrectWords;
 
 
 public class WordsFinder {
     private static final int size = ScrabbleSettings.getBoardSize();
 
-    public static ArrayList<Word> getVerticalAndHorizontal(char[][] board, char[] holder) {
+    public static ArrayList<Word> getVerticalAndHorizontal(char[][] board, String holder) {
         ArrayList<Word> allWords = new ArrayList<>();
         allWords.addAll(getVertical(board, holder));
         allWords.addAll(getHorizontal(board, holder));
@@ -22,11 +23,11 @@ public class WordsFinder {
     }
 
 
-    public static ArrayList<Word> getVertical(char[][] board, char[] holder) {
+    public static ArrayList<Word> getVertical(char[][] board, String holder) {
         ArrayList<Word> words = new ArrayList<>();
         for (int colNum = 0; colNum < size; colNum++) {
-            ArrayList<String> potentialWords = DictionaryFinder.getPotentialWordsForColumn(board[colNum], holder);
-            ArrayList<Word> correctWords = selectCorrectWords(board, holder, colNum, potentialWords);
+            List<Word> correctWords = selectCorrectWords(board[colNum], colNum, holder);
+            //todo for each WordFitsChecker.doWordFits(word, board)
             words.addAll(correctWords);
         }
         return words;
@@ -43,7 +44,7 @@ public class WordsFinder {
 //        return selectCorrectWords(board, holder, colNum, potentialWords);
 //    }
 
-    private static ArrayList<Word> getHorizontal(char[][] board, char[] holder) {
+    private static ArrayList<Word> getHorizontal(char[][] board, String holder) {
         ArrayList<Word> verticalToRotate = getVertical(transpose(board), holder);
         return rotateVerticalToHorizontal(verticalToRotate);
     }
@@ -62,7 +63,7 @@ public class WordsFinder {
 
     private static ArrayList<Word> rotateVerticalToHorizontal(ArrayList<Word> verticalToRotate) {
         return verticalToRotate.stream()
-                .map(word -> new Word(word.getValue(), word.getYBegin(), word.getXBegin(), Word.Direction.HORIZONTAL))
+                .map(word -> new Word(word.value, transposePoint(word.begin), Word.Direction.HORIZONTAL, transposePoint(word.entryBegin), word.entryLength))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }

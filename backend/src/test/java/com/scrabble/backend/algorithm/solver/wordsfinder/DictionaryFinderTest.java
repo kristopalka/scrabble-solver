@@ -1,7 +1,6 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.possibleselector.DictionaryFinder;
+import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.DictionaryFinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -12,8 +11,8 @@ public class DictionaryFinderTest extends DictionaryFinder {
 
     @Test
     void isSubsetOfTest() {
-        char[] letters = {'a', 'b', 'c', 'd', 'd', 'e', 'f', 'g'};
-        String word1 = "abcdd";
+        String letters = "abcdefg";
+        String word1 = "abcd";
         String word2 = "adg";
         String word3 = "a";
         String word4 = "chrtyzół";
@@ -29,11 +28,11 @@ public class DictionaryFinderTest extends DictionaryFinder {
 
     @Test
     void getPotentialWordsForColumnTest() {
-        char e = Alphabet.getEmptySymbol();
-        char[] column = {e, 'r', e, 't'};
-        char[] holder = {'a', 'b', 'e'};
+        String column = "rt";
+        String holder = "abe";
 
         ArrayList<String> correct = new ArrayList<>(Arrays.asList("ba", "ar", "at", "ta", "be", "er", "re", "et", "te", "arb", "bar", "rab", "bat", "tab", "era", "rea", "ate", "eta", "rat", "tar", "tra", "ber", "erb", "reb", "bet", "ret", "ter", "berta", "bera", "rabe", "beat", "beta", "bart", "brat", "tera", "bert", "terb"));
-        Assertions.assertEquals(correct, DictionaryFinder.getPotentialWordsForColumn(column, holder));
+        Assertions.assertEquals(correct, DictionaryFinder.getPotentialWords(column, holder));
+
     }
 }

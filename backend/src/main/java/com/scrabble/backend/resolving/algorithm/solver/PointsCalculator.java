@@ -11,10 +11,10 @@ public class PointsCalculator {
         int totalPoints = 0;
         int multiplier = 1;
 
-        for (int i = 0; i < word.getLength(); i++) {
+        for (int i = 0; i < word.length(); i++) {
             ScrabbleSettings.Bonus bonus;
-            if (word.getDirection() == Word.Direction.VERTICAL) bonus = getBonusAt(word.getXBegin(), word.getYBegin() + i);
-            else bonus = getBonusAt(word.getXBegin() + i, word.getYBegin());
+            if (word.direction == Word.Direction.VERTICAL) bonus = getBonusAt(word.xBegin(), word.yBegin() + i);
+            else bonus = getBonusAt(word.xBegin() + i, word.yBegin());
 
 
             int letterPoints = Alphabet.valueOfLetter(word.charAt(i));
