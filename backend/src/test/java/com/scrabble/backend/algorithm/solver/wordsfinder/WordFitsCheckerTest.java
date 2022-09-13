@@ -1,8 +1,8 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
+import com.scrabble.backend.resolving.algorithm.BoardBuilder;
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.correctselector.WordFitsChecker;
-import com.scrabble.backend.resolving.algorithm.BoardBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

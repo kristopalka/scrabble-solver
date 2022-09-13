@@ -1,19 +1,23 @@
 package com.scrabble.backend.resolving.algorithm.solver;
 
 import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.WordsFinder;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.extractCorrectLetters;
 import static com.scrabble.backend.resolving.algorithm.solver.PointsCalculator.calculatePoints;
+import static com.scrabble.backend.resolving.algorithm.solver.wordsfinder.WordsFinder.getVerticalAndHorizontal;
 
 public class Solver {
-    public static List<Word> getBestWords(char[][] board, char[] holder, int number) {
+    public static List<Word> getBestWords(char[][] board, char[] holderArray, int number) {
+        char[] holder = extractCorrectLetters(holderArray);
+
         toLowerCase(board);
         toLowerCase(holder);
 
-        ArrayList<Word> possibleWords = WordsFinder.getAllPossibleWords(board, holder);
+
+        ArrayList<Word> possibleWords = getVerticalAndHorizontal(board, holder);
 
         return getNBestPointed(possibleWords, board, number);
     }
@@ -42,5 +46,6 @@ public class Solver {
             array[i] = Character.toLowerCase(array[i]);
         }
     }
+
 
 }

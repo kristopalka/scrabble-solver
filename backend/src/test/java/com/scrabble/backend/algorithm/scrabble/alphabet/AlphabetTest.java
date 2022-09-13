@@ -4,6 +4,10 @@ import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
+import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.extractCorrectLetters;
+
 public class AlphabetTest {
     @Test
     public void getEmptySymbolTest() {
@@ -32,5 +36,18 @@ public class AlphabetTest {
     @Test
     public void getRandomLetterVisualTest() {
         System.out.println(Alphabet.getRandomLetter());
+    }
+
+    @Test
+    void getLettersToUseTest() {
+        char e = Alphabet.getEmptySymbol();
+        char[] column = {e, 'r', e, 't', 'g', e, 'y'};
+
+        char[] lettersToUse = extractCorrectLetters(column);
+        char[] correct = {'r', 't', 'g', 'y'};
+
+        Object[] arr1 = {lettersToUse};
+        Object[] arr2 = {correct};
+        Assertions.assertTrue(Arrays.deepEquals(arr1, arr2));
     }
 }

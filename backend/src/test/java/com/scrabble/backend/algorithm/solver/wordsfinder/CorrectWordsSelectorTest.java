@@ -13,7 +13,7 @@ public class CorrectWordsSelectorTest extends CorrectWordsSelector {
     @Test
     public void test() {
         BoardBuilder boardBuilder = new BoardBuilder();
-        boardBuilder.addWord(new Word("mama", 0, 0, Word.Direction.HORIZONTAL));
+        boardBuilder.addWord(new Word("mama",   0, 0, Word.Direction.HORIZONTAL));
 
         ArrayList<String> potentialWords = new ArrayList<>();
         potentialWords.add("adam");
@@ -37,16 +37,16 @@ public class CorrectWordsSelectorTest extends CorrectWordsSelector {
     @Test
     public void isEnoughLettersTest() {
         BoardBuilder boardBuilder = new BoardBuilder();
-        boardBuilder.addWord(new Word("mama", 2, 2, Word.Direction.HORIZONTAL));
+        boardBuilder.addWord(new Word("mama",  2, 2, Word.Direction.HORIZONTAL));
         CorrectWordsSelector.board = boardBuilder.toCharArray();
         CorrectWordsSelector.columnNumber = 3;
 
-        Word potentialWord = new Word("mama", 3, 1, Word.Direction.VERTICAL);
+        Word potentialWord = new Word("mama",  3, 1, Word.Direction.VERTICAL);
 
-        CorrectWordsSelector.holder = new char[]{'m', 'm', 'a'};
+        CorrectWordsSelector.holderLetters = new char[]{'m', 'm', 'a'};
         Assertions.assertTrue(isEnoughLetters(potentialWord));
 
-        CorrectWordsSelector.holder = new char[]{'m', 'a', 'a'};
+        CorrectWordsSelector.holderLetters = new char[]{'m', 'a', 'a'};
         Assertions.assertFalse(isEnoughLetters(potentialWord));
     }
 

@@ -17,7 +17,7 @@ public class FillBoardSimulationTest {
     @BeforeEach
     void prepare() {
         boardBuilder = new BoardBuilder();
-        boardBuilder.addWord(new Word("a", 7, 7, Word.Direction.VERTICAL));
+        boardBuilder.addWord(new Word("a",  7, 7, Word.Direction.VERTICAL));
     }
 
     @Test

@@ -14,7 +14,7 @@ public class SolverTest {
     @Test
     public void getBestWordTest() {
         BoardBuilder boardBuilder = new BoardBuilder();
-        boardBuilder.addWord(new Word("mama", 4, 4, Word.Direction.HORIZONTAL));
+        boardBuilder.addWord(new Word("mama",  4, 4, Word.Direction.HORIZONTAL));
 
         Word bestWord = Solver.getBestWords(boardBuilder.toCharArray(), new char[]{'a', 'b', 'c', 'd', 'e'}, 1).get(0);
         boardBuilder.addWord(bestWord);
@@ -23,9 +23,9 @@ public class SolverTest {
 
     @Test
     public void getBestPointedTest() {
-        Word word1 = new Word("aąbcćdeę", 0, 0, Word.Direction.HORIZONTAL);
-        Word word2 = new Word("aaaaaaaaaaaaaaa", 5, 0, Word.Direction.VERTICAL);
-        Word word3 = new Word("bbbbbbbbbbbbbbb", 0, 5, Word.Direction.HORIZONTAL);
+        Word word1 = new Word("aąbcćdeę",  0, 0, Word.Direction.HORIZONTAL);
+        Word word2 = new Word("aaaaaaaaaaaaaaa",  5, 0, Word.Direction.VERTICAL);
+        Word word3 = new Word("bbbbbbbbbbbbbbb",  0, 5, Word.Direction.HORIZONTAL);
 
         ArrayList<Word> words = new ArrayList<>();
         words.add(word1);

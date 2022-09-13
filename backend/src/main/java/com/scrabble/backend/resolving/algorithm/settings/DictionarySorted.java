@@ -3,24 +3,26 @@ package com.scrabble.backend.resolving.algorithm.settings;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Set;
 
 public class DictionarySorted {
-    private static final HashMap<String, ArrayList<String>> sortedDictionary;
-    private static final ArrayList<String> keysList;
+    private static final HashMap<String, ArrayList<String>> sortedDictionary; // <required letters, list of possible words>
+    private static final Set<String> requiredLettersSet;
 
     static {
+        System.out.println("Processing sorted dictionary...");
         sortedDictionary = new HashMap<>();
         for (String word : Dictionary.getDictionary()) {
-            String sortedWord = sortString(word);
+            String requiredLetters = sortString(word);
 
-            if (sortedDictionary.get(sortedWord) == null)
-                sortedDictionary.put(sortedWord, new ArrayList<>() {{
+            if (sortedDictionary.get(requiredLetters) == null)
+                sortedDictionary.put(requiredLetters, new ArrayList<>() {{
                     add(word);
                 }});
-            else sortedDictionary.get(sortedWord).add(word);
+            else sortedDictionary.get(requiredLetters).add(word);
         }
 
-        keysList = new ArrayList<>(sortedDictionary.keySet());
+        requiredLettersSet = sortedDictionary.keySet();
     }
 
 
@@ -30,12 +32,12 @@ public class DictionarySorted {
         return new String(array);
     }
 
-    public static ArrayList<String> getWordsByKey(String key) {
+    public static ArrayList<String> getWordsByRequiredLetters(String key) {
         ArrayList<String> words = sortedDictionary.get(key);
         return words != null ? words : new ArrayList<>() ;
     }
 
-    public static ArrayList<String> getAllKeys() {
-        return keysList;
+    public static Set<String> getAllRequiredLettersSet() {
+        return requiredLettersSet;
     }
 }

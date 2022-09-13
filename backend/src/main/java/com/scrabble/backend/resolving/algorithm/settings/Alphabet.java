@@ -48,5 +48,21 @@ public class Alphabet {
         return letters[random];
     }
 
+    public static int countCorrectLetters(char[] array) {
+        int number = 0;
 
+        for (char field : array) {
+            if (field != Alphabet.getEmptySymbol()) number++;
+        }
+        return number;
+    }
+
+    public static char[] extractCorrectLetters(char[] array){
+        char[] extracted = new char[countCorrectLetters(array)];
+        int i = 0;
+        for (char element : array) {
+            if (element != Alphabet.getEmptySymbol()) extracted[i++] = element;
+        }
+        return extracted;
+    }
 }
