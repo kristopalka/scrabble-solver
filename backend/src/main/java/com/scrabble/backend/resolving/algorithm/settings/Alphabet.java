@@ -50,12 +50,4 @@ public class Alphabet {
         return letters[random];
     }
 
-
-    public static String extractCorrectLetters(char[] array){
-        StringBuilder builder = new StringBuilder();
-        for (char element : array) {
-            if (element != Alphabet.getEmptySymbol()) builder.append(element);
-        }
-        return builder.toString();
-    }
 }

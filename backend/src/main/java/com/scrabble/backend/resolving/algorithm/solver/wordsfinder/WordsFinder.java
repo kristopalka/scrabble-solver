@@ -12,11 +12,12 @@ import java.util.stream.IntStream;
 public class WordsFinder {
     private static final int size = ScrabbleSettings.getBoardSize();
 
-    public static List<Word> getVerticalAndHorizontal(char[][] board, String holder) {
+    public static List<Word> getAll(char[][] board, String holder) {
         List<Word> allWords = new ArrayList<>();
+        System.out.println("Vertical");
         allWords.addAll(getVertical(board, holder));
+        System.out.println("Horizontal");
         allWords.addAll(getHorizontal(board, holder));
-
         return allWords;
     }
 
@@ -46,13 +47,24 @@ public class WordsFinder {
     }
 
 
-    private static List<Word> rotateVerticalToHorizontal(List<Word> verticalToRotate) {
-        return verticalToRotate.stream()
-                .map(word -> new Word(word.value, transposePoint(word.begin), Word.Direction.HORIZONTAL, transposePoint(word.entryBegin), word.entryLength))
-                .toList();
+    private static List<Word> rotateVerticalToHorizontal(List<Word> vertical) {
+        List<Word> horizontal = new ArrayList<>();
+        for (Word verWord : vertical) {
+            Word horWord = rotateWord(verWord);
+
+            for (Word additionalHorWord : verWord.additionalWords)
+                horWord.additionalWords.add(rotateWord(additionalHorWord));
+
+            horizontal.add(horWord);
+        }
+        return horizontal;
     }
 
-    public static Point transposePoint(Point point){
+    private static Word rotateWord(Word word) {
+        return new Word(word.value, transposePoint(word.begin), Word.Direction.HORIZONTAL, transposePoint(word.entryBegin), word.entryLength);
+    }
+
+    public static Point transposePoint(Point point) {
         return new Point(point.y, point.x);
     }
 }

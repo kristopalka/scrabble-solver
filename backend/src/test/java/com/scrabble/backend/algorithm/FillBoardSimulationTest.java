@@ -34,7 +34,7 @@ public class FillBoardSimulationTest {
             try {
                 final StopWatch stopWatch = new StopWatch();
                 stopWatch.start();
-                Word bestWord = Solver.getBestWord(boardBuilder.toCharArray(), getRandomHolder());
+                Word bestWord = Solver.getBestPointedWord(boardBuilder.toCharArray(), getRandomHolder());
                 stopWatch.stop();
 
                 System.out.printf("word %s in %s ms\n", bestWord, stopWatch.getTotalTimeMillis());
@@ -48,11 +48,11 @@ public class FillBoardSimulationTest {
         }
     }
 
-    private char[] getRandomHolder() {
+    private String getRandomHolder() {
         char[] holder = new char[ScrabbleSettings.getHolderSize()];
         for (int i = 0; i < holder.length; i++) {
             holder[i] = Alphabet.getRandomLetter();
         }
-        return holder;
+        return new String(holder);
     }
 }
