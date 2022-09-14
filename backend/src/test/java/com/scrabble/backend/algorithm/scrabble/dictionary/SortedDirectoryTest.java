@@ -10,12 +10,13 @@ public class SortedDirectoryTest {
 
     @Test
     void getAllFromDictionaryTest() {
-        Assertions.assertEquals(DictionarySorted.getWordsByRequiredLetters(DictionarySorted.sortString("krzysztof")) , new ArrayList<>());
-        Assertions.assertEquals(DictionarySorted.getWordsByRequiredLetters(DictionarySorted.sortString("pałka")) , new ArrayList<>() {{
+        Assertions.assertEquals(DictionarySorted.getWordsByRequiredLetters(DictionarySorted.sortString("krzysztof")), new ArrayList<>());
+        Assertions.assertEquals(DictionarySorted.getWordsByRequiredLetters(DictionarySorted.sortString("pałka")), new ArrayList<>() {{
             add("kapał");
             add("łapak");
             add("łapka");
             add("pałka");
         }});
     }
+
 }

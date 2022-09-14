@@ -3,23 +3,23 @@ package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 import com.scrabble.backend.resolving.algorithm.settings.DictionarySorted;
 import org.apache.logging.log4j.util.Strings;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static com.scrabble.backend.resolving.algorithm.settings.DictionarySorted.sortString;
 
 
 public class DictionaryFinder {
     public static List<String> getPotentialWords(String blockLetters, String holderLetters) {
         char[] lettersToUse = mergeAndSort(blockLetters, holderLetters);
-
         List<String> possibleWords = new ArrayList<>();
-        for(char[] requiredLetters : DictionarySorted.getAllRequiredLettersSet()){
-            if(requiredLetters.length > lettersToUse.length) break;
-            if(isSubsetOf(requiredLetters, lettersToUse)){
-                possibleWords.addAll(DictionarySorted.getWordsByRequiredLetters(new String(requiredLetters)));
+
+        List<char[]> requiredLettersList = DictionarySorted.getAllRequiredLettersList();
+        int startIndex = DictionarySorted.indexOfFirstWordWithLength(blockLetters.length());
+        int endIndex = DictionarySorted.indexOfFirstWordWithLength(lettersToUse.length + 1);
+
+        for (int i = startIndex; i < endIndex; i++) {
+            if (isSubsetOf(requiredLettersList.get(i), lettersToUse)) {
+                possibleWords.addAll(DictionarySorted.getWordsByRequiredLetters(new String(requiredLettersList.get(i))));
             }
         }
         return possibleWords;
