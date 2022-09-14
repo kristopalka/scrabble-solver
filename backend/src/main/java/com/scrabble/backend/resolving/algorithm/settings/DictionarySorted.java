@@ -20,10 +20,14 @@ public class DictionarySorted {
             else requiredLettersToWords.get(requiredLetters).add(word);
         }
 
-        requiredLetters = requiredLettersToWords.keySet().stream().parallel()
+        System.out.println("Required letters...");
+
+        requiredLetters = requiredLettersToWords.keySet().stream()
                 .sorted(Comparator.comparingInt(String::length))
                 .map(String::toCharArray)
                 .toList();
+
+        System.out.println("Sizes words indexes...");
 
         sizesWordsIndexes = new HashMap<>();
         for (int i = 1; i < requiredLetters.size(); i++) {

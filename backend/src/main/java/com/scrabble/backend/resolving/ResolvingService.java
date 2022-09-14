@@ -16,7 +16,6 @@ public class ResolvingService {
     private static final int numberOfWords = 5;
 
     public List<Word> bestWords(GameStateDto gameState) {
-        System.out.println("XDDD");
         String holder = preprocessHolder(gameState.getHolder());
         char[][] board = preprocessBoard(gameState.getBoard());
 

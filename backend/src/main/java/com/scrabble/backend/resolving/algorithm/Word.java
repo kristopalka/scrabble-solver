@@ -14,7 +14,14 @@ import static com.scrabble.backend.resolving.algorithm.Word.Direction.VERTICAL;
 @ToString
 @EqualsAndHashCode
 public class Word {
-    public enum Direction {VERTICAL, HORIZONTAL}
+    public enum Direction {
+        VERTICAL, HORIZONTAL;
+
+        public Direction getOpposite() {
+            if(this == VERTICAL) return HORIZONTAL;
+            return VERTICAL;
+        }
+    }
 
     public String value;
     public Direction direction;

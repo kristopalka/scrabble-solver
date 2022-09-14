@@ -10,11 +10,10 @@ public class Alphabet {
     private static final char emptySymbol;
 
     static {
-        System.out.println("Processing alphabet...");
+        System.out.println("Processing alphabet... ");
 
         String letters = "aąbcćdeęfghijklłmnńoóprsśtuwyzźż";
         String values =  "15326215533132232171521152312195";
-
         for (int i = 0; i < letters.length(); i++) Alphabet.values.put(letters.charAt(i), values.charAt(i) - '0');
         emptySymbol = ' ';
     }
