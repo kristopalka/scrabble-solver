@@ -32,9 +32,7 @@ public class SolverTest {
         words.add(word2);
         words.add(word3);
 
-        List<Word> bestWords = Solver.getNBestPointed(words, null, 10);
-
-        System.out.println(bestWords);
+        List<Word> bestWords = Solver.getNBestPointed(words, new BoardBuilder().toCharArray(), 10);
 
         Assertions.assertEquals(bestWords.get(0), word1);
         Assertions.assertEquals(bestWords.size(), 3);

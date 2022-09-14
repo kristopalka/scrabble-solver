@@ -4,7 +4,10 @@ import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
 import com.scrabble.backend.resolving.algorithm.settings.Dictionary;
 
+import java.awt.*;
+
 public class SurroundingFiltering {
+    private static final char empty = Alphabet.getEmptySymbol();
     protected final char[][] board;
 
     public SurroundingFiltering(char[][] board) {
@@ -18,7 +21,7 @@ public class SurroundingFiltering {
     public boolean doLettersAgree(Word word) {
         for (int i = 0; i < word.length(); i++) {
             char charAtBoard = board[word.xBegin()][i + word.yBegin()];
-            if (word.charAt(i) != charAtBoard && charAtBoard != Alphabet.getEmptySymbol()) return false;
+            if (word.charAt(i) != charAtBoard && charAtBoard != empty) return false;
         }
         return true;
     }
@@ -28,32 +31,28 @@ public class SurroundingFiltering {
     }
 
     public boolean notDisturbUpOrDown(Word word) {
-        char empty = Alphabet.getEmptySymbol();
-
-        if(word.yBegin() > 0) {
+        if (word.yBegin() > 0) {
             if (board[word.xBegin()][word.yBegin() - 1] != empty) return false;
         }
-        if(word.yBegin() + word.length() + 1 < board.length) {
+        if (word.yBegin() + word.length() + 1 < board.length) {
             if (board[word.xBegin()][word.yEnd() + 1] != empty) return false;
         }
         return true;
     }
 
     public boolean notDisturbTheSides(Word word) {
-        char empty = Alphabet.getEmptySymbol();
-
         for (int i = 0; i < word.length(); i++) {
-            if(thisIsEntryPoint(word, i)) continue;
+            if (thisIsEntryPoint(word, i)) continue;
 
             int yPos = i + word.yBegin();
             int xPos = word.xBegin();
 
-            if(xPos != 0)
-                if(board[xPos - 1][yPos] != empty)
+            if (xPos != 0)
+                if (board[xPos - 1][yPos] != empty)
                     if (!wordDisturbButStillFits(word, yPos)) return false;
 
-            if(xPos != board.length-1)
-                if(board[xPos + 1][yPos] != empty)
+            if (xPos != board.length - 1)
+                if (board[xPos + 1][yPos] != empty)
                     if (!wordDisturbButStillFits(word, yPos)) return false;
         }
         return true;
@@ -65,7 +64,16 @@ public class SurroundingFiltering {
     }
 
     public boolean wordDisturbButStillFits(Word word, int yPos) {
-        char empty = Alphabet.getEmptySymbol();
+        Word newWord = extractDisturbedWord(word, yPos);
+
+        if(Dictionary.containsWord(newWord.value)) {
+            word.additionalWords.add(newWord);
+            return true;
+        }
+        return false;
+    }
+
+    private Word extractDisturbedWord(Word word, int yPos) {
         int xStart = word.xBegin();
 
         while (xStart != 0 && board[xStart - 1][yPos] != empty) xStart--;
@@ -75,8 +83,6 @@ public class SurroundingFiltering {
             if (x == word.xBegin()) newWordBuilder.append(word.charAt(yPos - word.yBegin()));
             else newWordBuilder.append(board[x][yPos]);
         }
-        String newWord = newWordBuilder.toString();
-
-        return Dictionary.containsWord(newWord);
+        return new Word(newWordBuilder.toString(), xStart, yPos, Word.Direction.HORIZONTAL);
     }
 }

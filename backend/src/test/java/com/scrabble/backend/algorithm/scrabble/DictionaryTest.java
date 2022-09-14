@@ -1,4 +1,4 @@
-package com.scrabble.backend.algorithm.scrabble.dictionary;
+package com.scrabble.backend.algorithm.scrabble;
 
 
 import com.scrabble.backend.resolving.algorithm.settings.Dictionary;

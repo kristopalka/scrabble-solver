@@ -1,4 +1,4 @@
-package com.scrabble.backend.algorithm.scrabble.alphabet;
+package com.scrabble.backend.algorithm.scrabble;
 
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
 import org.junit.jupiter.api.Assertions;

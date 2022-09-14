@@ -3,11 +3,9 @@ package com.scrabble.backend.resolving.algorithm.solver;
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.WordsFinder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.extractCorrectLetters;
-import static com.scrabble.backend.resolving.algorithm.solver.PointsCalculator.calculatePoints;
 
 public class Solver {
     public static List<Word> getBestWords(char[][] board, char[] holderArray, int number) {
@@ -23,7 +21,8 @@ public class Solver {
     }
 
     public static List<Word> getNBestPointed(List<Word> words, char[][] board, int number) {
-        words.forEach(w -> w.score = calculatePoints(w, board));
+        ScoreCalculator calculator = new ScoreCalculator(board);
+        words.forEach(w -> w.score = calculator.getScore(w));
 
         return words.stream()
                 .sorted((w1, w2) -> Integer.compare(w2.score, w1.score))

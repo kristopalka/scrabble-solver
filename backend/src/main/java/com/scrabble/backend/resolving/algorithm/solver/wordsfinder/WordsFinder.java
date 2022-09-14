@@ -3,12 +3,10 @@ package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import static com.scrabble.backend.resolving.algorithm.Word.transposePoint;
 
 
 public class WordsFinder {
@@ -52,5 +50,9 @@ public class WordsFinder {
         return verticalToRotate.stream()
                 .map(word -> new Word(word.value, transposePoint(word.begin), Word.Direction.HORIZONTAL, transposePoint(word.entryBegin), word.entryLength))
                 .toList();
+    }
+
+    public static Point transposePoint(Point point){
+        return new Point(point.y, point.x);
     }
 }

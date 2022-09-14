@@ -1,5 +1,6 @@
 package com.scrabble.backend.resolving.algorithm.settings;
 
+import java.awt.*;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 
@@ -121,10 +122,10 @@ public class ScrabbleSettings {
     }
 
 
-    public static Bonus getBonusAt(int x, int y) {
-        if (x < 0 || x >= boardSize || y < 0 || y >= boardSize)
-            throw new InvalidParameterException(String.format("Given coordinates (%d,%d) goes beyond field", x, y));
-        return bonuses[x][y];
+    public static Bonus getBonusAt(Point point) {
+        if (point.x < 0 || point.x >= boardSize || point.y < 0 || point.y >= boardSize)
+            throw new InvalidParameterException(String.format("Given coordinates (%d,%d) goes beyond field", point.x, point.y));
+        return bonuses[point.x][point.y];
     }
 
     public static int getHolderSize() {
