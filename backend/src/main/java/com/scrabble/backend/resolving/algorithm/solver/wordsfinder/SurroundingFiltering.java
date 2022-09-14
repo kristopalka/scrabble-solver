@@ -4,8 +4,6 @@ import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
 import com.scrabble.backend.resolving.algorithm.settings.Dictionary;
 
-import java.awt.*;
-
 public class SurroundingFiltering {
     private static final char empty = Alphabet.getEmptySymbol();
     protected final char[][] board;
@@ -47,26 +45,29 @@ public class SurroundingFiltering {
             int yPos = i + word.yBegin();
             int xPos = word.xBegin();
 
-            if (xPos != 0)
-                if (board[xPos - 1][yPos] != empty)
-                    if (!wordDisturbButStillFits(word, yPos)) return false;
-
-            if (xPos != board.length - 1)
-                if (board[xPos + 1][yPos] != empty)
-                    if (!wordDisturbButStillFits(word, yPos)) return false;
+            if (isSomethingOnLeft(yPos, xPos) || isSomethingOnRight(yPos, xPos))
+                if (!wordDisturbButStillFits(word, yPos)) return false;
         }
         return true;
     }
 
-    private boolean thisIsEntryPoint(Word word, int position) {
-        int absolutePosition = word.begin.y + position;
-        return absolutePosition >= word.entryBegin.y && absolutePosition <= word.entryBegin.y + word.entryLength;
+    private boolean isSomethingOnRight(int yPos, int xPos) {
+        return xPos != board.length - 1 && board[xPos + 1][yPos] != empty;
+    }
+
+    private boolean isSomethingOnLeft(int yPos, int xPos) {
+        return xPos != 0 && board[xPos - 1][yPos] != empty;
+    }
+
+    private boolean thisIsEntryPoint(Word word, int yPos) {
+        int absolutePos = word.yBegin() + yPos;
+        return absolutePos >= word.entryBegin.y && absolutePos <= word.entryBegin.y + word.entryLength - 1;
     }
 
     public boolean wordDisturbButStillFits(Word word, int yPos) {
         Word newWord = extractDisturbedWord(word, yPos);
 
-        if(Dictionary.containsWord(newWord.value)) {
+        if (Dictionary.containsWord(newWord.value)) {
             word.additionalWords.add(newWord);
             return true;
         }

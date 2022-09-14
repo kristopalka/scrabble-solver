@@ -36,7 +36,7 @@ public class WordsFinderTest {
 
 
     @Test
-    public void test_1() {
+    public void addingAtTheBeginningAndEndTest() {
         BoardBuilder boardBuilder = new BoardBuilder()
                 .addWord(new Word("próbuje", 1, 0, Word.Direction.HORIZONTAL));
 
@@ -51,10 +51,9 @@ public class WordsFinderTest {
     }
 
     @Test
-    public void test_2() {
+    public void addingPerpendicularlyTest() {
         BoardBuilder boardBuilder = new BoardBuilder()
                 .addWord(new Word("pa", 3, 1, Word.Direction.VERTICAL));
-        Word newWord = new Word("prymas", 3, 1, Word.Direction.HORIZONTAL);
 
         Word foundWord = getAll(boardBuilder.toCharArray(), "rymas")
                 .stream().filter(w -> Objects.equals(w.value, "prymas")).toList().get(0);
@@ -67,7 +66,7 @@ public class WordsFinderTest {
     }
 
     @Test
-    public void test_3() {
+    public void additionalWordsTest() {
         BoardBuilder boardBuilder = new BoardBuilder()
                 .addWord(new Word("podaruje", 2, 2, Word.Direction.VERTICAL))
                 .addWord(new Word("y", 3, 10, Word.Direction.VERTICAL));
@@ -88,5 +87,20 @@ public class WordsFinderTest {
                 new Word("er", 2, 9, Word.Direction.HORIZONTAL),
         });
         Assertions.assertEquals(expected, foundWord.additionalWords);
+    }
+
+    @Test
+    public void additionalWordsTest2() {
+        BoardBuilder boardBuilder = new BoardBuilder()
+                .addWord(new Word("każ", 2, 1, Word.Direction.VERTICAL))
+                .addWord(new Word("hałd", 1, 2, Word.Direction.HORIZONTAL))
+                .addWord(new Word("ce", 3, 4, Word.Direction.VERTICAL));
+        System.out.println(boardBuilder);
+
+        List<Word> foundWord = getAll(boardBuilder.toCharArray(), "mą")
+                .stream().filter(w -> Objects.equals(w.value, "mżą")).toList();
+
+        System.out.println(foundWord);
+        Assertions.assertEquals(2, foundWord.get(0).additionalWords.size());
     }
 }
