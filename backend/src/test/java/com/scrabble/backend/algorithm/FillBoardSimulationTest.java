@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
 
+import java.util.Random;
+
 import static com.scrabble.backend.resolving.algorithm.settings.Settings.holderSize;
 
 public class FillBoardSimulationTest {
@@ -52,9 +54,11 @@ public class FillBoardSimulationTest {
     }
 
     private String getRandomHolder() {
+        Character[] letters = Alphabet.getLetters();
+
         char[] holder = new char[holderSize];
         for (int i = 0; i < holder.length; i++) {
-            holder[i] = Alphabet.getRandomLetter();
+            holder[i] = letters[new Random().nextInt(letters.length)];
         }
         return new String(holder);
     }
