@@ -9,17 +9,19 @@ import org.springframework.stereotype.Service;
 import java.security.InvalidParameterException;
 import java.util.List;
 
-import static com.scrabble.backend.resolving.algorithm.solver.Solver.getBestPointedWords;
+import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByBestScore;
+import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByLength;
 
 @Service
 public class ResolvingService {
-    private static final int numberOfWords = 5;
-
-    public List<Word> bestWords(GameStateDto gameState) {
+    public List<Word> bestWords(GameStateDto gameState, String mode, int number) {
         String holder = preprocessHolder(gameState.getHolder());
         char[][] board = preprocessBoard(gameState.getBoard());
 
-        return getBestPointedWords(board, holder, numberOfWords);
+        return switch (mode) {
+            case "length" -> getWordsByLength(board, holder, number);
+            case "score", default -> getWordsByBestScore(board, holder, number);
+        };
     }
 
 

@@ -6,7 +6,7 @@ import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.WordsFinder;
 import java.util.List;
 
 public class Solver {
-    public static List<Word> getBestPointedWords(char[][] board, String holder, int number) {
+    public static List<Word> getWordsByBestScore(char[][] board, String holder, int number) {
         ScoreCalculator calculator = new ScoreCalculator(board);
 
         return WordsFinder.getAll(board, holder)
@@ -17,14 +17,14 @@ public class Solver {
                 .toList();
     }
 
-    public static Word getBestPointedWord(char[][] board, String holder) {
-        List<Word> bestWords = getBestPointedWords(board, holder, 1);
+    public static Word getSingleWordByBestScore(char[][] board, String holder) {
+        List<Word> bestWords = getWordsByBestScore(board, holder, 1);
         if (bestWords.size() == 1) return bestWords.get(0);
         return null;
     }
 
 
-    public static List<Word> getLongestWords(char[][] board, String holder, int number) {
+    public static List<Word> getWordsByLength(char[][] board, String holder, int number) {
         return WordsFinder.getAll(board, holder)
                 .stream().parallel()
                 .sorted((w1, w2) -> Integer.compare(w2.length(), w1.length()))

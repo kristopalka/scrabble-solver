@@ -13,7 +13,9 @@ public class ResolvingController {
     private final ResolvingService service;
 
     @PostMapping("/solve-scrabble")
-    public @ResponseBody List<WordDto> bestWord(@RequestBody GameStateDto request) {
-        return service.bestWords(request).stream().map(WordDto::new).toList();
+    public @ResponseBody List<WordDto> bestWord(@RequestBody GameStateDto request,
+                                                @RequestParam(defaultValue = "points") String mode,
+                                                @RequestParam(defaultValue = "5") Integer number) {
+        return service.bestWords(request, mode, number).stream().map(WordDto::new).toList();
     }
 }

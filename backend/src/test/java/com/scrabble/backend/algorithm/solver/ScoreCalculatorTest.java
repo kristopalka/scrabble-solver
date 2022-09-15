@@ -6,13 +6,12 @@ import com.scrabble.backend.resolving.algorithm.solver.ScoreCalculator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class ScoreCalculatorTest {
     @Test
-    public void getPointsForWordManyLettersTest() {
+    public void getScoreForWordManyLettersTest() {
         Word word = new Word("aąbcćdeę", 0, 0, Word.Direction.HORIZONTAL);
 
 
@@ -22,7 +21,7 @@ public class ScoreCalculatorTest {
     }
 
     @Test
-    public void getPointsForWordTestVerticalHorizontal() {
+    public void getScoreForWordTestVerticalHorizontal() {
         Word wordVert = new Word("aaaaaaaaaaaaaaa", 5, 0, Word.Direction.VERTICAL);
         Word wordHor = new Word("aaaaaaaaaaaaaaa", 0, 5, Word.Direction.HORIZONTAL);
 
@@ -35,7 +34,7 @@ public class ScoreCalculatorTest {
     }
 
     @Test
-    public void test_1() {
+    public void scoreCalculationTest1() {
         BoardBuilder board = new BoardBuilder()
                 .addWord(new Word("próbuje", 1, 0, Word.Direction.HORIZONTAL));
         Word newWord = new Word("spróbujemy", 0, 0, Word.Direction.HORIZONTAL);
@@ -45,7 +44,7 @@ public class ScoreCalculatorTest {
     }
 
     @Test
-    public void test_2() {
+    public void scoreCalculationTest2() {
         BoardBuilder board = new BoardBuilder()
                 .addWord(new Word("p", 3, 1, Word.Direction.VERTICAL));
         Word newWord = new Word("prymas", 3, 1, Word.Direction.HORIZONTAL);
@@ -55,7 +54,7 @@ public class ScoreCalculatorTest {
     }
 
     @Test
-    public void test_3() {
+    public void scoreCalculationTest3() {
         BoardBuilder board = new BoardBuilder()
                 .addWord(new Word("uje", 13, 2, Word.Direction.VERTICAL));
         Word newWord = new Word("dar", 14, 2, Word.Direction.VERTICAL);
