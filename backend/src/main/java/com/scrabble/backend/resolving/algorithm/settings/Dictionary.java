@@ -11,7 +11,7 @@ public class Dictionary {
 
     static {
         System.out.println("Processing dictionary...");
-        String path = "/home/krist/Projects/Scrabble-Solver/backend/src/main/resources/dictionaries/dictionary_pl.txt"; //todo replace absolute path
+        String path = "/home/krist/Projects/Scrabble-Solver/backend/src/main/resources/dictionaries/pl_dictionary.txt"; //todo replace absolute path
 
         try (Stream<String> lines = Files.lines(Paths.get(path))) {
             dictionary = (ArrayList<String>) lines.collect(Collectors.toList());
