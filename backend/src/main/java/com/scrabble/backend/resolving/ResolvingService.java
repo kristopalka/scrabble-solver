@@ -1,28 +1,36 @@
 package com.scrabble.backend.resolving;
 
-import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
-import com.scrabble.backend.resolving.dto.GameStateDto;
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
+import com.scrabble.backend.resolving.dto.RequestDto;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
-import static com.scrabble.backend.resolving.algorithm.solver.Solver.getBestWords;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getAlphabet;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getDictionary;
+import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByBestScore;
+import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByLength;
 
 @Service
 public class ResolvingService {
-    private static final int numberOfWords = 5;
-
-    public List<Word> bestWords(GameStateDto gameState) {
-        validateGameState(gameState);
-        return getBestWords(gameState.getBoard(), gameState.getHolder(), numberOfWords);
+    public ResolvingService() {
+        getAlphabet("pl");
+        getAlphabet("en");
+        getDictionary("pl");
+        getDictionary("en");
     }
 
-    private void validateGameState(GameStateDto gameState) {
-        assert gameState.getBoard().length == ScrabbleSettings.getBoardSize();
-        assert gameState.getBoard()[0].length == ScrabbleSettings.getBoardSize();
-        assert gameState.getHolder().length <= ScrabbleSettings.getHolderSize();
+    public List<Word> bestWords(RequestDto request) {
+        Integer number = request.getNumber();
+        String lang = request.getLang();
+        String holder = request.getHolder();
+        char[][] board = request.getBoard();
+
+        return switch (request.getMode()) {
+            case "length" -> getWordsByLength(board, holder, lang, number);
+            case "score" -> getWordsByBestScore(board, holder, lang, number);
+            default -> throw new IllegalStateException("Unexpected value: " + request.getMode());
+        };
     }
 
 

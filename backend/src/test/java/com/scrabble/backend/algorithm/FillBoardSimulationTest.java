@@ -1,18 +1,21 @@
 package com.scrabble.backend.algorithm;
 
-import com.scrabble.backend.resolving.algorithm.BoardBuilder;
-import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
+import com.scrabble.backend.resolving.algorithm.scrabble.BoardBuilder;
 import com.scrabble.backend.resolving.algorithm.solver.Solver;
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.util.StopWatch;
 
-import static com.scrabble.backend.resolving.algorithm.solver.PointsCalculator.calculatePoints;
-import static java.lang.System.currentTimeMillis;
+import java.util.List;
+import java.util.Random;
+
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getAlphabet;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.holderSize;
 
 public class FillBoardSimulationTest {
     private BoardBuilder boardBuilder;
+    private long totalTime = 0;
 
     @BeforeEach
     void prepare() {
@@ -22,36 +25,42 @@ public class FillBoardSimulationTest {
 
     @Test
     void fillBoardWithNWords() {
-        int score = run(5);
+        int moves = 10;
+        run(moves);
 
-        System.out.println("Score: " + score);
+        System.out.println("Average time: " + (totalTime / moves));
         System.out.println(boardBuilder);
     }
 
 
-    private int run(int numberOfMoves) {
-        int score = 0;
+    private void run(int numberOfMoves) {
         for (int i = 0; i < numberOfMoves; i++) {
-            try {
-                long startTime = currentTimeMillis();
-                Word bestWord = Solver.getBestWord(boardBuilder.toCharArray(), getRandomHolder());
-                int wordScore = calculatePoints(bestWord, null);
-                System.out.printf("word %s with %s points in %s ms\n", bestWord, wordScore, currentTimeMillis() - startTime);
+            String holder = getRandomHolder();
 
-                boardBuilder.addWord(bestWord);
-                score += wordScore;
-            } catch (RuntimeException e) {
-                return score;
+            final StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
+            List<Word> bestWords = Solver.getWordsByBestScore(boardBuilder.toCharArray(), holder, "pl", 1);
+            stopWatch.stop();
+
+            if (bestWords.size() == 0) {
+                System.out.println("Cannot find any word. Holder: " + holder + "\n" + boardBuilder);
+                return;
             }
+
+            System.out.printf("word %s in %s ms\n", bestWords, stopWatch.getTotalTimeMillis());
+            totalTime += stopWatch.getTotalTimeMillis();
+
+            boardBuilder.addWord(bestWords.get(0));
         }
-        return score;
     }
 
-    private char[] getRandomHolder() {
-        char[] holder = new char[ScrabbleSettings.getHolderSize()];
-        for (int i=0; i<holder.length; i++) {
-            holder[i] = Alphabet.getRandomLetter();
+    private String getRandomHolder() {
+        List<Character> letters = getAlphabet("pl").getLetters();
+
+        char[] holder = new char[holderSize];
+        for (int i = 0; i < holder.length; i++) {
+            holder[i] = letters.get(new Random().nextInt(letters.size()));
         }
-        return holder;
+        return new String(holder);
     }
 }

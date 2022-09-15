@@ -1,29 +1,30 @@
 package com.scrabble.backend.algorithm.scrabble;
 
-import com.scrabble.backend.resolving.algorithm.Word;
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static com.scrabble.backend.resolving.algorithm.solver.PointsCalculator.calculatePoints;
+import java.awt.*;
+
 
 public class WordTest {
     @Test
-    public void getPointsForWordManyLettersTest() {
-        Word word = new Word("aąbcćdeę", 0, 0, Word.Direction.HORIZONTAL);
+    public void endTest() {
+        Word wordVert = new Word("abcdefg", 5, 1, Word.Direction.VERTICAL);
+        Assertions.assertEquals(5, wordVert.xEnd());
+        Assertions.assertEquals(7, wordVert.yEnd());
 
-        int points = calculatePoints(word, null);
-        Assertions.assertEquals(points, 243);
+        Word wordHor = new Word("abcdefg", 5, 5, Word.Direction.HORIZONTAL);
+        Assertions.assertEquals(11, wordHor.xEnd());
+        Assertions.assertEquals(5, wordHor.yEnd());
     }
 
     @Test
-    public void getPointsForWordTestVerticalHorizontal() {
-        Word wordVert = new Word("aaaaaaaaaaaaaaa", 5, 0, Word.Direction.VERTICAL);
-        Word wordHor = new Word("aaaaaaaaaaaaaaa", 0, 5, Word.Direction.HORIZONTAL);
+    public void pointAtTest() {
+        Word wordVert = new Word("abcdefg", 5, 1, Word.Direction.VERTICAL);
+        Assertions.assertEquals(new Point(5, 5), wordVert.pointAt(4));
 
-        int pointsVert = calculatePoints(wordVert, null);
-        int pointsHor = calculatePoints(wordHor, null);
-        int points = 23;
-        Assertions.assertEquals(points, pointsVert);
-        Assertions.assertEquals(points, pointsHor);
+        Word wordHor = new Word("abcdefg", 4, 3, Word.Direction.HORIZONTAL);
+        Assertions.assertEquals(new Point(8, 3), wordHor.pointAt(4));
     }
 }
