@@ -46,10 +46,6 @@ public class Alphabet {
         return letters.contains(symbol);
     }
 
-    public void throwIfIncorrectSymbol(char symbol) {
-        if (!isLetterOrEmptySymbol(symbol)) throw new InvalidParameterException("Invalid letter: " + symbol);
-    }
-
     public boolean isEmptySymbol(char symbol) {
         return symbol == emptySymbol;
     }

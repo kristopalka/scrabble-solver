@@ -15,7 +15,9 @@ import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByL
 public class ResolvingService {
     public ResolvingService() {
         getAlphabet("pl");
+        getAlphabet("en");
         getDictionary("pl");
+        getDictionary("en");
     }
 
     public List<Word> bestWords(GameStateDto gameState, String mode, int number) {
