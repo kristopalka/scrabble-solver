@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 import java.security.InvalidParameterException;
 import java.util.List;
 
-import static com.scrabble.backend.resolving.algorithm.scrabble.Static.boardSize;
-import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getAlphabet;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.*;
 import static com.scrabble.backend.resolving.algorithm.scrabble.resources.Alphabet.emptySymbol;
 import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByBestScore;
 import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByLength;
@@ -16,7 +15,7 @@ import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByL
 @Service
 public class ResolvingService {
     public static String preprocessHolder(char[] holderArray, String lang) {
-        if (holderArray.length != boardSize)
+        if (holderArray.length != holderSize)
             throw new InvalidParameterException("Invalid holder size: " + holderArray.length);
 
         StringBuilder builder = new StringBuilder();
@@ -42,7 +41,7 @@ public class ResolvingService {
         };
     }
 
-    private char[][] preprocessBoard(char[][] board, String lang) {
+    private static char[][] preprocessBoard(char[][] board, String lang) {
         if (board.length != boardSize || board[0].length != boardSize)
             throw new InvalidParameterException("Invalid board size");
 
