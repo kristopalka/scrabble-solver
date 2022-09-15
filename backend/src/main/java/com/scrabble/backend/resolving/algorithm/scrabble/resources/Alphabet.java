@@ -3,7 +3,6 @@ package com.scrabble.backend.resolving.algorithm.scrabble.resources;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StopWatch;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +33,7 @@ public class Alphabet {
     }
 
     public int valueOfLetter(char letter) {
-        if (!isLetter(letter)) throw new InvalidParameterException("Parameter is not a letter: " + letter);
+        if (!isLetter(letter)) throw new IllegalArgumentException("Parameter is not a letter: " + letter);
         return letterValueMap.get(letter);
     }
 

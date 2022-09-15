@@ -3,7 +3,6 @@ package com.scrabble.backend.resolving.algorithm.scrabble;
 import com.scrabble.backend.resolving.algorithm.scrabble.resources.Alphabet;
 import com.scrabble.backend.resolving.algorithm.scrabble.resources.Dictionary;
 
-import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ public class Static {
     }
 
     private static void throwIfUnsupported(String lang) {
-        if (!supportedLanguages.contains(lang)) throw new InvalidParameterException("Unsupported language " + lang);
+        if (!supportedLanguages.contains(lang)) throw new IllegalArgumentException("Unsupported language " + lang);
     }
 
 }

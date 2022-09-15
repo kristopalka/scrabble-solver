@@ -3,7 +3,6 @@ package com.scrabble.backend.resolving.algorithm.scrabble;
 import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 import lombok.Getter;
 
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 
 import static com.scrabble.backend.resolving.algorithm.scrabble.Static.boardSize;
@@ -53,9 +52,9 @@ public class BoardBuilder {
 
     private void addLetter(char letter, int x, int y) {
         if (x < 0 || x >= size || y < 0 || y >= size)
-            throw new InvalidParameterException(String.format("Given coordinates (%d,%d) goes beyond field", x, y));
+            throw new IllegalArgumentException(String.format("Given coordinates (%d,%d) goes beyond field", x, y));
         if (!(fields[x][y] == emptySymbol) && fields[x][y] != letter)
-            throw new InvalidParameterException(String.format("Cannot override existing field: '%c' with '%c' (%d,%d)", fields[x][y], letter, x, y));
+            throw new IllegalArgumentException(String.format("Cannot override existing field: '%c' with '%c' (%d,%d)", fields[x][y], letter, x, y));
 
         fields[x][y] = letter;
     }

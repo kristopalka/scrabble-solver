@@ -1,7 +1,7 @@
 package com.scrabble.backend.resolving;
 
 import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
-import com.scrabble.backend.resolving.dto.GameStateDto;
+import com.scrabble.backend.resolving.dto.RequestDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,14 +20,16 @@ public class ResolvingService {
         getDictionary("en");
     }
 
-    public List<Word> bestWords(GameStateDto gameState, String mode, int number) {
-        String lang = gameState.getLang();
-        String holder = gameState.preprocessHolder();
-        char[][] board = gameState.preprocessBoard();
+    public List<Word> bestWords(RequestDto request) {
+        Integer number = request.getNumber();
+        String lang = request.getLang();
+        String holder = request.getHolder();
+        char[][] board = request.getBoard();
 
-        return switch (mode) {
+        return switch (request.getMode()) {
             case "length" -> getWordsByLength(board, holder, lang, number);
-            case "score", default -> getWordsByBestScore(board, holder, lang, number);
+            case "score" -> getWordsByBestScore(board, holder, lang, number);
+            default -> throw new IllegalStateException("Unexpected value: " + request.getMode());
         };
     }
 

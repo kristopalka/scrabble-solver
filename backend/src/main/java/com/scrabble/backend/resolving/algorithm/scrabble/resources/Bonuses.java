@@ -1,7 +1,6 @@
 package com.scrabble.backend.resolving.algorithm.scrabble.resources;
 
 import java.awt.*;
-import java.security.InvalidParameterException;
 import java.util.Arrays;
 
 import static com.scrabble.backend.resolving.algorithm.scrabble.Static.boardSize;
@@ -121,7 +120,7 @@ public class Bonuses {
 
     public static Bonus getBonusAt(Point point) {
         if (point.x < 0 || point.x >= boardSize || point.y < 0 || point.y >= boardSize)
-            throw new InvalidParameterException(String.format("Given coordinates (%d,%d) goes beyond field", point.x, point.y));
+            throw new IllegalArgumentException(String.format("Given coordinates (%d,%d) goes beyond field", point.x, point.y));
         return bonuses[point.x][point.y];
     }
 
