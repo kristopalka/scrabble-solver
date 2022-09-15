@@ -3,11 +3,12 @@ package com.scrabble.backend.algorithm;
 import com.scrabble.backend.resolving.algorithm.BoardBuilder;
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
 import com.scrabble.backend.resolving.algorithm.solver.Solver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
+
+import static com.scrabble.backend.resolving.algorithm.settings.Settings.holderSize;
 
 public class FillBoardSimulationTest {
     private BoardBuilder boardBuilder;
@@ -31,25 +32,27 @@ public class FillBoardSimulationTest {
 
     private void run(int numberOfMoves) {
         for (int i = 0; i < numberOfMoves; i++) {
-            try {
-                final StopWatch stopWatch = new StopWatch();
-                stopWatch.start();
-                Word bestWord = Solver.getSingleWordByBestScore(boardBuilder.toCharArray(), getRandomHolder());
-                stopWatch.stop();
+            String holder = getRandomHolder();
 
-                System.out.printf("word %s in %s ms\n", bestWord, stopWatch.getTotalTimeMillis());
-                totalTime += stopWatch.getTotalTimeMillis();
+            final StopWatch stopWatch = new StopWatch();
+            stopWatch.start();
+            Word bestWord = Solver.getSingleWordByBestScore(boardBuilder.toCharArray(), holder);
+            stopWatch.stop();
 
-                boardBuilder.addWord(bestWord);
-            } catch (RuntimeException e) {
-                System.out.println(e.getMessage());
+            if (bestWord == null) {
+                System.out.println("Cannot find any word. Holder: " + holder + "\n" + boardBuilder);
                 return;
             }
+
+            System.out.printf("word %s in %s ms\n", bestWord, stopWatch.getTotalTimeMillis());
+            totalTime += stopWatch.getTotalTimeMillis();
+
+            boardBuilder.addWord(bestWord);
         }
     }
 
     private String getRandomHolder() {
-        char[] holder = new char[ScrabbleSettings.getHolderSize()];
+        char[] holder = new char[holderSize];
         for (int i = 0; i < holder.length; i++) {
             holder[i] = Alphabet.getRandomLetter();
         }
