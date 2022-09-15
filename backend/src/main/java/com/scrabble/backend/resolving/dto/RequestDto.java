@@ -1,13 +1,13 @@
 package com.scrabble.backend.resolving.dto;
 
 import lombok.Setter;
-import lombok.ToString;
+
+import java.util.Arrays;
 
 import static com.scrabble.backend.resolving.algorithm.scrabble.Static.*;
 import static com.scrabble.backend.resolving.algorithm.scrabble.resources.Alphabet.emptySymbol;
 
 @Setter
-@ToString
 public class RequestDto {
     private String[][] board;
     private String[] holder;
@@ -64,8 +64,20 @@ public class RequestDto {
     }
 
     public void throwIfIncorrectValue(String symbol) {
-        if (symbol.length() != 1) throw new IllegalArgumentException("Invalid symbol \"" + symbol + "\"");
+        if (symbol.length() != 1)
+            throw new IllegalArgumentException("Invalid symbol \"" + symbol + "\"");
+
         if (!getAlphabet(lang).isLetterOrEmptySymbol(symbol.charAt(0)))
             throw new IllegalArgumentException("Invalid letter: \"" + symbol + "\"");
+    }
+
+    @Override
+    public String toString() {
+        return "RequestDto{" +
+                "board=[...], holder=" + Arrays.toString(holder) +
+                ", lang='" + lang + '\'' +
+                ", mode='" + mode + '\'' +
+                ", number=" + number +
+                '}';
     }
 }

@@ -14,14 +14,16 @@ import org.springframework.util.StopWatch;
 @Slf4j
 @RequiredArgsConstructor
 public class AspectLogging {
-    @Pointcut("@within(org.springframework.stereotype.Service)")
-    void inService() {
+    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
+    void inController() {
     }
 
-    @Pointcut("execution(* *(..))") void anyMethod() {}
+    @Pointcut("execution(* *(..))")
+    void anyMethod() {
+    }
 
 
-    @Around("(inService() && anyMethod())")
+    @Around("(inController() && anyMethod())")
     public Object logSuccessfulInAllNonGetEndpoints(ProceedingJoinPoint jp) throws Throwable {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -29,7 +31,7 @@ public class AspectLogging {
         stopWatch.stop();
 
 
-        log.info("Processing {} in {} [ms], received {}, returned {}",
+        log.warn("Processing {} in {} [ms], received {}, returned {}",
                 jp.getSignature().getName(),
                 stopWatch.getTotalTimeMillis(),
                 toString(jp.getArgs()[0]),
@@ -43,7 +45,7 @@ public class AspectLogging {
         if (result == null) return "null";
         if (result instanceof String str) {
             int len = str.length();
-            if(len > 100 && str.charAt(0) == '/') return String.format("%20.20s...", str);
+            if (len > 100 && str.charAt(0) == '/') return String.format("%20.20s...", str);
             return str;
         } else return result.toString();
     }
