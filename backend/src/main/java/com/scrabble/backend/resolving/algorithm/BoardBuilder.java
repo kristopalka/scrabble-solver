@@ -1,11 +1,14 @@
 package com.scrabble.backend.resolving.algorithm;
 
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
+import com.scrabble.backend.resolving.algorithm.settings.Bonuses;
+import com.scrabble.backend.resolving.algorithm.settings.Settings;
 import lombok.Getter;
 
 import java.security.InvalidParameterException;
 import java.util.Arrays;
+
+import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
 
 public class BoardBuilder {
     @Getter
@@ -13,7 +16,7 @@ public class BoardBuilder {
     protected char[/*x*/][/*y*/] fields;
 
     public BoardBuilder(char[][] board) {
-        this.size = ScrabbleSettings.getBoardSize();
+        this.size = boardSize;
         this.fields = new char[size][size];
 
         for (int i = 0; i < size; i++) {
@@ -22,7 +25,7 @@ public class BoardBuilder {
     }
 
     public BoardBuilder() {
-        this.size = ScrabbleSettings.getBoardSize();
+        this.size = boardSize;
         this.fields = new char[size][size];
 
         for (char[] row : fields) {

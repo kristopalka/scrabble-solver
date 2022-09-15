@@ -2,17 +2,18 @@ package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
+import com.scrabble.backend.resolving.algorithm.settings.Settings;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
+
 
 public class WordsFinderForColumn {
     private static final char empty = Alphabet.getEmptySymbol();
-    private static final int length = ScrabbleSettings.getBoardSize();
 
 
     public static List<Word> find(char[][] board, int columnNumber, String holder) {
@@ -29,7 +30,7 @@ public class WordsFinderForColumn {
         List<Block> blocks = new ArrayList<>();
         int start = -1;
         int end;
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < boardSize; i++) {
             if (isStartOfBlock(column, i)) start = i;
             if (isEndOfBlock(column, i)) {
                 end = i;
@@ -44,7 +45,7 @@ public class WordsFinderForColumn {
     }
 
     private static boolean isEndOfBlock(char[] column, int i) {
-        return column[i] != empty && (i == length - 1 || column[i + 1] == empty);
+        return column[i] != empty && (i == boardSize - 1 || column[i + 1] == empty);
     }
 
     protected static String extractContent(char[] column, int start, int end) {
@@ -69,7 +70,7 @@ public class WordsFinderForColumn {
             Point entryBegin = new Point(columnNumber, block.start);
             Word word = new Word(potentialWord, begin, Word.Direction.VERTICAL, entryBegin, block.length());
 
-            if(word.yBegin() >= 0 && word.yEnd() < length) words.add(word);
+            if(word.yBegin() >= 0 && word.yEnd() < boardSize) words.add(word);
         }
         return words;
     }

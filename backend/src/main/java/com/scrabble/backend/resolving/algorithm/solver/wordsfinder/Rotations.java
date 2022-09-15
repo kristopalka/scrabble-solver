@@ -1,19 +1,20 @@
 package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
+import com.scrabble.backend.resolving.algorithm.settings.Bonuses;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
+
 public class Rotations {
-    private static final int size = ScrabbleSettings.getBoardSize();
 
     public static char[][] transpose(char[][] board) {
-        char[][] transposedBoard = new char[size][size];
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
+        char[][] transposedBoard = new char[boardSize][boardSize];
+        for (int x = 0; x < boardSize; x++) {
+            for (int y = 0; y < boardSize; y++) {
                 transposedBoard[x][y] = board[y][x];
             }
         }

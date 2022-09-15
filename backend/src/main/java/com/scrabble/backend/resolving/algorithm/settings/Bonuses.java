@@ -4,26 +4,20 @@ import java.awt.*;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 
-public class ScrabbleSettings {
+import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
+
+public class Bonuses {
     public enum Bonus {EMPTY, DOUBLE_LETTER, TRIPLE_LETTER, DOUBLE_WORD, TRIPLE_WORD}
 
-    private static final int holderSize;
-    private static final int boardSize;
     private static final Bonus[][] bonuses;
 
     static {
-        System.out.println("Processing scrabble settings...");
-        holderSize = 7;
-        boardSize = 15;
         bonuses = new Bonus[boardSize][boardSize];
         initializeBonuses();
     }
 
     private static void initializeBonuses() {
-        for (Bonus[] row : bonuses) {
-            Arrays.fill(row, Bonus.EMPTY);
-        }
-
+        for (Bonus[] row : bonuses) Arrays.fill(row, Bonus.EMPTY);
         initializeBonusesDOUBLELETTER();
         initializeBonusesTRIPLELETTER();
         initializeBonusesDOUBLEWORD();
@@ -121,6 +115,9 @@ public class ScrabbleSettings {
         bonuses[14][7] = Bonus.TRIPLE_WORD;
     }
 
+    public static Bonus[][] getBonuses() {
+        return bonuses;
+    }
 
     public static Bonus getBonusAt(Point point) {
         if (point.x < 0 || point.x >= boardSize || point.y < 0 || point.y >= boardSize)
@@ -128,11 +125,4 @@ public class ScrabbleSettings {
         return bonuses[point.x][point.y];
     }
 
-    public static int getHolderSize() {
-        return holderSize;
-    }
-
-    public static int getBoardSize() {
-        return boardSize;
-    }
 }

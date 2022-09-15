@@ -2,12 +2,12 @@ package com.scrabble.backend.resolving.algorithm.solver;
 
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
+import com.scrabble.backend.resolving.algorithm.settings.Bonuses;
 
 import java.awt.*;
 import java.util.Arrays;
 
-import static com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings.getBonusAt;
+import static com.scrabble.backend.resolving.algorithm.settings.Bonuses.getBonusAt;
 
 public class ScoreCalculator {
     private static final char empty = Alphabet.getEmptySymbol();
@@ -57,10 +57,10 @@ public class ScoreCalculator {
         return board[point.x][point.y];
     }
 
-    private ScrabbleSettings.Bonus bonusIfBoardEmpty(Point point) {
+    private Bonuses.Bonus bonusIfBoardEmpty(Point point) {
         if (boardAt(point) == empty) {
             return getBonusAt(point);
         }
-        return ScrabbleSettings.Bonus.EMPTY;
+        return Bonuses.Bonus.EMPTY;
     }
 }

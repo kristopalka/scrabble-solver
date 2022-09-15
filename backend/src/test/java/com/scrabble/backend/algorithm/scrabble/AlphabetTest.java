@@ -29,10 +29,4 @@ public class AlphabetTest {
         Assertions.assertFalse(Alphabet.isAllowedCharacter('('));
     }
 
-    @Test
-    public void getRandomLetterVisualTest() {
-        System.out.println(Alphabet.getRandomLetter());
-    }
-
-
 }

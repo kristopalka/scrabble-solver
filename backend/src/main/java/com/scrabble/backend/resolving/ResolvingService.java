@@ -2,13 +2,13 @@ package com.scrabble.backend.resolving;
 
 import com.scrabble.backend.resolving.algorithm.Word;
 import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.settings.ScrabbleSettings;
 import com.scrabble.backend.resolving.dto.GameStateDto;
 import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 import java.util.List;
 
+import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
 import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByBestScore;
 import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByLength;
 
@@ -26,7 +26,7 @@ public class ResolvingService {
 
 
     private char[][] preprocessBoard(char[][] board) {
-        if (board.length != ScrabbleSettings.getBoardSize() || board[0].length != ScrabbleSettings.getBoardSize())
+        if (board.length != boardSize || board[0].length != boardSize)
             throw new InvalidParameterException("Invalid board size");
 
         for (int i = 0; i < board.length; i++) {
@@ -41,7 +41,7 @@ public class ResolvingService {
     }
 
     public static String preprocessHolder(char[] holderArray) {
-        if (holderArray.length != ScrabbleSettings.getHolderSize())
+        if (holderArray.length != boardSize)
             throw new InvalidParameterException("Invalid holder size: " + holderArray.length);
 
         StringBuilder builder = new StringBuilder();
