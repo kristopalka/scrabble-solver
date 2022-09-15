@@ -1,32 +1,21 @@
 package com.scrabble.backend.resolving;
 
-import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 import com.scrabble.backend.resolving.dto.GameStateDto;
 import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 import java.util.List;
 
-import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.emptySymbol;
-import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.boardSize;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getAlphabet;
+import static com.scrabble.backend.resolving.algorithm.scrabble.resources.Alphabet.emptySymbol;
 import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByBestScore;
 import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByLength;
 
 @Service
 public class ResolvingService {
-    public List<Word> bestWords(GameStateDto gameState, String mode, int number) {
-        String holder = preprocessHolder(gameState.getHolder());
-        char[][] board = preprocessBoard(gameState.getBoard());
-
-        return switch (mode) {
-            case "length" -> getWordsByLength(board, holder, number);
-            case "score", default -> getWordsByBestScore(board, holder, number);
-        };
-    }
-
-
-    public static String preprocessHolder(char[] holderArray) {
+    public static String preprocessHolder(char[] holderArray, String lang) {
         if (holderArray.length != boardSize)
             throw new InvalidParameterException("Invalid holder size: " + holderArray.length);
 
@@ -35,14 +24,25 @@ public class ResolvingService {
             if (letter != emptySymbol) {
                 char lowerCaseLetter = Character.toLowerCase(letter);
 
-                throwIfIncorrectLetter(lowerCaseLetter);
+                getAlphabet(lang).throwIfIncorrectSymbol(lowerCaseLetter);
                 builder.append(lowerCaseLetter);
             }
         }
         return builder.toString();
     }
 
-    private char[][] preprocessBoard(char[][] board) {
+    public List<Word> bestWords(GameStateDto gameState, String mode, int number) {
+        String lang = gameState.getLang();
+        String holder = preprocessHolder(gameState.getHolder(), lang);
+        char[][] board = preprocessBoard(gameState.getBoard(), lang);
+
+        return switch (mode) {
+            case "length" -> getWordsByLength(board, holder, lang, number);
+            case "score", default -> getWordsByBestScore(board, holder, lang, number);
+        };
+    }
+
+    private char[][] preprocessBoard(char[][] board, String lang) {
         if (board.length != boardSize || board[0].length != boardSize)
             throw new InvalidParameterException("Invalid board size");
 
@@ -50,16 +50,11 @@ public class ResolvingService {
             for (int j = 0; j < board.length; j++) {
                 if (board[i][j] != emptySymbol) {
                     board[i][j] = Character.toLowerCase(board[i][j]);
-                    throwIfIncorrectLetter(board[i][j]);
+                    getAlphabet(lang).throwIfIncorrectSymbol(board[i][j]);
                 }
             }
         }
         return board;
-    }
-
-    public static void throwIfIncorrectLetter(char letter) {
-        if (!(Alphabet.isCorrectLetter(letter) || Alphabet.isEmptySymbol(letter)))
-            throw new InvalidParameterException("Invalid letter: " + letter);
     }
 
 }

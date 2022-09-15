@@ -1,10 +1,10 @@
-package com.scrabble.backend.resolving.algorithm.settings;
+package com.scrabble.backend.resolving.algorithm.scrabble.resources;
 
 import java.awt.*;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 
-import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.boardSize;
 
 public class Bonuses {
     public enum Bonus {EMPTY, DOUBLE_LETTER, TRIPLE_LETTER, DOUBLE_WORD, TRIPLE_WORD}

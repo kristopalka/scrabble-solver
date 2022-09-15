@@ -1,6 +1,6 @@
 package com.scrabble.backend.resolving.dto;
 
-import com.scrabble.backend.resolving.algorithm.Word;
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

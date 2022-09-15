@@ -1,4 +1,4 @@
-package com.scrabble.backend.resolving.algorithm;
+package com.scrabble.backend.resolving.algorithm.solver.finder;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -7,8 +7,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.scrabble.backend.resolving.algorithm.Word.Direction.HORIZONTAL;
-import static com.scrabble.backend.resolving.algorithm.Word.Direction.VERTICAL;
+import static com.scrabble.backend.resolving.algorithm.solver.finder.Word.Direction.HORIZONTAL;
+import static com.scrabble.backend.resolving.algorithm.solver.finder.Word.Direction.VERTICAL;
 
 
 @ToString

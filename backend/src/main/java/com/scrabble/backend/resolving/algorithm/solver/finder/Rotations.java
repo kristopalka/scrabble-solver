@@ -1,13 +1,10 @@
-package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
-
-import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.Bonuses;
+package com.scrabble.backend.resolving.algorithm.solver.finder;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.boardSize;
 
 public class Rotations {
 

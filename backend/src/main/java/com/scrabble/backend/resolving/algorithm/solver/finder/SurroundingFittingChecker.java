@@ -1,15 +1,16 @@
-package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
+package com.scrabble.backend.resolving.algorithm.solver.finder;
 
-import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.Dictionary;
+import com.scrabble.backend.resolving.algorithm.scrabble.resources.Dictionary;
 
-import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.emptySymbol;
+import static com.scrabble.backend.resolving.algorithm.scrabble.resources.Alphabet.emptySymbol;
 
-public class SurroundingFiltering {
+public class SurroundingFittingChecker {
     protected final char[][] board;
+    protected final Dictionary dictionary;
 
-    public SurroundingFiltering(char[][] board) {
+    public SurroundingFittingChecker(char[][] board, Dictionary dictionary) {
         this.board = board;
+        this.dictionary = dictionary;
     }
 
     public boolean doFits(Word word) {
@@ -67,7 +68,7 @@ public class SurroundingFiltering {
     public boolean wordDisturbButStillFits(Word word, int yPos) {
         Word newWord = extractDisturbedWord(word, yPos);
 
-        if (Dictionary.containsWord(newWord.value)) {
+        if (dictionary.containsWord(newWord.value)) {
             word.additionalWords.add(newWord);
             return true;
         }

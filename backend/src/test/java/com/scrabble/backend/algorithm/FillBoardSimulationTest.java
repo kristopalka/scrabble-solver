@@ -1,16 +1,17 @@
 package com.scrabble.backend.algorithm;
 
-import com.scrabble.backend.resolving.algorithm.BoardBuilder;
-import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
+import com.scrabble.backend.resolving.algorithm.scrabble.BoardBuilder;
 import com.scrabble.backend.resolving.algorithm.solver.Solver;
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
 
+import java.util.List;
 import java.util.Random;
 
-import static com.scrabble.backend.resolving.algorithm.settings.Settings.holderSize;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getAlphabet;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.holderSize;
 
 public class FillBoardSimulationTest {
     private BoardBuilder boardBuilder;
@@ -38,27 +39,27 @@ public class FillBoardSimulationTest {
 
             final StopWatch stopWatch = new StopWatch();
             stopWatch.start();
-            Word bestWord = Solver.getSingleWordByBestScore(boardBuilder.toCharArray(), holder);
+            List<Word> bestWords = Solver.getWordsByBestScore(boardBuilder.toCharArray(), holder, "pl", 1);
             stopWatch.stop();
 
-            if (bestWord == null) {
+            if (bestWords.size() == 0) {
                 System.out.println("Cannot find any word. Holder: " + holder + "\n" + boardBuilder);
                 return;
             }
 
-            System.out.printf("word %s in %s ms\n", bestWord, stopWatch.getTotalTimeMillis());
+            System.out.printf("word %s in %s ms\n", bestWords, stopWatch.getTotalTimeMillis());
             totalTime += stopWatch.getTotalTimeMillis();
 
-            boardBuilder.addWord(bestWord);
+            boardBuilder.addWord(bestWords.get(0));
         }
     }
 
     private String getRandomHolder() {
-        Character[] letters = Alphabet.getLetters();
+        List<Character> letters = getAlphabet("pl").getLetters();
 
         char[] holder = new char[holderSize];
         for (int i = 0; i < holder.length; i++) {
-            holder[i] = letters[new Random().nextInt(letters.length)];
+            holder[i] = letters.get(new Random().nextInt(letters.size()));
         }
         return new String(holder);
     }

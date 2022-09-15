@@ -1,11 +1,14 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.resolving.algorithm.solver.wordsfinder.DictionaryFinder;
+import com.scrabble.backend.resolving.algorithm.solver.finder.DictionaryFinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getDictionary;
 
 public class DictionaryFinderTest extends DictionaryFinder {
 
@@ -31,8 +34,11 @@ public class DictionaryFinderTest extends DictionaryFinder {
         String column = "rt";
         String holder = "abe";
 
-        ArrayList<String> correct = new ArrayList<>(Arrays.asList("ba", "ar", "at", "ta", "be", "er", "re", "et", "te", "arb", "bar", "rab", "bat", "tab", "era", "rea", "ate", "eta", "rat", "tar", "tra", "ber", "erb", "reb", "bet", "ret", "ter", "berta", "bera", "rabe", "beat", "beta", "bart", "brat", "tera", "bert", "terb"));
-        Assertions.assertEquals(correct.stream().sorted().toList(), DictionaryFinder.getPotentialWords(column, holder).stream().sorted().toList());
+        List<String> expected = new ArrayList<>(Arrays.asList("ba", "ar", "at", "ta", "be", "er", "re", "et", "te", "arb", "bar", "rab", "bat", "tab", "era", "rea", "ate", "eta", "rat", "tar", "tra", "ber", "erb", "reb", "bet", "ret", "ter", "berta", "bera", "rabe", "beat", "beta", "bart", "brat", "tera", "bert", "terb"))
+                .stream().sorted().toList();
+        List<String> actual = DictionaryFinder.getPotentialWords(column, holder, getDictionary("pl")).stream().sorted().toList();
+
+        Assertions.assertEquals(expected, actual);
 
     }
 }

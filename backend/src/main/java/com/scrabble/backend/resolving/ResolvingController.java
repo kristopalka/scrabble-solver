@@ -16,6 +16,7 @@ public class ResolvingController {
     public @ResponseBody List<WordDto> bestWord(@RequestBody GameStateDto request,
                                                 @RequestParam(defaultValue = "points") String mode,
                                                 @RequestParam(defaultValue = "5") Integer number) {
-        return service.bestWords(request, mode, number).stream().map(WordDto::new).toList();
+        return service.bestWords(request, mode, number)
+                .stream().map(WordDto::new).toList();
     }
 }

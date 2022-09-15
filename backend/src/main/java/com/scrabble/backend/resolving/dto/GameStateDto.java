@@ -10,4 +10,5 @@ import lombok.ToString;
 public class GameStateDto {
     private char[][] board;
     private char[] holder;
+    private String lang;
 }

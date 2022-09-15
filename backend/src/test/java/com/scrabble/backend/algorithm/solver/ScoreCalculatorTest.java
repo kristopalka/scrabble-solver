@@ -1,8 +1,8 @@
 package com.scrabble.backend.algorithm.solver;
 
-import com.scrabble.backend.resolving.algorithm.BoardBuilder;
-import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.solver.ScoreCalculator;
+import com.scrabble.backend.resolving.algorithm.scrabble.BoardBuilder;
+import com.scrabble.backend.resolving.algorithm.scrabble.ScoreCalculator;
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ public class ScoreCalculatorTest {
         Word word = new Word("aąbcćdeę", 0, 0, Word.Direction.HORIZONTAL);
 
 
-        ScoreCalculator calculator = new ScoreCalculator(new BoardBuilder().toCharArray());
+        ScoreCalculator calculator = new ScoreCalculator(new BoardBuilder().toCharArray(), "pl");
         int points = calculator.getScore(word);
         Assertions.assertEquals(points, 243);
     }
@@ -25,7 +25,7 @@ public class ScoreCalculatorTest {
         Word wordVert = new Word("aaaaaaaaaaaaaaa", 5, 0, Word.Direction.VERTICAL);
         Word wordHor = new Word("aaaaaaaaaaaaaaa", 0, 5, Word.Direction.HORIZONTAL);
 
-        ScoreCalculator calculator = new ScoreCalculator(new BoardBuilder().toCharArray());
+        ScoreCalculator calculator = new ScoreCalculator(new BoardBuilder().toCharArray(), "pl");
         int pointsVert = calculator.getScore(wordVert);
         int pointsHor = calculator.getScore(wordHor);
         int points = 23;
@@ -39,7 +39,7 @@ public class ScoreCalculatorTest {
                 .addWord(new Word("próbuje", 1, 0, Word.Direction.HORIZONTAL));
         Word newWord = new Word("spróbujemy", 0, 0, Word.Direction.HORIZONTAL);
 
-        ScoreCalculator calculator = new ScoreCalculator(board.toCharArray());
+        ScoreCalculator calculator = new ScoreCalculator(board.toCharArray(), "pl");
         Assertions.assertEquals(69, calculator.getScore(newWord));
     }
 
@@ -49,7 +49,7 @@ public class ScoreCalculatorTest {
                 .addWord(new Word("p", 3, 1, Word.Direction.VERTICAL));
         Word newWord = new Word("prymas", 3, 1, Word.Direction.HORIZONTAL);
 
-        ScoreCalculator calculator = new ScoreCalculator(board.toCharArray());
+        ScoreCalculator calculator = new ScoreCalculator(board.toCharArray(), "pl");
         Assertions.assertEquals(13, calculator.getScore(newWord));
     }
 
@@ -65,7 +65,7 @@ public class ScoreCalculatorTest {
         });
         System.out.println(board);
 
-        ScoreCalculator calculator = new ScoreCalculator(board.toCharArray());
+        ScoreCalculator calculator = new ScoreCalculator(board.toCharArray(), "pl");
         Assertions.assertEquals(17, calculator.getScore(newWord));
     }
 

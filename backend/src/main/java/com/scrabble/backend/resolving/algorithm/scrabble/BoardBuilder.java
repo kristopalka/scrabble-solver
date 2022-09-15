@@ -1,12 +1,13 @@
-package com.scrabble.backend.resolving.algorithm;
+package com.scrabble.backend.resolving.algorithm.scrabble;
 
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 import lombok.Getter;
 
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 
-import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.emptySymbol;
-import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
+import static com.scrabble.backend.resolving.algorithm.scrabble.Static.boardSize;
+import static com.scrabble.backend.resolving.algorithm.scrabble.resources.Alphabet.emptySymbol;
 
 public class BoardBuilder {
     @Getter
@@ -50,20 +51,13 @@ public class BoardBuilder {
         }
     }
 
-    public BoardBuilder addLetter(char letter, int x, int y) {
+    private void addLetter(char letter, int x, int y) {
         if (x < 0 || x >= size || y < 0 || y >= size)
             throw new InvalidParameterException(String.format("Given coordinates (%d,%d) goes beyond field", x, y));
         if (!(fields[x][y] == emptySymbol) && fields[x][y] != letter)
             throw new InvalidParameterException(String.format("Cannot override existing field: '%c' with '%c' (%d,%d)", fields[x][y], letter, x, y));
 
         fields[x][y] = letter;
-        return this;
-    }
-
-    public char getField(int x, int y) {
-        if (x < 0 || x >= size || y < 0 || y >= size)
-            throw new InvalidParameterException(String.format("Given coordinates (%d,%d) goes beyond field", x, y));
-        return fields[x][y];
     }
 
     public char[][] toCharArray() {

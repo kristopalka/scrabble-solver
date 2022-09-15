@@ -1,20 +1,22 @@
-package com.scrabble.backend.resolving.algorithm.solver;
+package com.scrabble.backend.resolving.algorithm.scrabble;
 
-import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.settings.Bonuses;
+import com.scrabble.backend.resolving.algorithm.scrabble.resources.Alphabet;
+import com.scrabble.backend.resolving.algorithm.scrabble.resources.Bonuses;
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 
 import java.awt.*;
 import java.util.Arrays;
 
-import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.emptySymbol;
-import static com.scrabble.backend.resolving.algorithm.settings.Bonuses.getBonusAt;
+import static com.scrabble.backend.resolving.algorithm.scrabble.resources.Alphabet.emptySymbol;
+import static com.scrabble.backend.resolving.algorithm.scrabble.resources.Bonuses.getBonusAt;
 
 public class ScoreCalculator {
     protected final char[][] board;
+    protected final Alphabet alphabet;
 
-    public ScoreCalculator(char[][] board) {
+    public ScoreCalculator(char[][] board, String lang) {
         this.board = board;
+        this.alphabet = Static.getAlphabet(lang);
     }
 
     public int getScore(Word word) {
@@ -34,7 +36,7 @@ public class ScoreCalculator {
             if (boardAt(point) != emptySymbol && word.charAt(i) != boardAt(point))
                 throw new RuntimeException(String.format("Word %s dont match board %s", word, Arrays.deepToString(board)));
 
-            int score = Alphabet.valueOfLetter(word.charAt(i));
+            int score = alphabet.valueOfLetter(word.charAt(i));
             switch (bonusIfBoardEmpty(point)) {
                 case EMPTY -> totalScore += score;
                 case DOUBLE_LETTER -> totalScore += 2 * score;

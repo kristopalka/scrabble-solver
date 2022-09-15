@@ -1,6 +1,6 @@
-package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
+package com.scrabble.backend.resolving.algorithm.solver.finder;
 
-import com.scrabble.backend.resolving.algorithm.settings.DictionarySorted;
+import com.scrabble.backend.resolving.algorithm.scrabble.resources.Dictionary;
 import org.apache.logging.log4j.util.Strings;
 
 import java.util.ArrayList;
@@ -9,17 +9,17 @@ import java.util.List;
 
 
 public class DictionaryFinder {
-    public static List<String> getPotentialWords(String blockLetters, String holderLetters) {
+    public static List<String> getPotentialWords(String blockLetters, String holderLetters, Dictionary dictionary) {
         char[] lettersToUse = mergeAndSort(blockLetters, holderLetters);
         List<String> possibleWords = new ArrayList<>();
 
-        List<char[]> requiredLettersList = DictionarySorted.getAllRequiredLettersList();
-        int startIndex = DictionarySorted.indexOfFirstWordWithLength(blockLetters.length());
-        int endIndex = DictionarySorted.indexOfFirstWordWithLength(lettersToUse.length + 1);
+        List<char[]> requiredLettersList = dictionary.getAllRequiredLettersList();
+        int startIndex = dictionary.indexOfFirstWordWithLength(blockLetters.length());
+        int endIndex = dictionary.indexOfFirstWordWithLength(lettersToUse.length + 1);
 
         for (int i = startIndex; i < endIndex; i++) {
             if (isSubsetOf(requiredLettersList.get(i), lettersToUse)) {
-                possibleWords.addAll(DictionarySorted.getWordsByRequiredLetters(new String(requiredLettersList.get(i))));
+                possibleWords.addAll(dictionary.getWordsByRequiredLetters(new String(requiredLettersList.get(i))));
             }
         }
         return possibleWords;

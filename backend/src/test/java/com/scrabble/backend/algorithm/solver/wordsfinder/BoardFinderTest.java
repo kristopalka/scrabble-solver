@@ -1,7 +1,7 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.resolving.algorithm.BoardBuilder;
-import com.scrabble.backend.resolving.algorithm.Word;
+import com.scrabble.backend.resolving.algorithm.scrabble.BoardBuilder;
+import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
@@ -11,20 +11,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static com.scrabble.backend.resolving.algorithm.solver.wordsfinder.WordsFinder.getAll;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+import static com.scrabble.backend.resolving.algorithm.solver.finder.BoardFinder.getAll;
 
-public class WordsFinderTest {
+
+public class BoardFinderTest {
 
     @Test
-    public void getVerticalAndHorizontalTest() {
+    public void getAllTest() {
         BoardBuilder boardBuilder = new BoardBuilder();
-        boardBuilder.addWord(new Word("ma",  4, 4, Word.Direction.HORIZONTAL));
+        boardBuilder.addWord(new Word("ma", 4, 4, Word.Direction.HORIZONTAL));
 
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
-        List<Word> words = getAll(boardBuilder.toCharArray(), "abcde");
+        List<Word> words = getAll(boardBuilder.toCharArray(), "abcde", "pl");
         stopWatch.stop();
         System.out.println("Calculated in: " + stopWatch.getTotalTimeMillis() + " [ms]");
 
@@ -40,7 +39,7 @@ public class WordsFinderTest {
         BoardBuilder boardBuilder = new BoardBuilder()
                 .addWord(new Word("próbuje", 1, 0, Word.Direction.HORIZONTAL));
 
-        Word foundWord = getAll(boardBuilder.toCharArray(), "smy")
+        Word foundWord = getAll(boardBuilder.toCharArray(), "smy", "pl")
                 .stream().filter(w -> Objects.equals(w.value, "spróbujemy")).toList().get(0);
 
         Assertions.assertEquals("spróbujemy", foundWord.value);
@@ -55,7 +54,7 @@ public class WordsFinderTest {
         BoardBuilder boardBuilder = new BoardBuilder()
                 .addWord(new Word("pa", 3, 1, Word.Direction.VERTICAL));
 
-        Word foundWord = getAll(boardBuilder.toCharArray(), "rymas")
+        Word foundWord = getAll(boardBuilder.toCharArray(), "rymas", "pl")
                 .stream().filter(w -> Objects.equals(w.value, "prymas")).toList().get(0);
 
         Assertions.assertEquals("prymas", foundWord.value);
@@ -72,7 +71,7 @@ public class WordsFinderTest {
                 .addWord(new Word("y", 3, 10, Word.Direction.VERTICAL));
         System.out.println(boardBuilder);
 
-        Word foundWord = getAll(boardBuilder.toCharArray(), "dar")
+        Word foundWord = getAll(boardBuilder.toCharArray(), "dar", "pl")
                 .stream().filter(w -> Objects.equals(w.value, "dary")).toList().get(0);
 
         Assertions.assertEquals("dary", foundWord.value);
@@ -97,7 +96,7 @@ public class WordsFinderTest {
                 .addWord(new Word("ce", 3, 4, Word.Direction.VERTICAL));
         System.out.println(boardBuilder);
 
-        List<Word> foundWord = getAll(boardBuilder.toCharArray(), "mą")
+        List<Word> foundWord = getAll(boardBuilder.toCharArray(), "mą", "pl")
                 .stream().filter(w -> Objects.equals(w.value, "mżą")).toList();
 
         System.out.println(foundWord);
