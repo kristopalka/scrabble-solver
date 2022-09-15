@@ -1,12 +1,15 @@
 package com.scrabble.backend.resolving.algorithm.scrabble.resources;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StopWatch;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@Slf4j
 public class Alphabet {
     public static final char emptySymbol = ' ';
 
@@ -15,7 +18,8 @@ public class Alphabet {
 
 
     public Alphabet(String lang) {
-        System.out.println("Loading alphabet " + lang);
+        final StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
         for (String line : FileResourceReader.read(lang + "_letters.txt")) {
             Character letter = line.charAt(0);
@@ -24,6 +28,9 @@ public class Alphabet {
             letterValueMap.put(letter, value);
             letters.add(letter);
         }
+
+        stopWatch.stop();
+        log.info("Loaded {} alphabet in {} [ms]", lang, stopWatch.getTotalTimeMillis());
     }
 
     public int valueOfLetter(char letter) {

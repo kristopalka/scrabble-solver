@@ -1,7 +1,11 @@
 package com.scrabble.backend.resolving.algorithm.scrabble.resources;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StopWatch;
+
 import java.util.*;
 
+@Slf4j
 public class Dictionary {
     private final List<String> dictionary;
     private final HashMap<String, List<String>> requiredLettersPossibleWordsMap = new HashMap<>(); // <required letters, list of possible words>
@@ -10,10 +14,20 @@ public class Dictionary {
 
 
     public Dictionary(String lang) {
-        System.out.println("Loading dictionary " + lang);
+        final StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
 
         dictionary = FileResourceReader.read(lang + "_dictionary.txt");
+        processingRequiredLettersPossibleWordsMap();
+        sortedRequiredLetters.sort(Comparator.comparingInt(array -> array.length));
+        processingSizesWordsIndexes();
 
+
+        stopWatch.stop();
+        log.info("Loaded {} dictionary in {} [ms]", lang, stopWatch.getTotalTimeMillis());
+    }
+
+    private void processingRequiredLettersPossibleWordsMap() {
         for (String word : dictionary) {
             String requiredLetters = sortString(word);
 
@@ -25,9 +39,9 @@ public class Dictionary {
             }
             possibleWords.add(word);
         }
+    }
 
-        sortedRequiredLetters.sort(Comparator.comparingInt(array -> array.length));
-
+    private void processingSizesWordsIndexes() {
         for (int i = 1; i < sortedRequiredLetters.size(); i++) {
             if (sortedRequiredLetters.get(i).length > sortedRequiredLetters.get(i - 1).length) {
                 sizesWordsIndexes.put(sortedRequiredLetters.get(i).length, i);

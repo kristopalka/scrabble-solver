@@ -9,25 +9,19 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-import javax.servlet.http.HttpServletRequest;
-
-import java.util.List;
-
-import static java.util.Optional.ofNullable;
-
 @Aspect
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class AspectLogging {
-    private final HttpServletRequest request;
-
-    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)") void inRestController() {}
+    @Pointcut("@within(org.springframework.stereotype.Service)")
+    void inService() {
+    }
 
     @Pointcut("execution(* *(..))") void anyMethod() {}
 
 
-    @Around("(inRestController() && anyMethod())")
+    @Around("(inService() && anyMethod())")
     public Object logSuccessfulInAllNonGetEndpoints(ProceedingJoinPoint jp) throws Throwable {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
@@ -36,7 +30,7 @@ public class AspectLogging {
 
 
         log.info("Processing {} in {} [ms], received {}, returned {}",
-                request.getRequestURI(),
+                jp.getSignature().getName(),
                 stopWatch.getTotalTimeMillis(),
                 toString(jp.getArgs()[0]),
                 toString(result)
