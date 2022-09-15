@@ -1,13 +1,11 @@
 package com.scrabble.backend.resolving.algorithm;
 
-import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.settings.Bonuses;
-import com.scrabble.backend.resolving.algorithm.settings.Settings;
 import lombok.Getter;
 
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 
+import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.emptySymbol;
 import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
 
 public class BoardBuilder {
@@ -29,7 +27,7 @@ public class BoardBuilder {
         this.fields = new char[size][size];
 
         for (char[] row : fields) {
-            Arrays.fill(row, Alphabet.getEmptySymbol());
+            Arrays.fill(row, emptySymbol);
         }
     }
 
@@ -55,7 +53,7 @@ public class BoardBuilder {
     public BoardBuilder addLetter(char letter, int x, int y) {
         if (x < 0 || x >= size || y < 0 || y >= size)
             throw new InvalidParameterException(String.format("Given coordinates (%d,%d) goes beyond field", x, y));
-        if (!(fields[x][y] == Alphabet.getEmptySymbol()) && fields[x][y] != letter)
+        if (!(fields[x][y] == emptySymbol) && fields[x][y] != letter)
             throw new InvalidParameterException(String.format("Cannot override existing field: '%c' with '%c' (%d,%d)", fields[x][y], letter, x, y));
 
         fields[x][y] = letter;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.security.InvalidParameterException;
 import java.util.List;
 
+import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.emptySymbol;
 import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
 import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByBestScore;
 import static com.scrabble.backend.resolving.algorithm.solver.Solver.getWordsByLength;
@@ -25,28 +26,13 @@ public class ResolvingService {
     }
 
 
-    private char[][] preprocessBoard(char[][] board) {
-        if (board.length != boardSize || board[0].length != boardSize)
-            throw new InvalidParameterException("Invalid board size");
-
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                if (board[i][j] != Alphabet.getEmptySymbol()) {
-                    board[i][j] = Character.toLowerCase(board[i][j]);
-                    throwIfIncorrectLetter(board[i][j]);
-                }
-            }
-        }
-        return board;
-    }
-
     public static String preprocessHolder(char[] holderArray) {
         if (holderArray.length != boardSize)
             throw new InvalidParameterException("Invalid holder size: " + holderArray.length);
 
         StringBuilder builder = new StringBuilder();
         for (char letter : holderArray) {
-            if (letter != Alphabet.getEmptySymbol()) {
+            if (letter != emptySymbol) {
                 char lowerCaseLetter = Character.toLowerCase(letter);
 
                 throwIfIncorrectLetter(lowerCaseLetter);
@@ -54,6 +40,21 @@ public class ResolvingService {
             }
         }
         return builder.toString();
+    }
+
+    private char[][] preprocessBoard(char[][] board) {
+        if (board.length != boardSize || board[0].length != boardSize)
+            throw new InvalidParameterException("Invalid board size");
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (board[i][j] != emptySymbol) {
+                    board[i][j] = Character.toLowerCase(board[i][j]);
+                    throwIfIncorrectLetter(board[i][j]);
+                }
+            }
+        }
+        return board;
     }
 
     public static void throwIfIncorrectLetter(char letter) {

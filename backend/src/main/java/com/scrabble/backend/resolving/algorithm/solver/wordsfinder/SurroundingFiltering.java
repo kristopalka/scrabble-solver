@@ -1,11 +1,11 @@
 package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
 import com.scrabble.backend.resolving.algorithm.settings.Dictionary;
 
+import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.emptySymbol;
+
 public class SurroundingFiltering {
-    private static final char empty = Alphabet.getEmptySymbol();
     protected final char[][] board;
 
     public SurroundingFiltering(char[][] board) {
@@ -19,7 +19,7 @@ public class SurroundingFiltering {
     public boolean doLettersAgree(Word word) {
         for (int i = 0; i < word.length(); i++) {
             char charAtBoard = board[word.xBegin()][i + word.yBegin()];
-            if (word.charAt(i) != charAtBoard && charAtBoard != empty) return false;
+            if (word.charAt(i) != charAtBoard && charAtBoard != emptySymbol) return false;
         }
         return true;
     }
@@ -30,10 +30,10 @@ public class SurroundingFiltering {
 
     public boolean notDisturbUpOrDown(Word word) {
         if (word.yBegin() > 0) {
-            if (board[word.xBegin()][word.yBegin() - 1] != empty) return false;
+            if (board[word.xBegin()][word.yBegin() - 1] != emptySymbol) return false;
         }
         if (word.yBegin() + word.length() + 1 < board.length) {
-            if (board[word.xBegin()][word.yEnd() + 1] != empty) return false;
+            return board[word.xBegin()][word.yEnd() + 1] == emptySymbol;
         }
         return true;
     }
@@ -52,11 +52,11 @@ public class SurroundingFiltering {
     }
 
     private boolean isSomethingOnRight(int yPos, int xPos) {
-        return xPos != board.length - 1 && board[xPos + 1][yPos] != empty;
+        return xPos != board.length - 1 && board[xPos + 1][yPos] != emptySymbol;
     }
 
     private boolean isSomethingOnLeft(int yPos, int xPos) {
-        return xPos != 0 && board[xPos - 1][yPos] != empty;
+        return xPos != 0 && board[xPos - 1][yPos] != emptySymbol;
     }
 
     private boolean thisIsEntryPoint(Word word, int yPos) {
@@ -77,10 +77,10 @@ public class SurroundingFiltering {
     private Word extractDisturbedWord(Word word, int yPos) {
         int xStart = word.xBegin();
 
-        while (xStart != 0 && board[xStart - 1][yPos] != empty) xStart--;
+        while (xStart != 0 && board[xStart - 1][yPos] != emptySymbol) xStart--;
 
         StringBuilder newWordBuilder = new StringBuilder();
-        for (int x = xStart; x < board.length && (board[x][yPos] != empty || x == word.xBegin()); x++) {
+        for (int x = xStart; x < board.length && (board[x][yPos] != emptySymbol || x == word.xBegin()); x++) {
             if (x == word.xBegin()) newWordBuilder.append(word.charAt(yPos - word.yBegin()));
             else newWordBuilder.append(board[x][yPos]);
         }

@@ -1,21 +1,17 @@
 package com.scrabble.backend.resolving.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.resolving.algorithm.Word;
-import com.scrabble.backend.resolving.algorithm.settings.Alphabet;
-import com.scrabble.backend.resolving.algorithm.settings.Settings;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.emptySymbol;
 import static com.scrabble.backend.resolving.algorithm.settings.Settings.boardSize;
 
 
 public class WordsFinderForColumn {
-    private static final char empty = Alphabet.getEmptySymbol();
-
-
     public static List<Word> find(char[][] board, int columnNumber, String holder) {
         SurroundingFiltering surrounding = new SurroundingFiltering(board);
 
@@ -41,11 +37,11 @@ public class WordsFinderForColumn {
     }
 
     protected static boolean isStartOfBlock(char[] column, int i) {
-        return column[i] != empty && (i == 0 || column[i - 1] == empty);
+        return column[i] != emptySymbol && (i == 0 || column[i - 1] == emptySymbol);
     }
 
     private static boolean isEndOfBlock(char[] column, int i) {
-        return column[i] != empty && (i == boardSize - 1 || column[i + 1] == empty);
+        return column[i] != emptySymbol && (i == boardSize - 1 || column[i + 1] == emptySymbol);
     }
 
     protected static String extractContent(char[] column, int start, int end) {

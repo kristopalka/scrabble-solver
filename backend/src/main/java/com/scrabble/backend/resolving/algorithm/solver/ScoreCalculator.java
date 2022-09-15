@@ -7,10 +7,10 @@ import com.scrabble.backend.resolving.algorithm.settings.Bonuses;
 import java.awt.*;
 import java.util.Arrays;
 
+import static com.scrabble.backend.resolving.algorithm.settings.Alphabet.emptySymbol;
 import static com.scrabble.backend.resolving.algorithm.settings.Bonuses.getBonusAt;
 
 public class ScoreCalculator {
-    private static final char empty = Alphabet.getEmptySymbol();
     protected final char[][] board;
 
     public ScoreCalculator(char[][] board) {
@@ -31,7 +31,7 @@ public class ScoreCalculator {
         for (int i = 0; i < word.length(); i++) {
             Point point = word.pointAt(i);
 
-            if (boardAt(point) != empty && word.charAt(i) != boardAt(point))
+            if (boardAt(point) != emptySymbol && word.charAt(i) != boardAt(point))
                 throw new RuntimeException(String.format("Word %s dont match board %s", word, Arrays.deepToString(board)));
 
             int score = Alphabet.valueOfLetter(word.charAt(i));
@@ -58,7 +58,7 @@ public class ScoreCalculator {
     }
 
     private Bonuses.Bonus bonusIfBoardEmpty(Point point) {
-        if (boardAt(point) == empty) {
+        if (boardAt(point) == emptySymbol) {
             return getBonusAt(point);
         }
         return Bonuses.Bonus.EMPTY;
