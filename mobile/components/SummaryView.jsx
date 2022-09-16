@@ -1,30 +1,29 @@
-import {Button, FlatList, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
 import Board from "./scrabble/Board";
 import Holder from "./scrabble/Holder";
-import CustomButton from "./utils/CustomButton";
+import WordList from "./other/WordList";
+import {useState} from "react";
+import {addWordToBoard, cloneBoard} from "../javascript/scrabble";
 
 
 export default function SummaryView(props) {
-    const board = props.board
-    const holder = props.holder
-    const bestWords = props.bestWords
+    const [displayedBoard, changeDisplayedBoard] = useState(props.board);
+
+    function choseWord(word) {
+        let newBoard = addWordToBoard(cloneBoard(props.board), word);
+        changeDisplayedBoard(newBoard);
+    }
 
     return (
         <View style={styles.container}>
-            <ReactNativeZoomableView
-                contentWidth={550} contentHeight={550}
-                maxZoom={4} minZoom={0.7}
-                initialZoom={1}>
-
-                <Board content={board} editMode={false}/>
+            <ReactNativeZoomableView contentWidth={600} contentHeight={600} maxZoom={4} minZoom={0.7} initialZoom={1}>
+                <Board content={displayedBoard} editMode={false}/>
             </ReactNativeZoomableView>
 
-            <View style={styles.edit}>
-                <Holder content={holder} editMode={false} />
-                <View style={styles.buttons}>
-                    <FlatList data={bestWords} renderItem={({item}) => <Text style={styles.item}>{item.value}</Text>}/>
-                </View>
+            <View style={styles.panel}>
+                <Holder content={props.holder} editMode={false}/>
+                <WordList words={props.words} style={styles.wordlist} choseWord={choseWord}/>
             </View>
         </View>
     );
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
     },
-    edit: {
+    panel: {
         backgroundColor: "white",
         padding: 20,
         borderTopWidth: 1,
@@ -45,6 +44,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-evenly",
     },
+    wordlist: {
+        height: 200,
+    }
+
 });
 
 

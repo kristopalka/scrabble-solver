@@ -9,7 +9,7 @@ export default function App() {
     const [view, changeView] = useState("summary")
     const [board, changeBoard] = useState(exampleBoard)
     const [holder, changeHolder] = useState(exampleHolder)
-    const [bestWords, changeBestWords] = useState(exampleBestWords)
+    const [words, changeWords] = useState(exampleBestWords)
 
     const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
 
@@ -30,7 +30,7 @@ export default function App() {
     function goToSummaryView(board, holder, bestWords) {
         changeBoard(board);
         changeHolder(holder);
-        changeBestWords(bestWords);
+        changeWords(bestWords);
         changeView("summary")
     }
 
@@ -51,7 +51,7 @@ export default function App() {
             case "edit":
                 return <EditView goToCameraView={goToCameraView} goToSummaryView={goToSummaryView} board={board} holder={holder}/>;
             case "summary":
-                return <SummaryView goToCameraView={goToCameraView} board={board} holder={holder} bestWords={bestWords}/>;
+                return <SummaryView goToCameraView={goToCameraView} board={board} holder={holder} words={words}/>;
             default:
                 return <View/>;
         }

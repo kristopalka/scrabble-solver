@@ -2,10 +2,10 @@ import {StyleSheet, View} from 'react-native';
 import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
 import Board from "./scrabble/Board";
 import {useState} from "react";
-import CustomButton from "./utils/CustomButton";
 import {solveScrabble} from "../javascript/api";
 import {logger} from "../javascript/logger";
 import Holder from "./scrabble/Holder";
+import CustomButton from "./other/CustomButton";
 
 
 export default function EditBoardView(props) {
@@ -14,7 +14,7 @@ export default function EditBoardView(props) {
 
     async function applyBoard() {
         logger("Solving in backend");
-        const bestWords = await solveScrabble({"board": board, "holder": holder});
+        const bestWords = await solveScrabble({"board": board, "holder": holder, "number": 10, "lang": "pl"});
         logger("Solving OK");
 
         props.goToSummaryView(board, holder, bestWords);
@@ -23,15 +23,12 @@ export default function EditBoardView(props) {
 
     return (
         <View style={styles.container}>
-            <ReactNativeZoomableView
-                contentWidth={550} contentHeight={550}
-                maxZoom={4} minZoom={0.7}
-                initialZoom={1}>
-                <Board content={board} editMode={true} onUpdateContent={updateBoard}/>
+            <ReactNativeZoomableView contentWidth={550} contentHeight={550} maxZoom={4} minZoom={0.7} initialZoom={1}>
+                <Board content={board} editMode={true} updateContent={updateBoard}/>
             </ReactNativeZoomableView>
 
             <View style={styles.edit}>
-                <Holder content={holder} editMode={true} onUpdateContent={updateHolder}/>
+                <Holder content={holder} editMode={true} updateContent={updateHolder}/>
                 <View style={styles.buttons}>
                     <CustomButton title={"Cancel"} style={styles.button} onPress={props.goToCameraView}></CustomButton>
                     <CustomButton title={"Ok"} style={styles.button} onPress={applyBoard}></CustomButton>

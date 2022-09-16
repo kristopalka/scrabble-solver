@@ -1,30 +1,36 @@
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {empty, getLetterValue, isValidLetter} from '../../javascript/scrabble';
-import {useState} from "react";
+import {empty, getLetterValue, isLetterOrEmptySymbol, mark} from '../../javascript/scrabble';
+import {useEffect, useState} from "react";
 
-function preprocessLetter(text) {
-    if(text === empty || text === "" || text === null) {
-        return empty;
-    }
-    const letter = text[text.length - 1];
-    if(isValidLetter(letter)) {
-        return letter.toUpperCase();
-    }
-    return empty;
+function getLetter(input) {
+    if (input === empty) return empty;
+
+    const letter = input[0].toUpperCase();
+    return isLetterOrEmptySymbol(letter) ? letter : empty;
 }
 
+function isMarked(input) {
+    return input[1] === mark;
+}
+
+
 export default function Field(props) {
-    const [letter, setLetter] = useState(preprocessLetter(props.letter))
-    const [editing, setEditing] = useState(false)
+    const [editing, setEditing] = useState(false);
+    const [letter, setLetter] = useState(getLetter(props.input));
+    const [marked, setMarked] = useState(isMarked(props.input));
     let textInput;
+
+    useEffect(() => {
+        setLetter(getLetter(props.input));
+        setMarked(isMarked(props.input));
+    }, [props.input]);
 
 
     function textChange(text) {
-        const newLetter = text.length > 0 ? text[text.length - 1] : empty;
-        if (isValidLetter(newLetter) || newLetter === empty) {
-            const upperNewLetter = newLetter.toUpperCase();
-            setLetter(upperNewLetter);
-            props.onUpdateLetter(upperNewLetter);
+        const newSymbol = text.length > 0 ? text[text.length - 1].toUpperCase() : empty;
+        if (isLetterOrEmptySymbol(newSymbol)) {
+            props.updateLetter(newSymbol);
+            setLetter(newSymbol);
         }
     }
 
@@ -39,21 +45,17 @@ export default function Field(props) {
     }
 
 
+    const inputComponent = <TextInput
+        defaultValue={letter} ref={input => (textInput = input)} autoFocus={true} onBlur={editingEnd}
+        onChangeText={(text) => textChange(text)} style={{display: 'none'}}/>
 
     return (
         <TouchableOpacity style={styles.touchable(props.size)} onPress={editingStart}>
-            <View style={styles.field(editing, props.size)}>
+            <View style={styles.field(editing, props.size, marked)}>
                 <Text style={styles.letter(props.size)}>{letter}</Text>
                 <Text style={styles.value(editing, props.size)}>{getLetterValue(letter)}</Text>
 
-                {editing ? <TextInput
-                        defaultValue={letter}
-                        ref={input => (textInput = input)}
-                        autoFocus={true}
-                        onBlur={editingEnd}
-                        onChangeText={(text) => textChange(text)}
-                        style={{display: 'none'}}/>
-                    : ''}
+                {editing ? inputComponent : ''}
             </View>
         </TouchableOpacity>
     );
@@ -64,29 +66,29 @@ const styles = StyleSheet.create({
         height: size,
         width: size,
     }),
-    field: (editing, size) => ({
+    field: (editing, size, marked) => ({
         justifyContent: "center",
         alignItems: "center",
         height: "100%",
         width: "100%",
-        backgroundColor: editing ? "#d9d9d9" : "white",
-        borderWidth: editing ? 2.2 * (size / 32) : 1.2 * (size / 32),
-        borderColor: editing ? "#777777" : "gray",
-        borderRadius: 5 * (size / 32),
+        backgroundColor: editing ? "#d9d9d9" : (marked ? "lightgreen" : "white"),
+        borderWidth: editing || marked ? (size * 2 / 32) : (size / 32),
+        borderColor: editing ? "#777777" : (marked ? "green" : "gray"),
+        borderRadius: size * 0.15,
     }),
     letter: (size) => ({
         textAlign: "center",
         textAlignVertical: "center",
         includeFontPadding: false,
         fontWeight: "bold",
-        fontSize: 18 * (size / 32),
+        fontSize: size * 0.56,
     }),
-    value: (editing, size) => ({
+    value: (editing, size, marked) => ({
         position: "absolute",
-        left: editing ? 21 * (size / 32) : 22 * (size / 32),
-        top: editing ? 18 * (size / 32) : 19 * (size / 32),
+        left: editing || marked ? (size * 21 / 32) : (size * 22 / 32),
+        top: editing || marked ? (size * 18 / 32) : (size * 19 / 32),
         includeFontPadding: false,
         fontWeight: "bold",
-        fontSize: 8 * (size / 32),
+        fontSize: (size * 0.25),
     }),
 });

@@ -8,10 +8,10 @@ export function imageToText(image) {
         })
 }
 
-export function solveScrabble(gameState) {
+export function solveScrabble(request) {
     return fetch(backendUrl + "/solve-scrabble", {
         method: 'POST',
-        body: JSON.stringify(gameState),
+        body: JSON.stringify(request),
         headers: {'Content-Type': 'application/json'},
     })
         .then(response => response.json())

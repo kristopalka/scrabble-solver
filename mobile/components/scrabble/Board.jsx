@@ -1,14 +1,16 @@
 import {StyleSheet, View} from 'react-native';
 import Field from "./Field";
+import {boardToString} from "../../javascript/scrabble";
 
 
 export default function Board(props) {
-    const fieldSize = 32;
+    const fieldSize = 30;
 
     function updateLetter(x, y, newLetter) {
         const content = props.content;
         content[x][y] = newLetter;
-        props.onUpdateContent(content);
+        props.updateContent(content);
+        console.log(boardToString(props.content))
     }
 
     return (
@@ -19,9 +21,9 @@ export default function Board(props) {
                         return <View style={styles.element} key={`r-${y}`}>
                             <Field
                                 size={fieldSize}
-                                letter={field}
+                                input={field}
                                 editMode={props.editMode}
-                                onUpdateLetter={(newLetter) => updateLetter(x, y, newLetter)}
+                                updateLetter={(newLetter) => updateLetter(x, y, newLetter)}
                             />
                         </View>
                     })

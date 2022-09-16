@@ -7,7 +7,7 @@ export default function Holder(props) {
     function updateLetter(x, newLetter) {
         const content = props.content;
         content[x] = newLetter;
-        props.onUpdateContent(content);
+        props.updateContent(content);
     }
 
     return (
@@ -16,9 +16,9 @@ export default function Holder(props) {
                 return <View style={styles.element} key={x}>
                     <Field
                         size={fieldSize}
-                        letter={field}
+                        input={field}
                         editMode={props.editMode}
-                        onUpdateLetter={(newLetter) => updateLetter(x, newLetter)}
+                        updateLetter={(newLetter) => updateLetter(x, newLetter)}
                     />
                 </View>
             })}
@@ -29,13 +29,13 @@ export default function Holder(props) {
 const styles = StyleSheet.create({
     grid: (fieldSize) => ({
         backgroundColor: "white",
-        width: (fieldSize + (2*(fieldSize / 32))) * 7 ,
+        width: (fieldSize + (2 * (fieldSize / 32))) * 7,
 
         flexDirection: "row",
         borderWidth: (fieldSize / 32),
         borderColor: "black",
-        borderRadius: 8*(fieldSize / 32),
-        padding: 2*(fieldSize / 32),
+        borderRadius: 8 * (fieldSize / 32),
+        padding: 4,
         alignSelf: "center",
     }),
     element: {
