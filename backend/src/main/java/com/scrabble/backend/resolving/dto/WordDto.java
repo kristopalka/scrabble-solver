@@ -11,13 +11,15 @@ import java.awt.*;
 public class WordDto {
     private String value;
     private String direction;
-    private Point begin;
+    private Integer x;
+    private Integer y;
     private Integer score;
 
     public WordDto(Word word) {
         this.value = word.value;
         this.direction = word.direction.toString();
-        this.begin = word.begin;
+        this.x = word.begin.x;
+        this.y = word.begin.y;
         this.score = word.score;
     }
 }

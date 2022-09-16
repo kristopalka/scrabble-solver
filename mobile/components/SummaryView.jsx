@@ -40,11 +40,8 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         borderColor: "black",
     },
-    words: {
-        flexDirection: "row",
-        justifyContent: "space-evenly",
-    },
     wordlist: {
+        marginTop: 20,
         height: 200,
     }
 

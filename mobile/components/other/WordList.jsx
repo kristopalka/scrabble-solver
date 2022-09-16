@@ -28,7 +28,6 @@ export default function WordList(props) {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: 6,
         width: "100%",
         borderWidth: 1.37,
         borderColor: "black",
