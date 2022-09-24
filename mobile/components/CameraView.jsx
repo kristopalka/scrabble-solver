@@ -2,7 +2,7 @@ import {Camera, CameraType} from 'expo-camera';
 import {useState} from 'react';
 import {StyleSheet, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 import Lens from "./camera/Lenx";
-import {imageToText} from "../javascript/api"
+import {requestImageToText} from "../javascript/api"
 import {logger} from "../javascript/logger";
 
 export default function CameraView(props) {
@@ -16,16 +16,7 @@ export default function CameraView(props) {
     async function takeAPicture() {
         logger("Taking photo")
         const data = await camera.takePictureAsync({base64: true, quality: 0.7});
-        logger("Sending to backend");
-        const output = await imageToText(data.base64)
-
-        if(output === "ERROR") {
-            logger("Error while processing photo");
-        }
-        else {
-            logger("Processing OK");
-            props.goToEditBoardView(output);
-        }
+        props.switchToEdit(data.base64);
     }
 
 

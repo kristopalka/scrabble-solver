@@ -1,6 +1,6 @@
-const backendUrl = "http://192.168.1.11:8080"
+const backendUrl = "http://192.168.0.139:8080"
 
-export function imageToText(image) {
+export function requestImageToText(image) {
     return fetch(backendUrl + "/image-to-text", {method: 'POST', body: image})
         .then(response => response.json())
         .then((data) => {

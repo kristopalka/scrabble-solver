@@ -13,13 +13,8 @@ export default function EditBoardView(props) {
     const [holder, updateHolder] = useState(props.holder);
 
     async function applyBoard() {
-        logger("Solving in backend");
-        const bestWords = await solveScrabble({"board": board, "holder": holder, "number": 10, "lang": "pl"});
-        logger("Solving OK");
-
-        props.goToSummaryView(board, holder, bestWords);
+        props.switchToSummary(board, holder);
     }
-
 
     return (
         <View style={styles.container}>
@@ -30,8 +25,7 @@ export default function EditBoardView(props) {
             <View style={styles.edit}>
                 <Holder content={holder} editMode={true} updateContent={updateHolder}/>
                 <View style={styles.buttons}>
-                    <CustomButton title={"Cancel"} style={styles.button} onPress={props.goToCameraView}></CustomButton>
-                    <CustomButton title={"Ok"} style={styles.button} onPress={applyBoard}></CustomButton>
+                    <CustomButton title={"Apply"} style={styles.button} onPress={applyBoard}></CustomButton>
                 </View>
             </View>
         </View>
