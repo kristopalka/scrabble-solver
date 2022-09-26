@@ -1,7 +1,7 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.resolving.algorithm.scrabble.BoardBuilder;
-import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
+import com.scrabble.backend.solving.scrabble.BoardBuilder;
+import com.scrabble.backend.solving.solver.finder.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -9,8 +9,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.scrabble.backend.resolving.algorithm.solver.finder.Rotations.rotateVerticalToHorizontal;
-import static com.scrabble.backend.resolving.algorithm.solver.finder.Rotations.transpose;
+import static com.scrabble.backend.solving.solver.finder.Rotations.rotateVerticalToHorizontal;
+import static com.scrabble.backend.solving.solver.finder.Rotations.transpose;
 
 public class RotationsTest {
 

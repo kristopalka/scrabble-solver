@@ -1,6 +1,6 @@
 package com.scrabble.backend.algorithm.scrabble;
 
-import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
+import com.scrabble.backend.solving.solver.finder.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

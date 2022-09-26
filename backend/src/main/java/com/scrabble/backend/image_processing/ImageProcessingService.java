@@ -1,12 +1,12 @@
 package com.scrabble.backend.image_processing;
 
-import com.scrabble.backend.image_processing.scripts.IOTemp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Objects;
 
-import static com.scrabble.backend.image_processing.scripts.PythonRunner.executeScript;
+import static com.scrabble.backend.image_processing.PythonRunner.executeScript;
 
 @Service
 @Slf4j
@@ -32,6 +32,8 @@ public class ImageProcessingService {
         IOTemp temp = new IOTemp(image);
         String output = executeScript("image_to_text.py", temp.getPath());
         temp.delete();
+
+        if(Objects.equals(output, "ERROR")) throw new IllegalArgumentException();
 
         return output;
     }

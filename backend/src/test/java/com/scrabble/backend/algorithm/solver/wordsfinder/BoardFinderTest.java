@@ -1,7 +1,7 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.resolving.algorithm.scrabble.BoardBuilder;
-import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
+import com.scrabble.backend.solving.scrabble.BoardBuilder;
+import com.scrabble.backend.solving.solver.finder.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static com.scrabble.backend.resolving.algorithm.solver.finder.BoardFinder.getAll;
+import static com.scrabble.backend.solving.solver.finder.BoardFinder.getAll;
 
 
 public class BoardFinderTest {

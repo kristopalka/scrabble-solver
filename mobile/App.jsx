@@ -1,72 +1,75 @@
 import {BackHandler, StyleSheet, View} from 'react-native';
 import {useState} from "react";
-import CameraView from "./components/CameraView";
-import EditView from "./components/EditBoardView";
-import SummaryView from "./components/SummaryView";
+import CameraPage from "./components/CameraPage";
+import EditBoardPage from "./components/EditBoardPage";
+import SummaryPage from "./components/SummaryPage";
 import {exampleBestWords, exampleBoard, exampleHolder} from "./javascript/scrabble";
 import {logger} from "./javascript/logger";
-import {requestImageToText, solveScrabble} from "./javascript/api";
-import LoadingView from "./components/LoadingView";
+import {requestImageToText, requestSolveScrabble} from "./javascript/api";
+import LoadingPage from "./components/LoadingPage";
 
 
 export default function App() {
-    const [view, changeView] = useState("camera")
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+
+    const [page, changePage] = useState("camera")
+
     const [board, setBoard] = useState(exampleBoard)
     const [holder, setHolder] = useState(exampleHolder)
     const [words, setWords] = useState(exampleBestWords)
-    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
 
 
     async function switchEditToSummary(board, holder) {
         logger("Solving in backend");
-        changeView("loading");
-        const bestWords = await solveScrabble({"board": board, "holder": holder, "number": 10, "lang": "pl"});
+        changePage("loading");
+        const bestWords = await requestSolveScrabble(board, holder, "pl", "score", "5");
         logger("Solving OK");
 
         setBoard(board);
         setHolder(holder);
         setWords(bestWords);
-        changeView("summary")
+        changePage("summary")
     }
 
     async function switchCameraToEdit(photoBase64) {
         logger("Sending to backend");
-        changeView("loading");
-        const output = await requestImageToText(photoBase64)
-
-        if (output === "ERROR") {
-            logger("Error while processing photo");
-        } else {
-            logger("Processing OK");
+        changePage("loading");
+        try {
+            const board = await requestImageToText(photoBase64)
             setBoard(board);
-            changeView("edit");
+            changePage("edit");
+        } catch (e) {
+            logger("Error: " + e);
         }
     }
 
 
     function backAction() {
-        switch(view) {
+        switch(page) {
             case "camera":
                 return false;
             case "edit":
-                changeView("camera");
+                changePage("camera");
                 return true;
             case "summary":
-                changeView("edit");
+                changePage("edit");
+                return true;
+            default:
+                changePage("camera");
                 return true;
         }
     }
 
     function currentView() {
-        switch(view) {
+        switch(page) {
             case "camera":
-                return <CameraView switchToEdit={switchCameraToEdit}/>;
+                return <CameraPage switchToEdit={switchCameraToEdit}/>;
             case "edit":
-                return <EditView switchToSummary={switchEditToSummary} board={board} holder={holder}/>;
+                return <EditBoardPage switchToSummary={switchEditToSummary} board={board} holder={holder}/>;
             case "summary":
-                return <SummaryView board={board} holder={holder} words={words}/>;
+                return <SummaryPage board={board} holder={holder} words={words}/>;
             case "loading":
-                return <LoadingView/>;
+                return <LoadingPage/>;
             default:
                 return <View/>;
         }

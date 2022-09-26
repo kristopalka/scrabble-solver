@@ -1,15 +1,14 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.resolving.algorithm.solver.finder.ColumnFinder;
-import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
+import com.scrabble.backend.solving.solver.finder.ColumnFinder;
+import com.scrabble.backend.solving.solver.finder.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.util.List;
 
-import static com.scrabble.backend.resolving.algorithm.scrabble.resources.Alphabet.emptySymbol;
-import static com.scrabble.backend.resolving.algorithm.solver.finder.ColumnFinder.*;
+import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
 
 public class ColumnFinderTest {
     char e = emptySymbol;

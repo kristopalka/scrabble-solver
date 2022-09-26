@@ -1,6 +1,6 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.resolving.algorithm.solver.finder.DictionaryFinder;
+import com.scrabble.backend.solving.solver.finder.DictionaryFinder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getDictionary;
+import static com.scrabble.backend.solving.scrabble.Static.getDictionary;
 
 public class DictionaryFinderTest extends DictionaryFinder {
 

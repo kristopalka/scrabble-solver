@@ -1,8 +1,8 @@
 package com.scrabble.backend.algorithm;
 
-import com.scrabble.backend.resolving.algorithm.scrabble.BoardBuilder;
-import com.scrabble.backend.resolving.algorithm.solver.Solver;
-import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
+import com.scrabble.backend.solving.scrabble.BoardBuilder;
+import com.scrabble.backend.solving.solver.Solver;
+import com.scrabble.backend.solving.solver.finder.Word;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
@@ -10,8 +10,8 @@ import org.springframework.util.StopWatch;
 import java.util.List;
 import java.util.Random;
 
-import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getAlphabet;
-import static com.scrabble.backend.resolving.algorithm.scrabble.Static.holderSize;
+import static com.scrabble.backend.solving.scrabble.Static.getAlphabet;
+import static com.scrabble.backend.solving.scrabble.Static.holderSize;
 
 public class FillBoardSimulationTest {
     private BoardBuilder boardBuilder;

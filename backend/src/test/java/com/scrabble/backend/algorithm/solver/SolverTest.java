@@ -1,8 +1,8 @@
 package com.scrabble.backend.algorithm.solver;
 
-import com.scrabble.backend.resolving.algorithm.scrabble.BoardBuilder;
-import com.scrabble.backend.resolving.algorithm.solver.Solver;
-import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
+import com.scrabble.backend.solving.scrabble.BoardBuilder;
+import com.scrabble.backend.solving.solver.Solver;
+import com.scrabble.backend.solving.solver.finder.Word;
 import org.junit.jupiter.api.Test;
 
 public class SolverTest {

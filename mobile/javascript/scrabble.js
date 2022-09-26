@@ -29,16 +29,16 @@ export function cloneBoard(board) {
 }
 
 export function addWordToBoard(board, word) {
-    let required = [];
+    //let required = [];
     if (word.direction === "VERTICAL") {
         for (let y = 0; y < word.value.length; y++) {
-            if(board[word.x][word.y + y] === empty) required.push(word.value[y]);
+            //if(board[word.x][word.y + y] === empty) required.push(word.value[y]);
             board[word.x][word.y + y] = word.value[y] + mark;
         }
     }
     else {
         for (let x = 0; x < word.value.length; x++) {
-            if(board[x + word.x][word.y] === empty) required.push(word.value[x]);
+            //if(board[x + word.x][word.y] === empty) required.push(word.value[x]);
             board[x + word.x][word.y] = word.value[x] + mark;
         }
     }

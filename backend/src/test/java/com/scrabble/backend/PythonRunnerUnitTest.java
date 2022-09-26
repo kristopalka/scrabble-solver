@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static com.scrabble.backend.image_processing.scripts.PythonRunner.executeScript;
+import static com.scrabble.backend.image_processing.PythonRunner.executeScript;
 import static org.assertj.core.api.Assertions.assertThat;
 
 

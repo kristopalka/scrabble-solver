@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getDictionary;
-import static com.scrabble.backend.resolving.algorithm.scrabble.resources.Dictionary.sortString;
+import static com.scrabble.backend.solving.scrabble.Static.getDictionary;
+import static com.scrabble.backend.solving.scrabble.resources.Dictionary.sortString;
 
 public class DictionaryTest {
 

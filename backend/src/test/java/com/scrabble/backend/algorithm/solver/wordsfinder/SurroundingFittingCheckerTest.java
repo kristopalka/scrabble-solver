@@ -1,14 +1,14 @@
 package com.scrabble.backend.algorithm.solver.wordsfinder;
 
-import com.scrabble.backend.resolving.algorithm.scrabble.BoardBuilder;
-import com.scrabble.backend.resolving.algorithm.solver.finder.SurroundingFittingChecker;
-import com.scrabble.backend.resolving.algorithm.solver.finder.Word;
+import com.scrabble.backend.solving.scrabble.BoardBuilder;
+import com.scrabble.backend.solving.solver.finder.SurroundingFittingChecker;
+import com.scrabble.backend.solving.solver.finder.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 
-import static com.scrabble.backend.resolving.algorithm.scrabble.Static.getDictionary;
+import static com.scrabble.backend.solving.scrabble.Static.getDictionary;
 
 public class SurroundingFittingCheckerTest {
     @Test
