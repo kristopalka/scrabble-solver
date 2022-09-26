@@ -7,12 +7,21 @@ import {exampleBestWords, exampleBoard, exampleHolder} from "./javascript/scrabb
 import {logger} from "./javascript/logger";
 import {requestImageToText, requestSolveScrabble} from "./javascript/api";
 import LoadingPage from "./components/LoadingPage";
+import ErrorPage from "./components/ErrorPage";
+
+const pages = {
+    camera: "camera",
+    edit: "edit",
+    summary: "summary",
+    loading: "loading",
+    error: "error"
+}
 
 
 export default function App() {
     BackHandler.addEventListener("hardwareBackPress", backAction);
 
-    const [page, changePage] = useState("camera")
+    const [page, goPage] = useState(pages.error)
 
     const [board, setBoard] = useState(exampleBoard)
     const [holder, setHolder] = useState(exampleHolder)
@@ -21,57 +30,60 @@ export default function App() {
 
     async function switchEditToSummary(board, holder) {
         logger("Solving in backend");
-        changePage("loading");
+        goPage(pages.loading);
         const bestWords = await requestSolveScrabble(board, holder, "pl", "score", "5");
         logger("Solving OK");
 
         setBoard(board);
         setHolder(holder);
         setWords(bestWords);
-        changePage("summary")
+        goPage(pages.summary)
     }
 
     async function switchCameraToEdit(photoBase64) {
         logger("Sending to backend");
-        changePage("loading");
+        goPage(pages.loading);
         try {
             const board = await requestImageToText(photoBase64)
             setBoard(board);
-            changePage("edit");
+            goPage(pages.edit);
         } catch (e) {
             logger("Error: " + e);
+            goPage(pages.error);
         }
     }
 
 
     function backAction() {
         switch(page) {
-            case "camera":
+            case pages.camera:
                 return false;
-            case "edit":
-                changePage("camera");
+            case pages.edit:
+                goPage(pages.camera);
                 return true;
-            case "summary":
-                changePage("edit");
+            case pages.summary:
+                goPage(pages.edit);
                 return true;
             default:
-                changePage("camera");
+                goPage(pages.camera);
                 return true;
         }
     }
 
     function currentView() {
         switch(page) {
-            case "camera":
+            case pages.camera:
                 return <CameraPage switchToEdit={switchCameraToEdit}/>;
-            case "edit":
+            case pages.edit:
                 return <EditBoardPage switchToSummary={switchEditToSummary} board={board} holder={holder}/>;
-            case "summary":
+            case pages.summary:
                 return <SummaryPage board={board} holder={holder} words={words}/>;
-            case "loading":
+            case pages.loading:
                 return <LoadingPage/>;
+            case pages.error:
+                return <ErrorPage cause={"Some error occurs"} onClick={() => goPage(pages.camera)}/>
             default:
-                return <View/>;
+                return <ErrorPage cause={"Page does not exist"} onClick={() => goPage(pages.camera)}/>;
         }
     }
 
