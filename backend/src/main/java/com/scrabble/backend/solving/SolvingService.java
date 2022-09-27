@@ -13,6 +13,8 @@ import static com.scrabble.backend.solving.solver.Solver.getWordsByLength;
 
 @Service
 public class SolvingService {
+    public static final String[] modes = {"length", "score"};
+
     public SolvingService() {
         // init alphabet and dictionaries on startup
         getAlphabet("pl");

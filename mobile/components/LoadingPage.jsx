@@ -4,7 +4,7 @@ import {BallIndicator} from 'react-native-indicators';
 export default function LoadingPage(props) {
     return (
         <View style={styles.container}>
-            <BallIndicator size={70} count={7} color={"white"}/>
+            <BallIndicator size={70} count={7} color={"gray"}/>
         </View>
     );
 }
@@ -15,6 +15,6 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "black",
+        backgroundColor: "white",
     },
 });

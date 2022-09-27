@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.List;
 
 import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
+import static com.scrabble.backend.solving.solver.finder.ColumnFinder.*;
 
 public class ColumnFinderTest {
     char e = emptySymbol;
@@ -25,16 +26,16 @@ public class ColumnFinderTest {
     @Test
     public void findAllBlocksTest() {
         char[] column = {'a', e, e, e, 'b', 'c', 'd', e, e, e, e, e, e, 'g', 'h'};
-        List<Block> allBlocks = findBlocks(column);
+        List<ColumnFinder.Block> allBlocks = findBlocks(column);
 
         Assertions.assertEquals(3, allBlocks.size());
-        Assertions.assertEquals(new Block(0, "a"), allBlocks.get(0));
+        Assertions.assertEquals(new ColumnFinder.Block(0, "a"), allBlocks.get(0));
     }
 
     @Test
     public void getPossibleToArrangeWordsMamaTest() {
         String str = "mama";
-        Block block = new Block(4, "a");
+        ColumnFinder.Block block = new ColumnFinder.Block(4, "a");
 
         List<Word> words = getPossibleWordsFromPotential(str, block, 9);
         Assertions.assertEquals(new Point(9, 3), words.get(0).begin);

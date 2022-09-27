@@ -39,9 +39,6 @@ export function requestSolveScrabble(board, holder, lang, mode, number) {
                     throw somethingWentWrong;
             }
         })
-        .catch((error) => {
-            console.log(error)
-        })
 }
 
 export function requestInfo() {

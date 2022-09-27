@@ -4,6 +4,8 @@ import {StyleSheet, TouchableOpacity, useWindowDimensions, View} from 'react-nat
 import Lens from "./camera/Lenx";
 import {requestImageToText} from "../javascript/api"
 import {logger} from "../javascript/logger";
+import SegmentedControl from "./other/CustomSegmentedControll";
+import {supportedLanguages} from "../javascript/scrabble";
 
 export default function CameraPage(props) {
     const {width, height} = useWindowDimensions();
@@ -20,8 +22,16 @@ export default function CameraPage(props) {
     }
 
 
+
     return (
         <View style={styles.container}>
+            <SegmentedControl
+                tabs={supportedLanguages}
+                currentIndex={props.langIndex}
+                onChange={(index) => props.setLangIndex(index)}
+                width={150}
+                paddingVertical={10}
+            />
             <Camera style={styles.camera(width)}
                     ratio="4:3"
                     type={CameraType.back}

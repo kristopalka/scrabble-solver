@@ -1,9 +1,33 @@
+import {requestInfo, requestLettersValues} from "./api";
+
 const letters = "aąbcćdeęfghijklłmnńoóprsśtuwyzźż".toUpperCase();
 const values =  "15326215533132232171521152312195";
+export const supportedLanguages = ["pl", "en"];
 export const empty = " ";
 export const mark = "^";
 export const holderSize = 7;
 export const boardSize = 15;
+
+
+export class ScrabbleSettings {
+    holderSize;
+    boardSize;
+    emptySymbol;
+    modes;
+    supportedLanguages;
+    boardBonuses;
+    lettersValues;
+
+    constructor(info) {
+        this.holderSize = info.holderSize;
+        this.boardSize = info.boardSize;
+        this.emptySymbol = info.emptySymbol;
+        this.modes = info.modes;
+        this.supportedLanguages = info.supportedLanguages;
+        this.boardBonuses = info.boardBonuses;
+        this.lettersValues = info.lettersValues;
+    }
+}
 
 export function getLetters() {
     return letters;

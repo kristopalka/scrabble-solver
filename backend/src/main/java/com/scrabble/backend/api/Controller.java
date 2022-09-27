@@ -2,6 +2,7 @@ package com.scrabble.backend.api;
 
 import com.scrabble.backend.api.dto.GameStateDto;
 import com.scrabble.backend.api.dto.InfoDto;
+import com.scrabble.backend.api.dto.LettersValuesDto;
 import com.scrabble.backend.api.dto.WordDto;
 import com.scrabble.backend.image_processing.ImageProcessingService;
 import com.scrabble.backend.solving.SolvingService;
@@ -50,5 +51,10 @@ public class Controller {
     @GetMapping("/info")
     public @ResponseBody ResponseEntity<InfoDto> info() {
         return new ResponseEntity<>(new InfoDto(), HttpStatus.OK);
+    }
+
+    @GetMapping("/letters-values")
+    public @ResponseBody ResponseEntity<LettersValuesDto> lettersValues(@RequestParam(defaultValue = "en") String lang) {
+        return new ResponseEntity<>(new LettersValuesDto(lang), HttpStatus.OK);
     }
 }
