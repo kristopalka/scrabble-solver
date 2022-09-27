@@ -18,11 +18,11 @@ export default function SummaryPage(props) {
     return (
         <View style={styles.container}>
             <ReactNativeZoomableView contentWidth={600} contentHeight={600} maxZoom={4} minZoom={0.7} initialZoom={1}>
-                <Board content={displayedBoard} editMode={false}/>
+                <Board content={displayedBoard} editMode={false} lettersValues={props.lettersValues}/>
             </ReactNativeZoomableView>
 
             <View style={styles.panel}>
-                <Holder content={props.holder} editMode={false}/>
+                <Holder content={props.holder} editMode={false} lettersValues={props.lettersValues}/>
                 <WordList words={props.words} style={styles.wordlist} choseWord={choseWord}/>
             </View>
         </View>

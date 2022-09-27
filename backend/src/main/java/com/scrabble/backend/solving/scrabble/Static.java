@@ -10,7 +10,7 @@ import java.util.Map;
 public class Static {
     public static final int holderSize = 7;
     public static final int boardSize = 15;
-    public static final List<String> supportedLanguages = List.of(new String[]{"pl", "en"});
+    public static final List<String> supportedLanguages = List.of(new String[]{"en", "pl"});
 
     private static final Map<String, Alphabet> loadedAlphabets = new HashMap<>();
     private static final Map<String, Dictionary> loadedDictionaries = new HashMap<>();

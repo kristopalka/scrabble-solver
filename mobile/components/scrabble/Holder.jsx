@@ -19,6 +19,7 @@ export default function Holder(props) {
                         input={field}
                         editMode={props.editMode}
                         updateLetter={(newLetter) => updateLetter(x, newLetter)}
+                        lettersValues={props.lettersValues}
                     />
                 </View>
             })}

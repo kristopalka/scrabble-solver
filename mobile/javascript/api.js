@@ -1,12 +1,10 @@
-const backend = "http://192.168.1.11:8080"
-
 export const connectionError = "connection error";
 export const notFoundBoard = "not found board";
 export const somethingWentWrong = "somethingWentWrong";
 
 
-export function requestImageToText(image) {
-    const url = backend + "/image-to-text";
+export function requestImageToText(url, image, lang) {
+    url = url + `/image-to-text?lang=${lang}`;
 
     return fetch(url, {method: 'POST', body: image})
         .then(async (response) => {
@@ -22,9 +20,9 @@ export function requestImageToText(image) {
         })
 }
 
-export function requestSolveScrabble(board, holder, lang, mode, number) {
+export function requestSolveScrabble(url, board, holder, lang, mode, number) {
     const data = {"board": board, "holder": holder};
-    const url = backend + `/solve-scrabble?lang=${lang}&mode=${mode}&number=${number}`;
+    url = url + `/solve-scrabble?lang=${lang}&mode=${mode}&number=${number}`;
 
     return fetch(url, {
         method: 'POST',
@@ -41,8 +39,8 @@ export function requestSolveScrabble(board, holder, lang, mode, number) {
         })
 }
 
-export function requestInfo() {
-    return fetch(backend + "/info")
+export function requestInfo(url) {
+    return fetch(url + "/info")
         .then(async (response) => {
             switch(response.status) {
                 case 200:

@@ -2,33 +2,32 @@ import {Camera, CameraType} from 'expo-camera';
 import {useState} from 'react';
 import {StyleSheet, TouchableOpacity, useWindowDimensions, View} from 'react-native';
 import Lens from "./camera/Lenx";
-import {requestImageToText} from "../javascript/api"
 import {logger} from "../javascript/logger";
-import SegmentedControl from "./other/CustomSegmentedControll";
-import {supportedLanguages} from "../javascript/scrabble";
+import SegmentedControl from "./other/SegmentedControll";
+import {langs} from "../javascript/scrabble";
 
 export default function CameraPage(props) {
     const {width, height} = useWindowDimensions();
     const [camera, setCamera] = useState(null);
     const [permission, requestPermission] = Camera.useCameraPermissions();
+    const [langIndex, setLangIndex] = useState(props.langIndex);
 
     if (!permission) return <View/>;
     if (!permission.granted) requestPermission();
 
-    async function takeAPicture() {
-        logger("Taking photo")
+    async function takePicture() {
+        logger("Taking picture")
         const data = await camera.takePictureAsync({base64: true, quality: 0.7});
-        props.switchToEdit(data.base64);
+        props.switchToEdit(langIndex, data.base64);
     }
-
 
 
     return (
         <View style={styles.container}>
             <SegmentedControl
-                tabs={supportedLanguages}
-                currentIndex={props.langIndex}
-                onChange={(index) => props.setLangIndex(index)}
+                tabs={props.langs}
+                currentIndex={langIndex}
+                onChange={setLangIndex}
                 width={150}
                 paddingVertical={10}
             />
@@ -40,7 +39,7 @@ export default function CameraPage(props) {
                     <Lens size={3 * width / 4}/>
                 </View>
             </Camera>
-            <TouchableOpacity style={styles.captureButton} onPress={takeAPicture}></TouchableOpacity>
+            <TouchableOpacity style={styles.captureButton} onPress={takePicture}></TouchableOpacity>
         </View>
     );
 }
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: "center",
         borderWidth: 40,
-        borderColor:"black",
+        borderColor: "black",
         borderRadius: 70,
         margin: -37,
     },

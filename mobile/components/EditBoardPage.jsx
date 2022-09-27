@@ -2,8 +2,6 @@ import {StyleSheet, View} from 'react-native';
 import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
 import Board from "./scrabble/Board";
 import {useState} from "react";
-import {requestSolveScrabble} from "../javascript/api";
-import {logger} from "../javascript/logger";
 import Holder from "./scrabble/Holder";
 import CustomButton from "./other/CustomButton";
 
@@ -13,17 +11,19 @@ export default function EditBoardPage(props) {
     const [holder, updateHolder] = useState(props.holder);
 
     async function applyBoard() {
-        props.switchToSummary(board, holder);
+        //todo change to chosen index
+        props.switchToSummary(0, board, holder);
     }
 
     return (
         <View style={styles.container}>
             <ReactNativeZoomableView contentWidth={550} contentHeight={550} maxZoom={4} minZoom={0.7} initialZoom={1}>
-                <Board content={board} editMode={true} updateContent={updateBoard}/>
+                <Board content={board} editMode={true} updateContent={updateBoard} lettersValues={props.lettersValues}/>
             </ReactNativeZoomableView>
 
             <View style={styles.edit}>
-                <Holder content={holder} editMode={true} updateContent={updateHolder}/>
+                <Holder content={holder} editMode={true} updateContent={updateHolder}
+                        lettersValues={props.lettersValues}/>
                 <View style={styles.buttons}>
                     <CustomButton title={"Apply"} style={styles.button} onPress={applyBoard}></CustomButton>
                 </View>

@@ -25,8 +25,8 @@ public class InfoConstructionTest {
     public void infoLettersValuesTest() {
         InfoDto dto = new InfoDto();
 
-        int pl = dto.getSupportedLanguages().indexOf("pl");
-        int en = dto.getSupportedLanguages().indexOf("en");
+        int pl = dto.getLangs().indexOf("pl");
+        int en = dto.getLangs().indexOf("en");
         assertThat(dto.getLettersValues().get(pl).getLetters()).contains("ą");
         assertThat(dto.getLettersValues().get(en).getLetters()).doesNotContain("ą");
     }

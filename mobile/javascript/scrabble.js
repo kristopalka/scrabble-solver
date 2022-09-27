@@ -1,47 +1,27 @@
-import {requestInfo, requestLettersValues} from "./api";
-
-const letters = "aąbcćdeęfghijklłmnńoóprsśtuwyzźż".toUpperCase();
-const values =  "15326215533132232171521152312195";
-export const supportedLanguages = ["pl", "en"];
 export const empty = " ";
 export const mark = "^";
-export const holderSize = 7;
-export const boardSize = 15;
 
 
-export class ScrabbleSettings {
-    holderSize;
-    boardSize;
-    emptySymbol;
-    modes;
-    supportedLanguages;
-    boardBonuses;
-    lettersValues;
+export class ScrabbleLettersValues {
+    letters;
+    values;
 
-    constructor(info) {
-        this.holderSize = info.holderSize;
-        this.boardSize = info.boardSize;
-        this.emptySymbol = info.emptySymbol;
-        this.modes = info.modes;
-        this.supportedLanguages = info.supportedLanguages;
-        this.boardBonuses = info.boardBonuses;
-        this.lettersValues = info.lettersValues;
+    constructor(settings, langIndex) {
+        this.letters = settings.lettersValues[langIndex].letters;
+        this.values = settings.lettersValues[langIndex].values;
     }
-}
 
-export function getLetters() {
-    return letters;
-}
 
-export function isLetterOrEmptySymbol(letter) {
-    return letters.indexOf(letter) !== -1 || letter === empty;
-}
+    isLetterOrEmptySymbol(letter) {
+        return this.letters.indexOf(letter.toLowerCase()) !== -1 || letter === empty;
+    }
 
-export function getLetterValue(letter) {
-    if(letter === empty) return ""
+    getLetterValue(letter) {
+        if (letter === empty) return ""
 
-    let index = letters.indexOf(letter);
-    return index === -1 ? "" : values[index];
+        let index = this.letters.indexOf(letter.toLowerCase());
+        return index === -1 ? "" : this.values[index];
+    }
 }
 
 export function cloneBoard(board) {
@@ -59,8 +39,7 @@ export function addWordToBoard(board, word) {
             //if(board[word.x][word.y + y] === empty) required.push(word.value[y]);
             board[word.x][word.y + y] = word.value[y] + mark;
         }
-    }
-    else {
+    } else {
         for (let x = 0; x < word.value.length; x++) {
             //if(board[x + word.x][word.y] === empty) required.push(word.value[x]);
             board[x + word.x][word.y] = word.value[x] + mark;
@@ -75,7 +54,7 @@ export function boardToString(board) {
     for (let y = 0; y < board.length; y++) {
         builder += "|";
         for (let x = 0; x < board.length; x++) {
-            if(board[x][y] === '') builder += '  ';
+            if (board[x][y] === '') builder += '  ';
             else builder += board[x][y] + ' ';
         }
         builder += "|\n";
@@ -83,7 +62,6 @@ export function boardToString(board) {
     builder += "+------------------------------+";
     return builder;
 }
-
 
 
 export const exampleHolder = ["A", "B", "Ć", "D", "E", "E", "G"];

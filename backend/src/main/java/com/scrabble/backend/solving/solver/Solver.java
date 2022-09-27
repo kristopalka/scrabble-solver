@@ -18,8 +18,11 @@ public class Solver {
     }
 
     public static List<Word> getWordsByLength(char[][] board, String holder, String lang, int number) {
+        ScoreCalculator calculator = new ScoreCalculator(board, lang);
+
         return BoardFinder.getAll(board, holder, lang)
                 .stream().parallel()
+                .peek(word -> word.score = calculator.getScore(word))
                 .sorted((w1, w2) -> Integer.compare(w2.length(), w1.length()))
                 .limit(number).toList();
     }

@@ -34,12 +34,26 @@ public class AspectLogging {
         log.warn("Processing {} in {} [ms], received {}, returned {}",
                 jp.getSignature().getName(),
                 stopWatch.getTotalTimeMillis(),
-                jp.getArgs().length > 0 ? toString(jp.getArgs()[0]) : "-",
+                jp.getArgs().length > 0 ? toString(jp.getArgs()) : "-",
                 toString(result)
         );
         return result;
     }
 
+    private String toString(Object[] results) {
+        StringBuilder builder = new StringBuilder();
+        for(Object result : results){
+            if (result == null) builder.append("null");
+            else if (result instanceof String str) {
+                int len = str.length();
+                if (len > 100 && str.charAt(0) == '/') builder.append(String.format("%20.20s...", str));
+                else builder.append(str);
+            }
+            else builder.append(result);
+            builder.append(", ");
+        }
+        return builder.toString();
+    }
 
     private String toString(Object result) {
         if (result == null) return "null";

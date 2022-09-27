@@ -3,11 +3,12 @@ import {useEffect, useState} from "react";
 import CameraPage from "./components/CameraPage";
 import EditBoardPage from "./components/EditBoardPage";
 import SummaryPage from "./components/SummaryPage";
-import {exampleBestWords, exampleBoard, exampleHolder} from "./javascript/scrabble";
-import {logger} from "./javascript/logger";
-import {requestImageToText, requestInfo, requestSolveScrabble} from "./javascript/api";
+import {exampleBestWords, exampleBoard, exampleHolder, ScrabbleLettersValues} from "./javascript/scrabble";
+import {logger, loggerErr} from "./javascript/logger";
+import {notFoundBoard, requestImageToText, requestInfo, requestSolveScrabble} from "./javascript/api";
 import LoadingPage from "./components/LoadingPage";
 import ErrorPage from "./components/ErrorPage";
+import BackendUrlPage from "./components/BackendUrlPage";
 
 
 const pages = {
@@ -15,60 +16,83 @@ const pages = {
     edit: "edit",
     summary: "summary",
     loading: "loading",
-    error: "error"
+    error: "error",
+    urlError: "url-error",
 }
 
 
 export default function App() {
     BackHandler.addEventListener("hardwareBackPress", backAction);
-    let settings;
 
-    const [langIndex, setLangIndex] = useState(0)
-    const [page, goPage] = useState(pages.camera)
+    const [page, goPage] = useState(pages.loading);
+    const [settings, setSettings] = useState(null);
+    const [langIndex, setLangIndex] = useState(0);
+    const [modeIndex, setModeIndex] = useState(0);
 
-    const [board, setBoard] = useState(exampleBoard)
-    const [holder, setHolder] = useState(exampleHolder)
-    const [words, setWords] = useState(exampleBestWords)
+    const [board, setBoard] = useState(exampleBoard);
+    const [holder, setHolder] = useState(exampleHolder);
+    const [words, setWords] = useState(exampleBestWords);
+
+    let url = "http://192.168.1.11:8080";
 
     useEffect(() => {
-        async function loadSettings() {
-            return await requestInfo();
+        const loadSettings = async () => {
+            return await requestInfo(url);
         }
 
-        logger("Starting fetching settings")
+        logger("Fetching settings...")
         loadSettings()
             .then((result) => {
-                settings = result;
+                setSettings(result);
+                goPage(pages.camera);
+                logger("Finished");
             })
             .catch((e) => {
-                //todo set page to error page
-                logger("Exception: " + e)
+                goPage(pages.urlError)
+                loggerErr(e)
             });
     }, [])
 
 
-    async function switchEditToSummary(board, holder) {
-        logger("Solving in backend");
-        goPage(pages.loading);
-        const bestWords = await requestSolveScrabble(board, holder, "pl", "score", "5");
-        logger("Solving OK");
-
-        setBoard(board);
-        setHolder(holder);
-        setWords(bestWords);
-        goPage(pages.summary)
+    function applyNewUrl(newUrl) {
+        url = newUrl;
+        goPage(pages.camera);
     }
 
-    async function switchCameraToEdit(photoBase64) {
+
+    async function switchEditToSummary(newModeIndex, newBoard, newHolder) {
+        logger("Solving in backend");
+        goPage(pages.loading);
+        try {
+            setModeIndex(newModeIndex);
+            setBoard(newBoard);
+            setHolder(newHolder);
+            setWords(await requestSolveScrabble(url, board, holder,
+                settings.langs[langIndex], settings.modes[modeIndex], "5"));
+
+            goPage(pages.summary);
+        } catch (e) {
+            loggerErr(e);
+            goPage(pages.error);
+        }
+    }
+
+    async function switchCameraToEdit(newLangIndex, photoBase64) {
         logger("Sending to backend");
         goPage(pages.loading);
         try {
-            const board = await requestImageToText(photoBase64)
-            setBoard(board);
+            setLangIndex(newLangIndex);
+            setBoard(await requestImageToText(url, photoBase64, settings.langs[langIndex]));
+
             goPage(pages.edit);
         } catch (e) {
-            logger("Error: " + e);
-            goPage(pages.error);
+            if (e === notFoundBoard) {
+                loggerErr("not found board");
+                goPage(pages.camera);
+            } else {
+                loggerErr(e);
+                goPage(pages.error);
+            }
         }
     }
 
@@ -92,14 +116,17 @@ export default function App() {
     function currentView() {
         switch(page) {
             case pages.camera:
-                return <CameraPage switchToEdit={switchCameraToEdit} langIndex={langIndex}
-                                   setLangIndex={(index) => setLangIndex(index)}/>;
+                return <CameraPage switchToEdit={switchCameraToEdit} langIndex={langIndex} langs={settings.langs}/>;
             case pages.edit:
-                return <EditBoardPage switchToSummary={switchEditToSummary} board={board} holder={holder}/>;
+                return <EditBoardPage switchToSummary={switchEditToSummary} board={board} holder={holder}
+                                      lettersValues={new ScrabbleLettersValues(settings, langIndex)}/>;
             case pages.summary:
-                return <SummaryPage board={board} holder={holder} words={words}/>;
+                return <SummaryPage board={board} holder={holder} words={words}
+                                    lettersValues={new ScrabbleLettersValues(settings, langIndex)}/>;
             case pages.loading:
                 return <LoadingPage/>;
+            case pages.urlError:
+                return <BackendUrlPage applyUrl={applyNewUrl} url={url}/>
             case pages.error:
                 return <ErrorPage cause={"Some error occurs"} onClick={() => goPage(pages.camera)}/>
             default:
@@ -110,19 +137,6 @@ export default function App() {
     return (
         <View style={styles.container}>
             {currentView()}
-
-            {/*<AppLoading*/}
-            {/*    startAsync={async () => {*/}
-            {/*        logger("Async loading")*/}
-            {/*        settings = await requestInfo()*/}
-            {/*        console.log(settings.holderSize)*/}
-            {/*    }}*/}
-            {/*    onFinish={() => {*/}
-            {/*        logger("Finished loading")*/}
-            {/*    }}*/}
-            {/*    onError={(error) => {*/}
-            {/*        console.log("Error while loading: " + error)*/}
-            {/*    }}/>*/}
         </View>);
 }
 

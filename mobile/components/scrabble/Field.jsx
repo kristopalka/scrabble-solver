@@ -1,20 +1,11 @@
 import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {empty, getLetterValue, isLetterOrEmptySymbol, mark} from '../../javascript/scrabble';
+import {empty, mark} from '../../javascript/scrabble';
 import {useEffect, useState} from "react";
-
-function getLetter(input) {
-    if (input === empty) return empty;
-
-    const letter = input[0].toUpperCase();
-    return isLetterOrEmptySymbol(letter) ? letter : empty;
-}
-
-function isMarked(input) {
-    return input[1] === mark;
-}
 
 
 export default function Field(props) {
+    const lettersValues = props.lettersValues;
+
     const [editing, setEditing] = useState(false);
     const [letter, setLetter] = useState(getLetter(props.input));
     const [marked, setMarked] = useState(isMarked(props.input));
@@ -25,10 +16,25 @@ export default function Field(props) {
         setMarked(isMarked(props.input));
     }, [props.input]);
 
+    function getLetter(input) {
+        if (input === empty) return empty;
+
+        const letter = input[0].toUpperCase();
+        if (lettersValues.isLetterOrEmptySymbol(letter)) {
+            return letter;
+        } else {
+            if(props.updateLetter) props.updateLetter(empty);
+            return empty;
+        }
+    }
+
+    function isMarked(input) {
+        return input[1] === mark;
+    }
 
     function textChange(text) {
         const newSymbol = text.length > 0 ? text[text.length - 1].toUpperCase() : empty;
-        if (isLetterOrEmptySymbol(newSymbol)) {
+        if (lettersValues.isLetterOrEmptySymbol(newSymbol)) {
             props.updateLetter(newSymbol);
             setLetter(newSymbol);
         }
@@ -44,7 +50,6 @@ export default function Field(props) {
         setEditing(false);
     }
 
-
     const inputComponent = <TextInput
         defaultValue={letter} ref={input => (textInput = input)} autoFocus={true} onBlur={editingEnd}
         onChangeText={(text) => textChange(text)} style={{display: 'none'}}/>
@@ -53,8 +58,7 @@ export default function Field(props) {
         <TouchableOpacity style={styles.touchable(props.size)} onPress={editingStart}>
             <View style={styles.field(editing, props.size, marked)}>
                 <Text style={styles.letter(props.size)}>{letter}</Text>
-                <Text style={styles.value(editing, props.size)}>{getLetterValue(letter)}</Text>
-
+                <Text style={styles.value(editing, props.size)}>{lettersValues.getLetterValue(letter)}</Text>
                 {editing ? inputComponent : ''}
             </View>
         </TouchableOpacity>
@@ -89,6 +93,6 @@ const styles = StyleSheet.create({
         top: editing || marked ? (size * 18 / 32) : (size * 19 / 32),
         includeFontPadding: false,
         fontWeight: "bold",
-        fontSize: (size * 0.25),
+        fontSize: (size * 0.22),
     }),
 });

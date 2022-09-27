@@ -10,7 +10,6 @@ export default function Board(props) {
         const content = props.content;
         content[x][y] = newLetter;
         props.updateContent(content);
-        console.log(boardToString(props.content))
     }
 
     return (
@@ -24,6 +23,7 @@ export default function Board(props) {
                                 input={field}
                                 editMode={props.editMode}
                                 updateLetter={(newLetter) => updateLetter(x, y, newLetter)}
+                                lettersValues={props.lettersValues}
                             />
                         </View>
                     })

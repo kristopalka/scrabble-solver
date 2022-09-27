@@ -15,7 +15,7 @@ public class InfoDto {
     private Integer boardSize;
     private String emptySymbol;
     private List<String> modes;
-    private List<String> supportedLanguages;
+    private List<String> langs;
     private Bonuses.Bonus[][] boardBonuses;
     private List<LettersValuesDto> lettersValues;
 
@@ -24,11 +24,11 @@ public class InfoDto {
         this.boardSize = Static.boardSize;
         this.emptySymbol = String.valueOf(Alphabet.emptySymbol);
         this.modes = List.of(SolvingService.modes);
-        this.supportedLanguages = Static.supportedLanguages;
+        this.langs = Static.supportedLanguages;
         this.boardBonuses = Bonuses.getBonuses();
 
         this.lettersValues = new ArrayList<>();
-        for(String lang : supportedLanguages) {
+        for(String lang : langs) {
             this.lettersValues.add(new LettersValuesDto(lang));
         }
     }
