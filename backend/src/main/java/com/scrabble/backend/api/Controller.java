@@ -41,7 +41,7 @@ public class Controller {
             @RequestParam(defaultValue = "10") Integer number) {
         try {
             List<Word> words = solvingService.bestWords(request, lang, mode, number);
-            if(words.size() == 0) throw new RuntimeException("Not found words");
+            if (words.size() == 0) return new ResponseEntity<>("Not found words", HttpStatus.BAD_REQUEST);
 
             List<WordDto> wordsDto = words.stream().map(WordDto::new).toList();
             return new ResponseEntity<>(wordsDto, HttpStatus.OK);

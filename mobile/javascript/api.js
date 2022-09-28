@@ -38,7 +38,7 @@ export function requestSolveScrabble(url, board, holder, lang, mode, number) {
             switch(response.status) {
                 case 200:
                     return await response.json()
-                case 500:
+                case 400:
                     throw notFoundWords;
                 default:
                     throw somethingWentWrong;

@@ -1,15 +1,14 @@
 package com.scrabble.backend.solving;
 
-import com.scrabble.backend.solving.solver.finder.Word;
 import com.scrabble.backend.api.dto.GameStateDto;
+import com.scrabble.backend.solving.solver.finder.Word;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static com.scrabble.backend.solving.scrabble.Static.*;
 import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
-import static com.scrabble.backend.solving.solver.Solver.getWordsByBestScore;
-import static com.scrabble.backend.solving.solver.Solver.getWordsByLength;
+import static com.scrabble.backend.solving.solver.Solver.getWords;
 
 @Service
 public class SolvingService {
@@ -28,15 +27,12 @@ public class SolvingService {
         String holder = preprocessHolder(request.getHolder(), lang);
         char[][] board = preprocessBoard(request.getBoard(), lang);
 
-        return switch (mode) {
-            case "length" -> getWordsByLength(board, holder, lang, number);
-            case "score" -> getWordsByBestScore(board, holder, lang, number);
-            default -> throw new IllegalStateException("Unexpected value: " + mode);
-        };
+        return getWords(board, holder, lang, number, mode);
     }
 
     public void throwIfIncorrectLang(String lang) {
-        if (!supportedLanguages.contains(lang)) throw new IllegalArgumentException("Language \"" + lang + "\" is not supported");
+        if (!supportedLanguages.contains(lang))
+            throw new IllegalArgumentException("Language \"" + lang + "\" is not supported");
     }
 
     public static char[][] preprocessBoard(String[][] board, String lang) {

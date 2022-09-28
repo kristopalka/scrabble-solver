@@ -3,16 +3,17 @@ import Board from "./scrabble/Board";
 import Holder from "./scrabble/Holder";
 import WordList from "./other/WordList";
 import {useState} from "react";
-import {addWordToBoard, cloneBoard} from "../javascript/scrabble";
+import {markWordOnBoard, cloneBoard, markUsedLettersOnHolder} from "../javascript/scrabble";
 import Break from "./other/Break";
 
 
 export default function SummaryPage(props) {
     const [displayedBoard, changeDisplayedBoard] = useState(props.board);
+    const [displayedHolder, changeDisplayedHolder] = useState(props.holder);
 
     function choseWord(word) {
-        let newBoard = addWordToBoard(cloneBoard(props.board), word);
-        changeDisplayedBoard(newBoard);
+        changeDisplayedBoard(markWordOnBoard(props.board, word));
+        changeDisplayedHolder(markUsedLettersOnHolder(props.holder, word))
     }
 
     return (
@@ -20,7 +21,7 @@ export default function SummaryPage(props) {
             <Board content={displayedBoard} editMode={false} lettersValues={props.lettersValues}/>
 
             <View style={styles.panel}>
-                <Holder content={props.holder} editMode={false} lettersValues={props.lettersValues}/>
+                <Holder content={displayedHolder} editMode={false} lettersValues={props.lettersValues}/>
                 <Break/>
                 <WordList words={props.words} style={styles.wordlist} choseWord={choseWord}/>
             </View>

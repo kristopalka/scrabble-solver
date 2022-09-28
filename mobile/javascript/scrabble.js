@@ -32,20 +32,34 @@ export function cloneBoard(board) {
     return newBoard;
 }
 
-export function addWordToBoard(board, word) {
-    //let required = [];
+export function markWordOnBoard(board, word) {
+    let newBoard = cloneBoard(board);
     if (word.direction === "VERTICAL") {
         for (let y = 0; y < word.value.length; y++) {
-            //if(board[word.x][word.y + y] === empty) required.push(word.value[y]);
-            board[word.x][word.y + y] = word.value[y] + mark;
+            newBoard[word.x][word.y + y] = word.value[y] + mark;
         }
     } else {
         for (let x = 0; x < word.value.length; x++) {
-            //if(board[x + word.x][word.y] === empty) required.push(word.value[x]);
-            board[x + word.x][word.y] = word.value[x] + mark;
+            newBoard[x + word.x][word.y] = word.value[x] + mark;
         }
     }
-    return board;
+    return newBoard;
+}
+
+
+export function markUsedLettersOnHolder(holder, word) {
+    let newHolder = holder.slice();
+
+    console.log(word)
+    for(let i=0; i<word.usedLetters.length; i++){
+        const letter = word.usedLetters[i].toUpperCase();
+        const foundIndex = newHolder.findIndex((e) => e === letter)
+        console.log(letter)
+        console.log(foundIndex)
+        newHolder[foundIndex] = newHolder[foundIndex] + mark;
+    }
+    console.log(newHolder)
+    return newHolder;
 }
 
 export function boardToString(board) {

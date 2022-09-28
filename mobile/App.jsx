@@ -53,7 +53,7 @@ export default function App() {
         loadSettings()
             .then((newSettings) => {
                 setSettings(newSettings);
-                goPage(pages.notFoundBoardError);
+                goPage(pages.camera);
                 logger("Finished");
             })
             .catch((e) => {
@@ -99,7 +99,7 @@ export default function App() {
             setBoard(newBoard);
             setHolder(newHolder);
             setModeIndex(newModeIndex);
-            let newWords = await requestSolveScrabble(url, board, holder, settings.langs[langIndex], settings.modes[modeIndex], "5");
+            let newWords = await requestSolveScrabble(url, board, holder, settings.langs[langIndex], settings.modes[modeIndex], "15");
             setWords(newWords);
 
             goPage(pages.summary);

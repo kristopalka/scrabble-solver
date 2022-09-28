@@ -1,6 +1,7 @@
 package com.scrabble.backend.solving.solver.finder;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.awt.*;
@@ -13,6 +14,7 @@ import static com.scrabble.backend.solving.solver.finder.Word.Direction.VERTICAL
 
 @ToString
 @EqualsAndHashCode
+@Getter
 public class Word {
     public enum Direction {
         VERTICAL, HORIZONTAL;
@@ -32,7 +34,7 @@ public class Word {
 
     public String usedLetters;
 
-    public int score;
+    public Integer score;
     public List<Word> additionalWords;
 
     public Word(String value, int xBegin, int yBegin, Direction direction) {
