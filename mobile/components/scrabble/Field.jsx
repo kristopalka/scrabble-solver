@@ -89,8 +89,8 @@ const styles = StyleSheet.create({
     }),
     value: (editing, size, marked) => ({
         position: "absolute",
-        left: editing || marked ? (size * 21 / 32) : (size * 22 / 32),
-        top: editing || marked ? (size * 18 / 32) : (size * 19 / 32),
+        left: editing || marked ? (size * 19 / 32) : (size * 20 / 32),
+        top: editing || marked ? (size * 19 / 32) : (size * 20 / 32),
         includeFontPadding: false,
         fontWeight: "bold",
         fontSize: (size * 0.22),

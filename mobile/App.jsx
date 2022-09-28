@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import CameraPage from "./components/CameraPage";
 import EditBoardPage from "./components/EditBoardPage";
 import SummaryPage from "./components/SummaryPage";
-import {exampleBestWords, exampleBoard, exampleHolder, ScrabbleLettersValues} from "./javascript/scrabble";
+import {emptyBoard, emptyHolder, ScrabbleLettersValues} from "./javascript/scrabble";
 import {logger, loggerErr} from "./javascript/logger";
 import {notFoundBoard, requestImageToText, requestInfo, requestSolveScrabble} from "./javascript/api";
 import LoadingPage from "./components/LoadingPage";
@@ -29,11 +29,11 @@ export default function App() {
     const [langIndex, setLangIndex] = useState(0);
     const [modeIndex, setModeIndex] = useState(0);
 
-    const [board, setBoard] = useState(exampleBoard);
-    const [holder, setHolder] = useState(exampleHolder);
-    const [words, setWords] = useState(exampleBestWords);
+    const [board, setBoard] = useState(emptyBoard);
+    const [holder, setHolder] = useState(emptyHolder);
+    const [words, setWords] = useState([]);
 
-    let url = "http://192.168.1.11:8080";
+    let url = "http://192.168.0.139:8080";
 
     useEffect(() => {
         const loadSettings = async () => {
@@ -59,12 +59,10 @@ export default function App() {
         goPage(pages.camera);
     }
 
-
-    async function switchEditToSummary(newModeIndex, newBoard, newHolder) {
+    async function switchEditToSummary(newBoard, newHolder) {
         logger("Solving in backend");
         goPage(pages.loading);
         try {
-            setModeIndex(newModeIndex);
             setBoard(newBoard);
             setHolder(newHolder);
             setWords(await requestSolveScrabble(url, board, holder,
@@ -77,11 +75,10 @@ export default function App() {
         }
     }
 
-    async function switchCameraToEdit(newLangIndex, photoBase64) {
+    async function switchCameraToEdit(photoBase64) {
         logger("Sending to backend");
         goPage(pages.loading);
         try {
-            setLangIndex(newLangIndex);
             setBoard(await requestImageToText(url, photoBase64, settings.langs[langIndex]));
 
             goPage(pages.edit);
@@ -116,10 +113,12 @@ export default function App() {
     function currentView() {
         switch(page) {
             case pages.camera:
-                return <CameraPage switchToEdit={switchCameraToEdit} langIndex={langIndex} langs={settings.langs}/>;
+                return <CameraPage switchToEdit={switchCameraToEdit} langs={settings.langs}
+                                   langIndex={langIndex} setLangIndex={setLangIndex}/>;
             case pages.edit:
                 return <EditBoardPage switchToSummary={switchEditToSummary} board={board} holder={holder}
-                                      lettersValues={new ScrabbleLettersValues(settings, langIndex)}/>;
+                                      lettersValues={new ScrabbleLettersValues(settings, langIndex)}
+                                      modes={settings.modes} modeIndex={modeIndex} setModeIndex={setModeIndex}/>;
             case pages.summary:
                 return <SummaryPage board={board} holder={holder} words={words}
                                     lettersValues={new ScrabbleLettersValues(settings, langIndex)}/>;

@@ -1,6 +1,5 @@
 import {StyleSheet, View} from 'react-native';
 import Field from "./Field";
-import {boardToString} from "../../javascript/scrabble";
 
 
 export default function Board(props) {
@@ -36,8 +35,8 @@ export default function Board(props) {
 const styles = StyleSheet.create({
     grid: (fieldSize) => ({
         backgroundColor: "white",
-        width: (fieldSize + 2) * 15 ,
-        height: (fieldSize + 2) * 15 ,
+        width: (fieldSize + 2) * 15,
+        height: (fieldSize + 2) * 15,
         borderWidth: 1,
         borderColor: "black",
         borderRadius: 8,
