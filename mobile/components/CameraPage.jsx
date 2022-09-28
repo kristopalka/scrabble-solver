@@ -10,6 +10,7 @@ export default function CameraPage(props) {
     const {width, height} = useWindowDimensions();
     const [camera, setCamera] = useState(null);
     const [permission, requestPermission] = Camera.useCameraPermissions();
+    const [langIndex, setLangIndex] = useState(props.langIndex);
 
     if (!permission) return <View/>;
     if (!permission.granted) requestPermission();
@@ -17,7 +18,7 @@ export default function CameraPage(props) {
     async function takePicture() {
         logger("Taking picture")
         const data = await camera.takePictureAsync({base64: true, quality: 0.7});
-        props.switchToEdit(data.base64);
+        props.switchToEdit(data.base64, langIndex);
     }
 
 
@@ -25,11 +26,12 @@ export default function CameraPage(props) {
         <View style={styles.container}>
             <SegmentedControl
                 tabs={props.langs}
-                currentIndex={props.langIndex}
-                onChange={props.setLangIndex}
+                currentIndex={langIndex}
+                onChange={setLangIndex}
                 width={150}
                 paddingVertical={10}
             />
+
             <Camera style={styles.camera(width)}
                     ratio="4:3"
                     type={CameraType.back}
@@ -38,6 +40,7 @@ export default function CameraPage(props) {
                     <Lens size={3 * width / 4}/>
                 </View>
             </Camera>
+
             <TouchableOpacity style={styles.captureButton} onPress={takePicture}></TouchableOpacity>
         </View>
     );
