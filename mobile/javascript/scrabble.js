@@ -49,16 +49,11 @@ export function markWordOnBoard(board, word) {
 
 export function markUsedLettersOnHolder(holder, word) {
     let newHolder = holder.slice();
-
-    console.log(word)
     for(let i=0; i<word.usedLetters.length; i++){
         const letter = word.usedLetters[i].toUpperCase();
         const foundIndex = newHolder.findIndex((e) => e === letter)
-        console.log(letter)
-        console.log(foundIndex)
         newHolder[foundIndex] = newHolder[foundIndex] + mark;
     }
-    console.log(newHolder)
     return newHolder;
 }
 
