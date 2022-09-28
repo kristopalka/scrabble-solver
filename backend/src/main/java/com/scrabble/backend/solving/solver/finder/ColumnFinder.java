@@ -1,8 +1,8 @@
 package com.scrabble.backend.solving.solver.finder;
 
 import com.scrabble.backend.solving.scrabble.Static;
-import com.scrabble.backend.solving.scrabble.resources.Dictionary;
 import com.scrabble.backend.solving.scrabble.resources.Alphabet;
+import com.scrabble.backend.solving.scrabble.resources.Dictionary;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -84,6 +84,7 @@ public class ColumnFinder {
                 .toList();
     }
 
+
     public List<Word> getPossibleWordsForBlock(Block block, int columnNumber) {
         List<Word> words = new ArrayList<>();
         for (String potentialWord : DictionaryFinder.getPotentialWords(block.content, holder, dictionary)) {
@@ -92,6 +93,7 @@ public class ColumnFinder {
         }
         return words;
     }
+
 
     @ToString
     @EqualsAndHashCode

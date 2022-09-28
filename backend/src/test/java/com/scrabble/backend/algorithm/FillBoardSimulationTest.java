@@ -3,7 +3,6 @@ package com.scrabble.backend.algorithm;
 import com.scrabble.backend.solving.scrabble.BoardBuilder;
 import com.scrabble.backend.solving.solver.Solver;
 import com.scrabble.backend.solving.solver.finder.Word;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.util.StopWatch;
 
@@ -14,14 +13,9 @@ import static com.scrabble.backend.solving.scrabble.Static.getAlphabet;
 import static com.scrabble.backend.solving.scrabble.Static.holderSize;
 
 public class FillBoardSimulationTest {
-    private BoardBuilder boardBuilder;
+    private final BoardBuilder boardBuilder = new BoardBuilder();
     private long totalTime = 0;
 
-    @BeforeEach
-    void prepare() {
-        boardBuilder = new BoardBuilder();
-        boardBuilder.addWord(new Word("a", 7, 7, Word.Direction.VERTICAL));
-    }
 
     @Test
     void fillBoardWithNWords() {

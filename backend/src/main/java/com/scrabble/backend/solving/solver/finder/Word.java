@@ -30,6 +30,8 @@ public class Word {
     public Point entryBegin;
     public int entryLength;
 
+    public String usedLetters;
+
     public int score;
     public List<Word> additionalWords;
 

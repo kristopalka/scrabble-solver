@@ -1,3 +1,5 @@
+import {logger} from "./logger";
+
 export const notFoundBoard = "not found board";
 export const notFoundWords = "not found words";
 export const somethingWentWrong = "something went wrong";
@@ -9,7 +11,7 @@ export function requestImageToText(url, image, lang) {
 
     return fetch(url, {method: 'POST', body: image})
         .then(async (response) => {
-            console.log(response.status)
+            logger("Response status: " + response.status)
             switch(response.status) {
                 case 200:
                     const data = await response.json()
@@ -32,6 +34,7 @@ export function requestSolveScrabble(url, board, holder, lang, mode, number) {
         headers: {'Content-Type': 'application/json'},
     })
         .then(async (response) => {
+            logger("Response status: " + response.status)
             switch(response.status) {
                 case 200:
                     return await response.json()
@@ -46,6 +49,7 @@ export function requestSolveScrabble(url, board, holder, lang, mode, number) {
 export function requestInfo(url) {
     return fetch(url + "/info")
         .then(async (response) => {
+            logger("Response status: " + response.status)
             switch(response.status) {
                 case 200:
                     return await response.json()

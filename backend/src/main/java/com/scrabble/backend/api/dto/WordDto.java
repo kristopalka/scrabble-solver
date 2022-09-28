@@ -12,6 +12,7 @@ public class WordDto {
     private Integer x;
     private Integer y;
     private Integer score;
+    private String usedLetters;
 
     public WordDto(Word word) {
         this.value = word.value;
@@ -19,5 +20,6 @@ public class WordDto {
         this.x = word.begin.x;
         this.y = word.begin.y;
         this.score = word.score;
+        this.usedLetters = word.usedLetters;
     }
 }

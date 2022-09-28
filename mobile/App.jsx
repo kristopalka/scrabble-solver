@@ -69,10 +69,11 @@ export default function App() {
         goPage(pages.camera);
     }
 
-    async function switchCameraToEdit(photoBase64) {
+    async function switchCameraToEdit(photoBase64, newLangIndex) {
         logger("Processing photo in backend");
         goPage(pages.loading);
         try {
+            setLangIndex(newLangIndex);
             setBoard(await requestImageToText(url, photoBase64, settings.langs[langIndex]));
 
             goPage(pages.edit);
@@ -91,12 +92,13 @@ export default function App() {
         }
     }
 
-    async function switchEditToSummary(newBoard, newHolder) {
+    async function switchEditToSummary(newBoard, newHolder, newModeIndex) {
         logger("Solving in backend");
         goPage(pages.loading);
         try {
             setBoard(newBoard);
             setHolder(newHolder);
+            setModeIndex(newModeIndex);
             let newWords = await requestSolveScrabble(url, board, holder, settings.langs[langIndex], settings.modes[modeIndex], "5");
             setWords(newWords);
 
@@ -142,15 +144,13 @@ export default function App() {
             case pages.camera:
                 return <CameraPage switchToEdit={switchCameraToEdit}
                                    langs={settings.langs}
-                                   langIndex={langIndex}
-                                   setLangIndex={setLangIndex}/>;
+                                   langIndex={langIndex}/>;
             case pages.edit:
                 return <EditBoardPage switchToSummary={switchEditToSummary}
                                       board={board} holder={holder}
                                       lettersValues={new ScrabbleLettersValues(settings, langIndex)}
                                       modes={settings.modes}
-                                      modeIndex={modeIndex}
-                                      setModeIndex={setModeIndex}/>;
+                                      modeIndex={modeIndex}/>;
             case pages.summary:
                 return <SummaryPage board={board} holder={holder} words={words}
                                     lettersValues={new ScrabbleLettersValues(settings, langIndex)}/>;

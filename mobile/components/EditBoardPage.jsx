@@ -11,9 +11,10 @@ import Break from "./other/Break";
 export default function EditBoardPage(props) {
     const [board, updateBoard] = useState(props.board);
     const [holder, updateHolder] = useState(props.holder);
+    const [modeIndex, setModeIndex] = useState(props.modeIndex);
 
     async function applyBoard() {
-        props.switchToSummary(board, holder);
+        props.switchToSummary(board, holder, modeIndex);
     }
 
     return (
@@ -34,8 +35,8 @@ export default function EditBoardPage(props) {
 
                 <SegmentedControl
                     tabs={props.modes}
-                    currentIndex={props.modeIndex}
-                    onChange={props.setModeIndex}
+                    currentIndex={modeIndex}
+                    onChange={setModeIndex}
                     width={200}
                     paddingVertical={10}
                     segmentedControlBackgroundColor={"white"}

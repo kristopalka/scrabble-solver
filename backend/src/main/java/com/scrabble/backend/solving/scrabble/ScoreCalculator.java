@@ -7,9 +7,11 @@ import com.scrabble.backend.solving.solver.finder.Word;
 import java.awt.*;
 import java.util.Arrays;
 
+import static com.scrabble.backend.solving.scrabble.Static.holderSize;
 import static com.scrabble.backend.solving.scrabble.resources.Bonuses.getBonusAt;
 
 public class ScoreCalculator {
+    private static final int bonusForUsingAllLetters = 50;
     protected final char[][] board;
     protected final Alphabet alphabet;
 
@@ -20,8 +22,10 @@ public class ScoreCalculator {
 
     public int getScore(Word word) {
         int totalScore = getScoreForWord(word);
+        if (word.usedLetters.length() == holderSize) totalScore += bonusForUsingAllLetters;
 
         for (Word additionalWord : word.additionalWords) totalScore += getScoreForWord(additionalWord);
+
         return totalScore;
     }
 
