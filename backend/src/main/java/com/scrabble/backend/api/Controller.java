@@ -9,6 +9,7 @@ import com.scrabble.backend.solving.SolvingService;
 import com.scrabble.backend.solving.solver.finder.Word;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,8 @@ public class Controller {
     @PostMapping(value = "/image-to-text")
     public @ResponseBody ResponseEntity<String> imageToText(@RequestBody String base64Image,
                                                             @RequestParam(defaultValue = "en") String lang) throws IOException {
-        // byte[] binaryImage = Base64.decodeBase64(base64Image);
-        // return new ResponseEntity<>(imageProcessingService.imageToText(binaryImage), HttpStatus.OK);
-        String response = "{\"board\": [[\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \"M\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \"Z\", \"A\", \"B\", \"I\", \"A\", \" \", \"O\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \"M\", \" \", \" \", \" \", \"O\", \" \", \" \", \"R\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \"L\", \" \", \" \", \" \", \"T\", \" \", \" \", \"D\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \"S\", \"L\", \"O\", \"N\", \"E\", \"C\", \"Z\", \"K\", \"O\"], [\" \", \" \", \" \", \" \", \" \", \" \", \"L\", \" \", \" \", \" \", \"K\", \" \", \" \", \"A\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \"U\", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"]]}";
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        byte[] binaryImage = Base64.decodeBase64(base64Image);
+        return new ResponseEntity<>(imageProcessingService.imageToText(binaryImage), HttpStatus.OK);
     }
 
     @PostMapping("/solve-scrabble")
