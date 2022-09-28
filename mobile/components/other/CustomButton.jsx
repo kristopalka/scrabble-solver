@@ -1,5 +1,6 @@
 import React from "react";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
+import {borderRadius, borderWidth} from "../../javascript/css";
 
 export default function CustomButton(props) {
 
@@ -15,18 +16,18 @@ export default function CustomButton(props) {
 
 const styles = StyleSheet.create({
     button: {
-        borderRadius: 10,
-        borderWidth: 1.5,
+        borderRadius: borderRadius,
+        borderWidth: borderWidth,
         borderColor: "black",
         backgroundColor: "white",
         alignItems: "center",
         justifyContent: "center",
     },
     text: {
-        padding: 10,
+        padding: 7,
         textAlign: "center",
         color: "black",
         fontWeight: "bold",
-        fontSize: 16,
+        fontSize: 19,
     },
 });

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {borderRadius, borderWidth} from "../../javascript/css";
 
 export default function WordList(props) {
     const [selectedIndex, changeSelectedIndex] = useState(null);
@@ -29,9 +30,9 @@ export default function WordList(props) {
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        borderWidth: 1.37,
+        borderWidth: borderWidth,
         borderColor: "black",
-        borderRadius: 15,
+        borderRadius: borderRadius,
         backgroundColor: "white",
         alignItems: "center",
         justifyContent: "center",
@@ -44,9 +45,9 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         backgroundColor: selected ? "lightgray" : "transparent",
-        marginRight: 10,
+        marginHorizontal: 10,
         marginLeft: 10,
-        borderRadius: 14,
+        borderRadius: borderRadius,
         alignItems: "center",
     }),
     itemValue: (selected) => ({

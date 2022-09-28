@@ -4,6 +4,7 @@ import Holder from "./scrabble/Holder";
 import WordList from "./other/WordList";
 import {useState} from "react";
 import {addWordToBoard, cloneBoard} from "../javascript/scrabble";
+import Break from "./other/Break";
 
 
 export default function SummaryPage(props) {
@@ -20,6 +21,7 @@ export default function SummaryPage(props) {
 
             <View style={styles.panel}>
                 <Holder content={props.holder} editMode={false} lettersValues={props.lettersValues}/>
+                <Break/>
                 <WordList words={props.words} style={styles.wordlist} choseWord={choseWord}/>
             </View>
         </View>
@@ -39,7 +41,6 @@ const styles = StyleSheet.create({
         borderColor: "black",
     },
     wordlist: {
-        marginTop: 20,
         height: 200,
     }
 

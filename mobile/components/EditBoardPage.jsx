@@ -5,6 +5,7 @@ import {useState} from "react";
 import Holder from "./scrabble/Holder";
 import CustomButton from "./other/CustomButton";
 import SegmentedControl from "./other/SegmentedControll";
+import Break from "./other/Break";
 
 
 export default function EditBoardPage(props) {
@@ -29,6 +30,7 @@ export default function EditBoardPage(props) {
                     updateContent={updateHolder}
                     lettersValues={props.lettersValues}
                 />
+                <Break/>
 
                 <SegmentedControl
                     tabs={props.modes}
@@ -36,10 +38,15 @@ export default function EditBoardPage(props) {
                     onChange={props.setModeIndex}
                     width={200}
                     paddingVertical={10}
+                    segmentedControlBackgroundColor={"white"}
+                    activeSegmentBackgroundColor={"black"}
+                    textColor={"black"}
+                    activeTextColor={"white"}
                 />
+                <Break/>
 
                 <View style={styles.buttons}>
-                    <CustomButton title={"Apply"} style={styles.button} onPress={applyBoard}></CustomButton>
+                    <CustomButton title={"APPLY"} style={styles.button} onPress={applyBoard}></CustomButton>
                 </View>
             </View>
         </View>

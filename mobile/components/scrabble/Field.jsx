@@ -85,14 +85,15 @@ const styles = StyleSheet.create({
         textAlignVertical: "center",
         includeFontPadding: false,
         fontWeight: "bold",
+        left: -1,
         fontSize: size * 0.56,
     }),
     value: (editing, size, marked) => ({
         position: "absolute",
-        left: editing || marked ? (size * 19 / 32) : (size * 20 / 32),
-        top: editing || marked ? (size * 19 / 32) : (size * 20 / 32),
-        includeFontPadding: false,
+        left: editing || marked ? (size * 20 / 32) : (size * 21 / 32),
+        top: editing || marked ? (size * 18 / 32) : (size * 19 / 32),
+
         fontWeight: "bold",
-        fontSize: (size * 0.22),
+        fontSize: (size * 0.24),
     }),
 });
