@@ -32,7 +32,7 @@ export default function BackendUrlPage(props) {
                 placeholder=""
                 keyboardType="default"
             />
-            <CustomButton title={"APPLY"} onPress={applyUrl}/>
+            <CustomButton title={"Apply"} onPress={applyUrl}/>
         </View>
     );
 }

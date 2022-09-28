@@ -1,4 +1,5 @@
 import {StyleSheet, View} from 'react-native';
+import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
 import Field from "./Field";
 
 
@@ -12,23 +13,25 @@ export default function Board(props) {
     }
 
     return (
-        <View style={styles.grid(fieldSize)}>
-            {props.content.map((row, x) => {
-                return <View style={styles.column} key={`c-${x}`}>{
-                    row.map((field, y) => {
-                        return <View style={styles.element} key={`r-${y}`}>
-                            <Field
-                                size={fieldSize}
-                                input={field}
-                                editMode={props.editMode}
-                                updateLetter={(newLetter) => updateLetter(x, y, newLetter)}
-                                lettersValues={props.lettersValues}
-                            />
-                        </View>
-                    })
-                }</View>
-            })}
-        </View>
+        <ReactNativeZoomableView contentWidth={550} contentHeight={550} maxZoom={4} minZoom={0.7} initialZoom={1}>
+            <View style={styles.grid(fieldSize)}>
+                {props.content.map((row, x) => {
+                    return <View style={styles.column} key={`c-${x}`}>{
+                        row.map((field, y) => {
+                            return <View style={styles.element} key={`r-${y}`}>
+                                <Field
+                                    size={fieldSize}
+                                    input={field}
+                                    editMode={props.editMode}
+                                    updateLetter={(newLetter) => updateLetter(x, y, newLetter)}
+                                    lettersValues={props.lettersValues}
+                                />
+                            </View>
+                        })
+                    }</View>
+                })}
+            </View>
+        </ReactNativeZoomableView>
     );
 }
 

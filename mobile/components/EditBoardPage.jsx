@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
+
 import Board from "./scrabble/Board";
 import {useState} from "react";
 import Holder from "./scrabble/Holder";
@@ -17,23 +17,24 @@ export default function EditBoardPage(props) {
 
     return (
         <View style={styles.container}>
-            <ReactNativeZoomableView contentWidth={550} contentHeight={550} maxZoom={4} minZoom={0.7} initialZoom={1}>
-                <Board content={board} editMode={true} updateContent={updateBoard} lettersValues={props.lettersValues}/>
-            </ReactNativeZoomableView>
+
+            <Board content={board} editMode={true} updateContent={updateBoard} lettersValues={props.lettersValues}/>
+
 
 
             <View style={styles.edit}>
-                <Holder content={holder}
-                        editMode={true}
-                        updateContent={updateHolder}
-                        lettersValues={props.lettersValues}
+                <Holder
+                    content={holder}
+                    editMode={true}
+                    updateContent={updateHolder}
+                    lettersValues={props.lettersValues}
                 />
 
                 <SegmentedControl
                     tabs={props.modes}
                     currentIndex={props.modeIndex}
                     onChange={props.setModeIndex}
-                    width={150}
+                    width={200}
                     paddingVertical={10}
                 />
 
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
     },
     button: {
-        margin: 10,
         flex: 1,
     }
 });

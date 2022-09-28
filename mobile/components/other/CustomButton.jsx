@@ -15,8 +15,9 @@ export default function CustomButton(props) {
 
 const styles = StyleSheet.create({
     button: {
-        borderWidth: 1,
-        borderColor: "gray",
+        borderRadius: 10,
+        borderWidth: 1.5,
+        borderColor: "black",
         backgroundColor: "white",
         alignItems: "center",
         justifyContent: "center",

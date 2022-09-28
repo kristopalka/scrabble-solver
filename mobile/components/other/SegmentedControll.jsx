@@ -4,7 +4,7 @@ import {Animated, Dimensions, StyleSheet, Text, TouchableOpacity} from 'react-na
 
 
 const SegmentedControl = (props) => {
-    const margin = 3;
+    const margin = 5;
     const [tabTranslate, setTabTranslate] = React.useState(new Animated.Value(0));
 
     // useCallBack with an empty array as input, which will call inner lambda only once and memoize the reference for future calls

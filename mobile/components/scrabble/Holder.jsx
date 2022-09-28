@@ -30,13 +30,15 @@ export default function Holder(props) {
 const styles = StyleSheet.create({
     grid: (fieldSize) => ({
         backgroundColor: "white",
-        width: (fieldSize + (2 * (fieldSize / 32))) * 7,
+        width: (fieldSize + 2 + (2 * (fieldSize / 32))) * 7,
+
 
         flexDirection: "row",
         borderWidth: (fieldSize / 32),
         borderColor: "black",
         borderRadius: 8 * (fieldSize / 32),
-        padding: 4,
+        paddingVertical: 4,
+        paddingHorizontal: 2,
         alignSelf: "center",
     }),
     element: {

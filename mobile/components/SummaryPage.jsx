@@ -1,5 +1,4 @@
 import {StyleSheet, View} from 'react-native';
-import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView';
 import Board from "./scrabble/Board";
 import Holder from "./scrabble/Holder";
 import WordList from "./other/WordList";
@@ -17,9 +16,7 @@ export default function SummaryPage(props) {
 
     return (
         <View style={styles.container}>
-            <ReactNativeZoomableView contentWidth={600} contentHeight={600} maxZoom={4} minZoom={0.7} initialZoom={1}>
-                <Board content={displayedBoard} editMode={false} lettersValues={props.lettersValues}/>
-            </ReactNativeZoomableView>
+            <Board content={displayedBoard} editMode={false} lettersValues={props.lettersValues}/>
 
             <View style={styles.panel}>
                 <Holder content={props.holder} editMode={false} lettersValues={props.lettersValues}/>
