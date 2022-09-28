@@ -1,6 +1,7 @@
-export const connectionError = "connection error";
 export const notFoundBoard = "not found board";
-export const somethingWentWrong = "somethingWentWrong";
+export const notFoundWords = "not found words";
+export const somethingWentWrong = "something went wrong";
+export const networkFailed = "TypeError: Network request failed";
 
 
 export function requestImageToText(url, image, lang) {
@@ -8,6 +9,7 @@ export function requestImageToText(url, image, lang) {
 
     return fetch(url, {method: 'POST', body: image})
         .then(async (response) => {
+            console.log(response.status)
             switch(response.status) {
                 case 200:
                     const data = await response.json()
@@ -33,6 +35,8 @@ export function requestSolveScrabble(url, board, holder, lang, mode, number) {
             switch(response.status) {
                 case 200:
                     return await response.json()
+                case 500:
+                    throw notFoundWords;
                 default:
                     throw somethingWentWrong;
             }

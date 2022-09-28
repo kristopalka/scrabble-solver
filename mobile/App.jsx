@@ -5,10 +5,17 @@ import EditBoardPage from "./components/EditBoardPage";
 import SummaryPage from "./components/SummaryPage";
 import {emptyBoard, emptyHolder, ScrabbleLettersValues} from "./javascript/scrabble";
 import {logger, loggerErr} from "./javascript/logger";
-import {notFoundBoard, requestImageToText, requestInfo, requestSolveScrabble} from "./javascript/api";
+import {
+    networkFailed,
+    notFoundBoard,
+    notFoundWords,
+    requestImageToText,
+    requestInfo,
+    requestSolveScrabble
+} from "./javascript/api";
 import LoadingPage from "./components/LoadingPage";
 import ErrorPage from "./components/ErrorPage";
-import BackendUrlPage from "./components/BackendUrlPage";
+import UrlErrorPage from "./components/UrlErrorPage";
 
 
 const pages = {
@@ -18,6 +25,8 @@ const pages = {
     loading: "loading",
     error: "error",
     urlError: "url-error",
+    notFoundBoardError: "not-found-board",
+    notFoundWordsError: "not-found-words",
 }
 
 
@@ -33,7 +42,7 @@ export default function App() {
     const [holder, setHolder] = useState(emptyHolder);
     const [words, setWords] = useState([]);
 
-    let url = "http://192.168.0.139:8080";
+    const [url, setUrl] = useState("http://192.168.0.139:8080");
 
     useEffect(() => {
         const loadSettings = async () => {
@@ -42,9 +51,9 @@ export default function App() {
 
         logger("Fetching settings...")
         loadSettings()
-            .then((result) => {
-                setSettings(result);
-                goPage(pages.camera);
+            .then((newSettings) => {
+                setSettings(newSettings);
+                goPage(pages.notFoundBoardError);
                 logger("Finished");
             })
             .catch((e) => {
@@ -54,9 +63,32 @@ export default function App() {
     }, [])
 
 
-    function applyNewUrl(newUrl) {
-        url = newUrl;
+    function applyNewUrl(newUrl, newSettings) {
+        setUrl(newUrl);
+        setSettings(newSettings);
         goPage(pages.camera);
+    }
+
+    async function switchCameraToEdit(photoBase64) {
+        logger("Processing photo in backend");
+        goPage(pages.loading);
+        try {
+            setBoard(await requestImageToText(url, photoBase64, settings.langs[langIndex]));
+
+            goPage(pages.edit);
+        } catch (e) {
+            loggerErr(e);
+            switch(e) {
+                case notFoundBoard:
+                    goPage(pages.notFoundBoardError);
+                    break;
+                case networkFailed:
+                    goPage(pages.urlError);
+                    break;
+                default:
+                    goPage(pages.error);
+            }
+        }
     }
 
     async function switchEditToSummary(newBoard, newHolder) {
@@ -65,33 +97,25 @@ export default function App() {
         try {
             setBoard(newBoard);
             setHolder(newHolder);
-            setWords(await requestSolveScrabble(url, board, holder,
-                settings.langs[langIndex], settings.modes[modeIndex], "5"));
+            let newWords = await requestSolveScrabble(url, board, holder, settings.langs[langIndex], settings.modes[modeIndex], "5");
+            setWords(newWords);
 
             goPage(pages.summary);
         } catch (e) {
             loggerErr(e);
-            goPage(pages.error);
-        }
-    }
-
-    async function switchCameraToEdit(photoBase64) {
-        logger("Sending to backend");
-        goPage(pages.loading);
-        try {
-            setBoard(await requestImageToText(url, photoBase64, settings.langs[langIndex]));
-
-            goPage(pages.edit);
-        } catch (e) {
-            if (e === notFoundBoard) {
-                loggerErr("not found board");
-                goPage(pages.camera);
-            } else {
-                loggerErr(e);
-                goPage(pages.error);
+            switch(e) {
+                case notFoundWords:
+                    goPage(pages.notFoundWordsError);
+                    break;
+                case networkFailed:
+                    goPage(pages.urlError);
+                    break;
+                default:
+                    goPage(pages.error);
             }
         }
     }
+
 
 
     function backAction() {
@@ -102,6 +126,9 @@ export default function App() {
                 goPage(pages.camera);
                 return true;
             case pages.summary:
+                goPage(pages.edit);
+                return true;
+            case pages.notFoundWordsError:
                 goPage(pages.edit);
                 return true;
             default:
@@ -130,11 +157,21 @@ export default function App() {
             case pages.loading:
                 return <LoadingPage/>;
             case pages.urlError:
-                return <BackendUrlPage applyUrl={applyNewUrl} url={url}/>
+                return <UrlErrorPage applyUrl={applyNewUrl} url={url}/>
+            case pages.notFoundBoardError:
+                return <ErrorPage text={"Not found board on photo"}
+                                  additionalText={"Make sure the board is on a flat surface, right in the lens. Take a picture perpendicular to the surface. "}
+                                  onClick={() => goPage(pages.camera)}/>
+            case pages.notFoundWordsError:
+                return <ErrorPage text={"Not found words to arrange"}
+                                  additionalText={"Make sure your board and holder is filled in correctly. If so, just replace the letter in your holder."}
+                                  onClick={() => goPage(pages.edit)}/>
             case pages.error:
-                return <ErrorPage cause={"Some error occurs"} onClick={() => goPage(pages.camera)}/>
+                return <ErrorPage text={"Some error occurs"}
+                                  onClick={() => goPage(pages.camera)}/>
             default:
-                return <ErrorPage cause={"Page does not exist"} onClick={() => goPage(pages.camera)}/>;
+                return <ErrorPage text={"Page does not exist"}
+                                  onClick={() => goPage(pages.camera)}/>;
         }
     }
 

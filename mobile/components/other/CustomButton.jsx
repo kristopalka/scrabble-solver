@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         alignItems: "center",
         justifyContent: "center",
+        paddingHorizontal: 13,
     },
     text: {
         padding: 7,

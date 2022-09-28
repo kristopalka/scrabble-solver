@@ -1,17 +1,11 @@
 import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {View} from "react-native";
 import {marginBetween} from "../../javascript/css";
 
-export default function Break() {
+export default function Break(props) {
+    const multiplier = props.multiplier ? props.multiplier : 1;
 
     return (
-        <View style={styles.break}></View>
+        <View style={{marginTop: marginBetween * multiplier}}></View>
     )
 }
-
-
-const styles = StyleSheet.create({
-    break: {
-        marginTop: marginBetween,
-    },
-});
