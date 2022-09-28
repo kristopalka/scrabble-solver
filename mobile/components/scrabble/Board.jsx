@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         width: (fieldSize + 2) * 15,
         height: (fieldSize + 2) * 15,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: "black",
         borderRadius: 8,
         padding: 2,

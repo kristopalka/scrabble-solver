@@ -113,12 +113,17 @@ export default function App() {
     function currentView() {
         switch(page) {
             case pages.camera:
-                return <CameraPage switchToEdit={switchCameraToEdit} langs={settings.langs}
-                                   langIndex={langIndex} setLangIndex={setLangIndex}/>;
+                return <CameraPage switchToEdit={switchCameraToEdit}
+                                   langs={settings.langs}
+                                   langIndex={langIndex}
+                                   setLangIndex={setLangIndex}/>;
             case pages.edit:
-                return <EditBoardPage switchToSummary={switchEditToSummary} board={board} holder={holder}
+                return <EditBoardPage switchToSummary={switchEditToSummary}
+                                      board={board} holder={holder}
                                       lettersValues={new ScrabbleLettersValues(settings, langIndex)}
-                                      modes={settings.modes} modeIndex={modeIndex} setModeIndex={setModeIndex}/>;
+                                      modes={settings.modes}
+                                      modeIndex={modeIndex}
+                                      setModeIndex={setModeIndex}/>;
             case pages.summary:
                 return <SummaryPage board={board} holder={holder} words={words}
                                     lettersValues={new ScrabbleLettersValues(settings, langIndex)}/>;

@@ -31,6 +31,7 @@ export default function SummaryPage(props) {
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: "black",
         height: "100%",
         width: "100%",
     },
