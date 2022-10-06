@@ -12,17 +12,16 @@ export default function EditBoardPage(props) {
     const [board, updateBoard] = useState(props.board);
     const [holder, updateHolder] = useState(props.holder);
     const [modeIndex, setModeIndex] = useState(props.modeIndex);
+    const [modes, setModes] = useState(props.modes);
 
     async function applyBoard() {
         props.switchToSummary(board, holder, modeIndex);
     }
 
+
     return (
         <View style={styles.container}>
-
             <Board content={board} editMode={true} updateContent={updateBoard} lettersValues={props.lettersValues}/>
-
-
 
             <View style={styles.edit}>
                 <Holder
@@ -34,7 +33,7 @@ export default function EditBoardPage(props) {
                 <Break/>
 
                 <SegmentedControl
-                    tabs={props.modes}
+                    tabs={modes}
                     currentIndex={modeIndex}
                     onChange={setModeIndex}
                     width={200}

@@ -42,7 +42,7 @@ export default function App() {
     const [holder, setHolder] = useState(emptyHolder);
     const [words, setWords] = useState([]);
 
-    const [url, setUrl] = useState("http://192.168.0.139:8080");
+    const [url, setUrl] = useState("http://192.168.43.25:8080");
 
     useEffect(() => {
         const loadSettings = async () => {
@@ -174,7 +174,7 @@ export default function App() {
                                   onClick={() => goPage(pages.camera)}/>;
         }
     }
-
+    
     return (
         <View style={styles.container}>
             {currentView()}

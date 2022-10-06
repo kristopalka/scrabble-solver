@@ -4,7 +4,7 @@ import {borderRadius, borderWidth} from "../../javascript/css";
 
 export default function WordList(props) {
     const [selectedIndex, changeSelectedIndex] = useState(null);
-    const words = props.words;
+    const [words, setWords] = useState(props.words);
 
     function selectWord(object) {
         changeSelectedIndex(object.index);

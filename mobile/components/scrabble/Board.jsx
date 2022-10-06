@@ -3,6 +3,7 @@ import ReactNativeZoomableView from '@openspacelabs/react-native-zoomable-view/s
 import Field from "./Field";
 
 
+
 export default function Board(props) {
     const fieldSize = 30;
 
@@ -11,6 +12,7 @@ export default function Board(props) {
         content[x][y] = newLetter;
         props.updateContent(content);
     }
+
 
     return (
         <ReactNativeZoomableView contentWidth={550} contentHeight={550} maxZoom={4} minZoom={0.7} initialZoom={1}>
