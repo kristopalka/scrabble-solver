@@ -3,7 +3,7 @@ import pytesseract as tr
 import cv2 as cv
 from pytesseract import Output
 
-from scrabble_image_processing.lib.utils import print_image, blue, draw_scrabble_grid_on_board, draw_grid_letters_and_confidences_on_board
+from lib.utils import print_image, blue, draw_scrabble_grid_on_board, draw_grid_letters_and_confidences_on_board
 from .letters_mask_creator import get_letters_mask
 
 

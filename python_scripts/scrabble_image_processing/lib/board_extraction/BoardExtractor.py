@@ -2,7 +2,7 @@ import numpy as np
 import cv2 as cv
 from skimage import morphology
 
-from scrabble_image_processing.lib.utils import resize, print_image, draw_points, draw_hough_lines, Board
+from lib.utils import resize, print_image, draw_points, draw_hough_lines, Board
 from .contours import *
 from .grouping_points import *
 from .intersections import *
