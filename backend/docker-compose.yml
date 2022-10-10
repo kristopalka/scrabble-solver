@@ -1,0 +1,10 @@
+# file to build local docker environment for testing purpose
+version: "3.9"
+services:
+  backend:
+    image: "backend"
+    container_name: "backend"
+    build:
+      context: "./backend/"
+    ports:
+      - "8080:8080"
