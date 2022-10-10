@@ -18,6 +18,7 @@ export default function Field(props) {
 
     function getLetter(input) {
         if (input === empty) return empty;
+        if (input === "") return empty;
 
         const letter = input[0].toUpperCase();
         if (lettersValues.isLetterOrEmptySymbol(letter)) {

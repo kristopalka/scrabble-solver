@@ -42,7 +42,7 @@ export default function App() {
     const [holder, setHolder] = useState(emptyHolder);
     const [words, setWords] = useState([]);
 
-    const [url, setUrl] = useState("http://192.168.43.25:8080");
+    const [url, setUrl] = useState("http://192.168.1.11:8080");
 
     useEffect(() => {
         const loadSettings = async () => {
