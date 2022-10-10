@@ -33,7 +33,7 @@ public class FillBoardSimulationTest {
 
             final StopWatch stopWatch = new StopWatch();
             stopWatch.start();
-            List<Word> bestWords = Solver.getWords(boardBuilder.toCharArray(), holder, "pl", 1);
+            List<Word> bestWords = Solver.getWords(boardBuilder.toCharArray(), holder, "pl", 1, "score");
             stopWatch.stop();
 
             if (bestWords.size() == 0) {

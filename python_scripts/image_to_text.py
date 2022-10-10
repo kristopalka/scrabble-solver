@@ -1,11 +1,9 @@
 import json
 import sys
-from importlib.machinery import SourceFileLoader
 
 import cv2 as cv
 
-library_path = "/home/krist/Projects/Scrabble-Solver/python_scripts/scrabble_image_processing/__init__.py"
-sip = SourceFileLoader("scrabble_image_processing", library_path).load_module()
+import scrabble_image_processing as sip
 
 path = sys.argv[1]
 
