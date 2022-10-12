@@ -4,7 +4,6 @@ import {StyleSheet, TouchableOpacity, useWindowDimensions, View} from 'react-nat
 import Lens from "./camera/Lenx";
 import {logger} from "../javascript/logger";
 import SegmentedControl from "./other/SegmentedControll";
-import {langs} from "../javascript/scrabble";
 
 export default function CameraPage(props) {
     const {width, height} = useWindowDimensions();
@@ -17,7 +16,7 @@ export default function CameraPage(props) {
 
     async function takePicture() {
         logger("Taking picture")
-        const data = await camera.takePictureAsync({base64: true, quality: 0.7});
+        const data = await camera.takePictureAsync({base64: true, quality: 0.5});
         props.switchToEdit(data.base64, langIndex);
     }
 

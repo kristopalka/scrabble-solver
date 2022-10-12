@@ -20,7 +20,8 @@ import UrlErrorPage from "./components/UrlErrorPage";
 
 const pages = {
     camera: "camera",
-    edit: "edit",
+    editPoints: "edit-points",
+    editBoard: "edit-boards",
     summary: "summary",
     loading: "loading",
     error: "error",
@@ -76,7 +77,7 @@ export default function App() {
             setLangIndex(newLangIndex);
             setBoard(await requestImageToText(url, photoBase64, settings.langs[langIndex]));
 
-            goPage(pages.edit);
+            goPage(pages.editBoard);
         } catch (e) {
             loggerErr(e);
             switch(e) {
@@ -124,14 +125,14 @@ export default function App() {
         switch(page) {
             case pages.camera:
                 return false;
-            case pages.edit:
+            case pages.editBoard:
                 goPage(pages.camera);
                 return true;
             case pages.summary:
-                goPage(pages.edit);
+                goPage(pages.editBoard);
                 return true;
             case pages.notFoundWordsError:
-                goPage(pages.edit);
+                goPage(pages.editBoard);
                 return true;
             default:
                 goPage(pages.camera);
@@ -145,7 +146,7 @@ export default function App() {
                 return <CameraPage switchToEdit={switchCameraToEdit}
                                    langs={settings.langs}
                                    langIndex={langIndex}/>;
-            case pages.edit:
+            case pages.editBoard:
                 return <EditBoardPage switchToSummary={switchEditToSummary}
                                       board={board} holder={holder}
                                       lettersValues={new ScrabbleLettersValues(settings, langIndex)}
@@ -165,7 +166,7 @@ export default function App() {
             case pages.notFoundWordsError:
                 return <ErrorPage text={"Not found words to arrange"}
                                   additionalText={"Make sure your board and holder is filled in correctly. If so, just replace the letter in your holder."}
-                                  onClick={() => goPage(pages.edit)}/>
+                                  onClick={() => goPage(pages.editBoard)}/>
             case pages.error:
                 return <ErrorPage text={"Some error occurs"}
                                   onClick={() => goPage(pages.camera)}/>

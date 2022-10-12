@@ -1,7 +1,7 @@
 import numpy as np
 import cv2 as cv
 
-from lib.utils.cv_methods import green, blue
+from .cv_methods import green, blue
 
 
 def draw_hough_lines(img, lines, color=blue, thickness=1):

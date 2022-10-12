@@ -1,7 +1,7 @@
 import numpy as np
 import cv2 as cv
 
-from lib.utils import draw_scrabble_grid_on_board, print_image
+from ..utils import draw_scrabble_grid_on_board, print_image
 
 
 def _count_black_pixels(image, threshold=20):

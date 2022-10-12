@@ -7,7 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,8 +37,10 @@ public class PythonRunner {
     }
 
     public static String executeScript(String pythonExec, String absoluteFilePath, String... args) throws IOException {
-        String[] command = new String[]{pythonExec, absoluteFilePath, String.join(" ", args)};
-        System.out.println(Arrays.toString(command));
+        List<String> command = new ArrayList<>();
+        command.add(pythonExec);
+        command.add(absoluteFilePath);
+        command.addAll(List.of(args));
 
         ProcessBuilder processBuilder = new ProcessBuilder(command);
 
@@ -46,7 +50,7 @@ public class PythonRunner {
         String err = readStream(process.getErrorStream());
 
 
-        //log.warn("Python script output:\n" + out);
+        log.warn("Python script output:\n" + out);
         if (err.contains("Traceback")) throw new RuntimeException("Error while processing python script:\n", new Throwable(err));
 
         return getReturnedValue(out);
