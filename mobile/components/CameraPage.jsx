@@ -4,32 +4,28 @@ import {StyleSheet, TouchableOpacity, useWindowDimensions, View} from 'react-nat
 import Lens from "./camera/Lenx";
 import {logger} from "../javascript/logger";
 import SegmentedControl from "./other/SegmentedControll";
+import {Feather, Entypo, AntDesign} from '@expo/vector-icons';
+import Alert from "./other/Alert";
 
 export default function CameraPage(props) {
     const {width, height} = useWindowDimensions();
     const [camera, setCamera] = useState(null);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [langIndex, setLangIndex] = useState(props.langIndex);
+    const [alert, setAlert] = useState(false);
 
     if (!permission) return <View/>;
     if (!permission.granted) requestPermission();
 
     async function takePicture() {
-        logger("Taking picture")
-        const data = await camera.takePictureAsync({base64: true, quality: 0.5});
-        props.switchToEdit(data.base64, langIndex);
+        logger("Taking picture");
+        const data = await camera.takePictureAsync({skipProcessing: true, base64: true, quality: 0.5, width: 750, height: 1000, exif: false});
+        props.goEditCorners(data.base64, langIndex);
     }
 
 
     return (
         <View style={styles.container}>
-            <SegmentedControl
-                tabs={props.langs}
-                currentIndex={langIndex}
-                onChange={setLangIndex}
-                width={150}
-                paddingVertical={10}
-            />
 
             <Camera style={styles.camera(width)}
                     ratio="4:3"
@@ -40,7 +36,35 @@ export default function CameraPage(props) {
                 </View>
             </Camera>
 
-            <TouchableOpacity style={styles.captureButton} onPress={takePicture}></TouchableOpacity>
+            <SegmentedControl
+                tabs={props.langs}
+                currentIndex={langIndex}
+                onChange={setLangIndex}
+                width={150}
+                paddingVertical={10}
+            />
+
+            <View style={styles.navigation}>
+                <TouchableOpacity onPress={() => {setAlert(true)}}>
+                    <Entypo name="help" size={40} color={"white"}/>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={takePicture}>
+                    <AntDesign name="camera" size={80} color={"white"}/>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={props.goEditBoard}>
+                    <Feather name="square" size={40} color={"white"} />
+                </TouchableOpacity>
+
+                <Alert
+                    visible={alert}
+                    setVisible={setAlert}
+                    title={props.helpTitle}
+                    message={props.helpMessage}
+                />
+
+            </View>
         </View>
     );
 }
@@ -74,5 +98,12 @@ const styles = StyleSheet.create({
         borderStyle: "solid",
         borderColor: "gray",
         borderWidth: 6,
+    },
+    navigation: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        marginVertical: 20,
     },
 });

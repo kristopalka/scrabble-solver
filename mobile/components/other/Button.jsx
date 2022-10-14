@@ -1,8 +1,8 @@
 import React from "react";
 import {StyleSheet, Text, TouchableOpacity} from "react-native";
-import {borderRadius, borderWidth} from "../../javascript/css";
+import {borderRadius, borderWidth, mainTextColor, mainTextSize} from "../../javascript/css";
 
-export default function CustomButton(props) {
+export default function Button(props) {
 
     return (
         <TouchableOpacity style={[styles.button, props.style]} onPress={props.onPress}>
@@ -27,8 +27,7 @@ const styles = StyleSheet.create({
     text: {
         padding: 7,
         textAlign: "center",
-        color: "black",
-        fontWeight: "bold",
-        fontSize: 19,
+        color: mainTextColor,
+        fontSize: mainTextSize,
     },
 });

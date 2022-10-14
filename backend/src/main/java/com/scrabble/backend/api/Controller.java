@@ -25,12 +25,6 @@ public class Controller {
     private final ImageProcessingService imageProcessingService;
 
 
-    @PostMapping(value = "/image-to-text")
-    public @ResponseBody ResponseEntity<String> imageToText(@RequestBody String base64Image) throws IOException {
-        byte[] binaryImage = Base64.decodeBase64(base64Image);
-        return new ResponseEntity<>(imageProcessingService.imageToText(binaryImage), HttpStatus.OK);
-    }
-
     @PostMapping(value = "/find-corners")
     public @ResponseBody ResponseEntity<String> findCorners(@RequestBody String base64Image) throws IOException {
         byte[] binaryImage = Base64.decodeBase64(base64Image);
@@ -42,8 +36,7 @@ public class Controller {
     public @ResponseBody ResponseEntity<String> cropAndRecognize(@RequestBody ImagePointsDto imagePoints,
                                                                  @RequestParam(defaultValue = "en") String lang) throws IOException {
         byte[] binaryImage = Base64.decodeBase64(imagePoints.getBase64Image());
-
-        return new ResponseEntity<>(imageProcessingService.cropAndRecognize(binaryImage, imagePoints.getPoints(), lang), HttpStatus.OK);
+        return new ResponseEntity<>(imageProcessingService.cropAndRecognize(binaryImage, imagePoints.getCorners(), lang), HttpStatus.OK);
     }
 
 

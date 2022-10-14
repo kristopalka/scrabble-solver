@@ -25,13 +25,15 @@ def _get_best_result(results):
 
 
 class LettersRecognizer:
-    def __init__(self, board):
+    def __init__(self, board, allow_letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ", lang="en"):
+        self._allow_letters = allow_letters
         self._debug = False
         self._board = board
         self._letters_mask = get_letters_mask(board.copy(), self._debug)
         self._letters = None
         self._confs = None
-        self.reader = easyocr.Reader(['pl'], gpu=False)
+        self.reader = easyocr.Reader([lang], gpu=False)
+
 
     def set_debug(self, debug):
         self._debug = debug
@@ -61,7 +63,7 @@ class LettersRecognizer:
     #     return letter, confidence
 
     def recognize_letter(self, image):
-        results = self.reader.recognize(image, allowlist="AĄBCĆDEĘFGHIJKLŁMNŃOPRSTUWXYZŻŹ")
+        results = self.reader.recognize(image, allowlist=self._allow_letters)
 
         if len(results) == 0: return " ", 100
         bestResult = _get_best_result(results)
@@ -83,13 +85,12 @@ class LettersRecognizer:
         for x in range(0, 15):
             for y in range(0, 15):
                 if self._letters_mask[x, y]:
-                    field = self._board.get_field(x, y, field_margin=0)
+                    field = self._board.get_field(x, y, field_margin=-5)
                     letter, conf = self.recognize_letter(field)
                     self._letters[x, y] = letter
                     self._confs[x, y] = conf
 
         if self._debug:
-            print_image('2. Recognized letters',
-                        draw_grid_letters_and_confidences_on_board(self._board, self._letters, self._confs))
+            print_image('2. Recognized letters', draw_grid_letters_and_confidences_on_board(self._board, self._letters, self._confs))
 
         return self

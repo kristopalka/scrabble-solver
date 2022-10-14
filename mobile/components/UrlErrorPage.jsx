@@ -1,9 +1,9 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
-import CustomButton from "./other/CustomButton";
+import Button from "./other/Button";
 import {useState} from "react";
 import {requestInfo} from "../javascript/api";
 import Break from "./other/Break";
-import {additionalFontSize, borderRadius, borderWidth, mainFontSize} from "../javascript/css";
+import {additionalTextColor, additionalTextSize, borderRadius, borderWidth, mainTextSize} from "../javascript/css";
 import {loggerErr} from "../javascript/logger";
 
 export default function UrlErrorPage(props) {
@@ -25,8 +25,8 @@ export default function UrlErrorPage(props) {
             <Text style={styles.text}>{"Cannot connect to server"}</Text>
             <Break/>
 
-            <Text style={styles.text_bottom}>{"Check internet connection\nand validate url:"}</Text>
-            <Break/>
+            <Text style={styles.textBottom}>{"Check internet connection\nand validate url:"}</Text>
+            <Break multiplier={2}/>
 
 
             <TextInput
@@ -37,9 +37,9 @@ export default function UrlErrorPage(props) {
                 placeholder=""
                 keyboardType="default"
             />
-            <Break multiplier={4}/>
+            <Break multiplier={3}/>
 
-            <CustomButton title={"APPLY"} onPress={applyUrl}/>
+            <Button title={"APPLY"} onPress={applyUrl}/>
         </View>
     );
 }
@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
         flexGrow: 1,
     },
     text: {
-        fontSize: mainFontSize,
+        fontSize: mainTextSize,
         textAlign: "center",
     },
-    text_bottom: {
+    textBottom: {
         textAlign: "center",
-        fontSize: additionalFontSize,
-        color: "black",
+        fontSize: additionalTextSize,
+        color: additionalTextColor,
     },
     view: {
         width: '100%',
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         borderColor: error ? "red" : "black",
         height: 40,
         width: 250,
-        fontSize: additionalFontSize,
+        fontSize: additionalTextSize,
         textDecorationColor: "black",
         textAlign: "center",
     }),

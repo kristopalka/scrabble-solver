@@ -3,31 +3,30 @@ import {useEffect, useState} from "react";
 import CameraPage from "./components/CameraPage";
 import EditBoardPage from "./components/EditBoardPage";
 import SummaryPage from "./components/SummaryPage";
-import {emptyBoard, emptyHolder, ScrabbleLettersValues} from "./javascript/scrabble";
+import {defaultCorners, emptyBoard, emptyHolder, ScrabbleLettersValues} from "./javascript/scrabble";
 import {logger, loggerErr} from "./javascript/logger";
 import {
     networkFailed,
-    notFoundBoard,
-    notFoundWords,
-    requestImageToText,
+    requestCropAndRecognize,
+    requestFindCorners,
     requestInfo,
     requestSolveScrabble
 } from "./javascript/api";
+import exampleImage from "./javascript/exampleImage"
 import LoadingPage from "./components/LoadingPage";
 import ErrorPage from "./components/ErrorPage";
 import UrlErrorPage from "./components/UrlErrorPage";
+import EditCornersPage from "./components/EditCornersPage";
 
 
 const pages = {
     camera: "camera",
-    editPoints: "edit-points",
+    editCorners: "edit-points",
     editBoard: "edit-boards",
     summary: "summary",
     loading: "loading",
     error: "error",
     urlError: "url-error",
-    notFoundBoardError: "not-found-board",
-    notFoundWordsError: "not-found-words",
 }
 
 
@@ -39,11 +38,13 @@ export default function App() {
     const [langIndex, setLangIndex] = useState(0);
     const [modeIndex, setModeIndex] = useState(0);
 
+    const [photo, setPhoto] = useState(exampleImage);
+    const [corners, setCorners] = useState(defaultCorners);
     const [board, setBoard] = useState(emptyBoard);
     const [holder, setHolder] = useState(emptyHolder);
     const [words, setWords] = useState([]);
 
-    const [url, setUrl] = useState("http://192.168.1.11:8080");
+    const [url, setUrl] = useState("http://192.168.43.25:8080");
 
     useEffect(() => {
         const loadSettings = async () => {
@@ -63,38 +64,51 @@ export default function App() {
             });
     }, [])
 
-
     function applyNewUrl(newUrl, newSettings) {
         setUrl(newUrl);
         setSettings(newSettings);
         goPage(pages.camera);
     }
 
-    async function switchCameraToEdit(photoBase64, newLangIndex) {
-        logger("Processing photo in backend");
-        goPage(pages.loading);
-        try {
-            setLangIndex(newLangIndex);
-            setBoard(await requestImageToText(url, photoBase64, settings.langs[langIndex]));
-
-            goPage(pages.editBoard);
-        } catch (e) {
-            loggerErr(e);
-            switch(e) {
-                case notFoundBoard:
-                    goPage(pages.notFoundBoardError);
-                    break;
-                case networkFailed:
-                    goPage(pages.urlError);
-                    break;
-                default:
-                    goPage(pages.error);
-            }
+    function defaultErrorHandling(e) {
+        switch(e) {
+            case networkFailed:
+                goPage(pages.urlError);
+                break;
+            default:
+                goPage(pages.error);
         }
     }
 
-    async function switchEditToSummary(newBoard, newHolder, newModeIndex) {
-        logger("Solving in backend");
+    async function switchCameraToEditCorners(newPhoto, newLangIndex) {
+        goPage(pages.loading)
+        try {
+            setPhoto(newPhoto);
+            setLangIndex(newLangIndex);
+            setCorners(await requestFindCorners(url, newPhoto))
+
+
+            goPage(pages.editCorners)
+        } catch (e) {
+            loggerErr(e);
+            defaultErrorHandling(e);
+        }
+    }
+
+    async function switchEditCornersToEditBoard(newCorners) {
+        goPage(pages.loading);
+        try {
+            setCorners(newCorners);
+            setBoard(await requestCropAndRecognize(url, photo, newCorners, settings.langs[langIndex]));
+
+            goPage(pages.editBoard)
+        } catch (e) {
+            loggerErr(e);
+            defaultErrorHandling(e);
+        }
+    }
+
+    async function switchEditBoardToSummary(newBoard, newHolder, newModeIndex) {
         goPage(pages.loading);
         try {
             setBoard(newBoard);
@@ -106,19 +120,9 @@ export default function App() {
             goPage(pages.summary);
         } catch (e) {
             loggerErr(e);
-            switch(e) {
-                case notFoundWords:
-                    goPage(pages.notFoundWordsError);
-                    break;
-                case networkFailed:
-                    goPage(pages.urlError);
-                    break;
-                default:
-                    goPage(pages.error);
-            }
+            defaultErrorHandling(e);
         }
     }
-
 
 
     function backAction() {
@@ -131,9 +135,6 @@ export default function App() {
             case pages.summary:
                 goPage(pages.editBoard);
                 return true;
-            case pages.notFoundWordsError:
-                goPage(pages.editBoard);
-                return true;
             default:
                 goPage(pages.camera);
                 return true;
@@ -143,43 +144,54 @@ export default function App() {
     function currentView() {
         switch(page) {
             case pages.camera:
-                return <CameraPage switchToEdit={switchCameraToEdit}
-                                   langs={settings.langs}
-                                   langIndex={langIndex}/>;
+                return <CameraPage
+                    langs={settings.langs}
+                    langIndex={langIndex}
+                    goEditCorners={switchCameraToEditCorners}
+                    goEditBoard={() => goPage(pages.editBoard)}
+                />;
+            case pages.editCorners:
+                return <EditCornersPage
+                    photo={photo}
+                    corners={corners}
+                    goEditBoard={switchEditCornersToEditBoard}
+                    goCamera={() => goPage(pages.camera)}
+                />
             case pages.editBoard:
-                return <EditBoardPage switchToSummary={switchEditToSummary}
-                                      board={board} holder={holder}
-                                      lettersValues={new ScrabbleLettersValues(settings, langIndex)}
-                                      modes={settings.modes}
-                                      modeIndex={modeIndex}/>;
+                return <EditBoardPage
+                    board={board} holder={holder}
+                    lettersValues={new ScrabbleLettersValues(settings, langIndex)}
+                    modes={settings.modes} modeIndex={modeIndex}
+                    goSummary={switchEditBoardToSummary}
+                    goCamera={() => goPage(pages.camera)}
+                />;
             case pages.summary:
-                return <SummaryPage board={board} holder={holder} words={words}
-                                    lettersValues={new ScrabbleLettersValues(settings, langIndex)}/>;
+                return <SummaryPage
+                    board={board} holder={holder} words={words}
+                    lettersValues={new ScrabbleLettersValues(settings, langIndex)}
+                    goEditBoards={() => goPage(pages.editBoard)}
+                    goCamera={() => goPage(pages.camera)}
+                />;
             case pages.loading:
                 return <LoadingPage/>;
             case pages.urlError:
-                return <UrlErrorPage applyUrl={applyNewUrl} url={url}/>
-            case pages.notFoundBoardError:
-                return <ErrorPage text={"Not found board on photo"}
-                                  additionalText={"Make sure the board is on a flat surface, right in the lens. Take a picture perpendicular to the surface. "}
-                                  onClick={() => goPage(pages.camera)}/>
-            case pages.notFoundWordsError:
-                return <ErrorPage text={"Not found words to arrange"}
-                                  additionalText={"Make sure your board and holder is filled in correctly. If so, just replace the letter in your holder."}
-                                  onClick={() => goPage(pages.editBoard)}/>
+                return <UrlErrorPage
+                    applyUrl={applyNewUrl} url={url}
+                />
             case pages.error:
-                return <ErrorPage text={"Some error occurs"}
-                                  onClick={() => goPage(pages.camera)}/>
+                return <ErrorPage
+                    text={"Some error occurs"}
+                    additionalText={""}
+                    goCamera={() => goPage(pages.camera)}/>
             default:
-                return <ErrorPage text={"Page does not exist"}
-                                  onClick={() => goPage(pages.camera)}/>;
+                return <ErrorPage
+                    text={"Page does not exist"}
+                    goCamera={() => goPage(pages.camera)}
+                />;
         }
     }
-    
-    return (
-        <View style={styles.container}>
-            {currentView()}
-        </View>);
+
+    return (<View style={styles.container}>{currentView()}</View>);
 }
 
 const styles = StyleSheet.create({

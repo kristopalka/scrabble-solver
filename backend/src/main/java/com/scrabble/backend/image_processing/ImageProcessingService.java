@@ -2,6 +2,7 @@ package com.scrabble.backend.image_processing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scrabble.backend.api.dto.ImagePointsDto;
+import com.scrabble.backend.solving.scrabble.Static;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,26 +22,23 @@ public class ImageProcessingService {
     @Value("${python.scripts}")
     private String scripts;
 
-    public String imageToText(byte[] image) throws IOException {
-        IOTemp temp = new IOTemp(image);
-        String output = executeScript(exec, scripts + "image_to_text.py", temp.getPath());
-        temp.delete();
-        return output;
-    }
 
     public String findCorners(byte[] image) throws IOException {
         IOTemp temp = new IOTemp(image);
         String output = executeScript(exec, scripts + "find_corners.py", temp.getPath());
         temp.delete();
+
+        if (output.contains("NOT_FOUND")) throw new IllegalArgumentException("Not found board on photo");
         return output;
     }
 
 
-    public String cropAndRecognize(byte[] inImage, List<ImagePointsDto.Point> points, String lang) throws IOException {
+    public String cropAndRecognize(byte[] inImage, List<ImagePointsDto.Coordinates> corners, String lang) throws IOException {
         IOTemp temp = new IOTemp(inImage);
 
+        String allowLetters = String.valueOf(Static.getAlphabet(lang).getLetters()).toUpperCase();
         String output = executeScript(exec, scripts + "crop_and_recognize.py",
-                temp.getPath(), mapper.writeValueAsString(points), lang);
+                temp.getPath(), mapper.writeValueAsString(corners), lang, allowLetters);
 
         temp.delete();
         return output;
