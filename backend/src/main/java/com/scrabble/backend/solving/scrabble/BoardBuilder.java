@@ -13,7 +13,7 @@ public class BoardBuilder {
     protected char[/*x*/][/*y*/] fields;
 
     public BoardBuilder(char[][] board) {
-        this.size = Static.boardSize;
+        this.size = ScrabbleResources.boardSize;
         this.fields = new char[size][size];
 
         for (int i = 0; i < size; i++) {
@@ -22,7 +22,7 @@ public class BoardBuilder {
     }
 
     public BoardBuilder() {
-        this.size = Static.boardSize;
+        this.size = ScrabbleResources.boardSize;
         this.fields = new char[size][size];
 
         for (char[] row : fields) {

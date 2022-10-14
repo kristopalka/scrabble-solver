@@ -2,10 +2,9 @@ import json
 import os
 import time
 from math import dist
-
-import pandas as pd
 from statistics import mean
 
+import pandas as pd
 from scrabble_image_processing.lib import *
 from scrabble_image_processing.lib.board_extraction.grouping_points import sort_points_clockwise
 
@@ -87,7 +86,6 @@ for image_name in os.listdir(path):
             data_mean_errors.append(error_mean)
 
             if debug: debugging(image_name, corners, corners_correct, errors, error_mean)
-
 
 array_data_errors = np.array(data_errors)
 df = pd.DataFrame()

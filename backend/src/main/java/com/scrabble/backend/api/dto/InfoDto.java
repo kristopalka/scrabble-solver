@@ -1,7 +1,7 @@
 package com.scrabble.backend.api.dto;
 
 import com.scrabble.backend.solving.SolvingService;
-import com.scrabble.backend.solving.scrabble.Static;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 import com.scrabble.backend.solving.scrabble.resources.Bonuses;
 import lombok.Data;
@@ -20,15 +20,15 @@ public class InfoDto {
     private List<LettersValuesDto> lettersValues;
 
     public InfoDto() {
-        this.holderSize = Static.holderSize;
-        this.boardSize = Static.boardSize;
+        this.holderSize = ScrabbleResources.holderSize;
+        this.boardSize = ScrabbleResources.boardSize;
         this.emptySymbol = String.valueOf(Alphabet.emptySymbol);
         this.modes = List.of(SolvingService.modes);
-        this.langs = Static.supportedLanguages;
+        this.langs = ScrabbleResources.supportedLanguages;
         this.boardBonuses = Bonuses.getBonuses();
 
         this.lettersValues = new ArrayList<>();
-        for(String lang : langs) {
+        for (String lang : langs) {
             this.lettersValues.add(new LettersValuesDto(lang));
         }
     }

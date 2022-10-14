@@ -1,15 +1,15 @@
-import numpy as np
 import cv2 as cv
+import numpy as np
 from easyocr import easyocr
 
-from ..utils import print_image, blue, draw_scrabble_grid_on_board, draw_grid_letters_and_confidences_on_board
 from .letters_mask_creator import get_letters_mask
+from ..utils import print_image, blue, draw_scrabble_grid_on_board, draw_grid_letters_and_confidences_on_board
 
 
 def _preprocess(image):
-    # image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    # image = cv.bilateralFilter(image, 25, 80, 80)
-    # image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 31, 20)
+    image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+    image = cv.bilateralFilter(image, 25, 80, 80)
+    image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 31, 20)
     # image = cv.bitwise_not(image)
     # image = cv.erode(image, morphology.diamond(1))
     # image = cv.bitwise_not(image)
@@ -33,7 +33,6 @@ class LettersRecognizer:
         self._letters = None
         self._confs = None
         self.reader = easyocr.Reader([lang], gpu=False)
-
 
     def set_debug(self, debug):
         self._debug = debug
@@ -91,6 +90,7 @@ class LettersRecognizer:
                     self._confs[x, y] = conf
 
         if self._debug:
-            print_image('2. Recognized letters', draw_grid_letters_and_confidences_on_board(self._board, self._letters, self._confs))
+            print_image('2. Recognized letters',
+                        draw_grid_letters_and_confidences_on_board(self._board, self._letters, self._confs))
 
         return self

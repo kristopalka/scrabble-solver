@@ -1,6 +1,6 @@
 package com.scrabble.backend.solving.scrabble.resources;
 
-import com.scrabble.backend.solving.scrabble.Static;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ public class Bonuses {
     private static final Bonus[][] bonuses;
 
     static {
-        bonuses = new Bonus[Static.boardSize][Static.boardSize];
+        bonuses = new Bonus[ScrabbleResources.boardSize][ScrabbleResources.boardSize];
         initializeBonuses();
     }
 
@@ -119,7 +119,7 @@ public class Bonuses {
     }
 
     public static Bonus getBonusAt(Point point) {
-        if (point.x < 0 || point.x >= Static.boardSize || point.y < 0 || point.y >= Static.boardSize)
+        if (point.x < 0 || point.x >= ScrabbleResources.boardSize || point.y < 0 || point.y >= ScrabbleResources.boardSize)
             throw new IllegalArgumentException(String.format("Given coordinates (%d,%d) goes beyond field", point.x, point.y));
         return bonuses[point.x][point.y];
     }

@@ -2,9 +2,10 @@ package com.scrabble.backend;
 
 import com.scrabble.backend.api.dto.InfoDto;
 import com.scrabble.backend.api.dto.LettersValuesDto;
-import com.scrabble.backend.solving.scrabble.Static;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class InfoConstructionTest {
@@ -12,7 +13,7 @@ public class InfoConstructionTest {
     public void lettersValuesDtoConstructorTest() {
         LettersValuesDto dto = new LettersValuesDto("en");
 
-        Alphabet alphabet = Static.getAlphabet("en");
+        Alphabet alphabet = ScrabbleResources.getAlphabet("en");
 
         for (int i=0; i<alphabet.getLetters().size(); i++) {
             String letter = dto.getLetters().get(i);

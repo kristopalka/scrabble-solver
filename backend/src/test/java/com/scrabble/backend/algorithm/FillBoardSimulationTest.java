@@ -9,8 +9,8 @@ import org.springframework.util.StopWatch;
 import java.util.List;
 import java.util.Random;
 
-import static com.scrabble.backend.solving.scrabble.Static.getAlphabet;
-import static com.scrabble.backend.solving.scrabble.Static.holderSize;
+import static com.scrabble.backend.solving.scrabble.ScrabbleResources.getAlphabet;
+import static com.scrabble.backend.solving.scrabble.ScrabbleResources.holderSize;
 
 public class FillBoardSimulationTest {
     private final BoardBuilder boardBuilder = new BoardBuilder();

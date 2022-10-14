@@ -1,12 +1,14 @@
 package com.scrabble.backend.solving;
 
 import com.scrabble.backend.api.dto.GameStateDto;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.solver.finder.Word;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.scrabble.backend.solving.scrabble.Static.*;
+import static com.scrabble.backend.solving.scrabble.ScrabbleResources.*;
 import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
 import static com.scrabble.backend.solving.solver.Solver.getWords;
 
@@ -14,12 +16,12 @@ import static com.scrabble.backend.solving.solver.Solver.getWords;
 public class SolvingService {
     public static final String[] modes = {"score", "length"};
 
-    public SolvingService() {
-        // init alphabet and dictionaries on startup
-        // getAlphabet("pl");
-        // getAlphabet("en");
-        // getDictionary("pl");
-        // getDictionary("en");
+    public SolvingService(@Value("${config.scrabble_resources}") String scrabbleResourcesPath) {
+        ScrabbleResources.path = scrabbleResourcesPath;
+        getAlphabet("pl");
+        getAlphabet("en");
+        getDictionary("pl");
+        getDictionary("en");
     }
 
     public List<Word> bestWords(GameStateDto request, String lang, String mode, Integer number) {

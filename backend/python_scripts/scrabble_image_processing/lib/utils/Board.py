@@ -25,5 +25,3 @@ class Board:
         y2 = min(y + self.field_size + field_margin, self.board_size + 2 * self.margin)
 
         return self.image[y1:y2, x1:x2]
-
-

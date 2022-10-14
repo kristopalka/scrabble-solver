@@ -1,6 +1,5 @@
-import sys
 import json
-
+import sys
 
 name = sys.argv[1]
 

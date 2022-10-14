@@ -16,11 +16,11 @@ public class Alphabet {
     private final List<Character> letters = new ArrayList<>();
 
 
-    public Alphabet(String lang) {
+    public Alphabet(String path) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        for (String line : FileResourceReader.read(lang + "_letters.txt")) {
+        for (String line : FileResourceReader.read(path)) {
             Character letter = line.charAt(0);
             Integer value = Integer.parseInt(line.substring(2));
 
@@ -29,7 +29,7 @@ public class Alphabet {
         }
 
         stopWatch.stop();
-        log.info("Loaded {} alphabet in {} [ms]", lang, stopWatch.getTotalTimeMillis());
+        log.info("Loaded {} alphabet in {} [ms]", path, stopWatch.getTotalTimeMillis());
     }
 
     public int valueOfLetter(char letter) {

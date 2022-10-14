@@ -40,4 +40,3 @@ def find_good_intersections(lines, shape):
 
             intersections.append(point)
     return intersections
-

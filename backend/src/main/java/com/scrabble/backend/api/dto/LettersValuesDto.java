@@ -1,6 +1,6 @@
 package com.scrabble.backend.api.dto;
 
-import com.scrabble.backend.solving.scrabble.Static;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 import lombok.Data;
 
@@ -13,7 +13,7 @@ public class LettersValuesDto {
     private final List<Integer> values;
 
     public LettersValuesDto(String lang) {
-        Alphabet alphabet = Static.getAlphabet(lang);
+        Alphabet alphabet = ScrabbleResources.getAlphabet(lang);
 
         this.letters = new ArrayList<>();
         this.values = new ArrayList<>();

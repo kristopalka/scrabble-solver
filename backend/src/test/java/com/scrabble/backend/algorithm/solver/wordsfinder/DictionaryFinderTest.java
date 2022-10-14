@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.scrabble.backend.solving.scrabble.Static.getDictionary;
+import static com.scrabble.backend.solving.scrabble.ScrabbleResources.getDictionary;
 
 public class DictionaryFinderTest extends DictionaryFinder {
 
