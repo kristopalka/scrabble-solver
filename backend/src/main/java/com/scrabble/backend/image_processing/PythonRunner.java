@@ -1,27 +1,21 @@
 package com.scrabble.backend.image_processing;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Slf4j
+@Component
 public class PythonRunner {
-    private static final String python = "python";
-    private static final String src = "scripts/";
-
-
-    public static String getPythonScriptPath(String file) throws IOException {
-        Resource pythonFile = new ClassPathResource(src + file);
-        return pythonFile.getURL().getPath();
-    }
 
     public static String readStream(InputStream stream) throws IOException {
         BufferedReader std = new BufferedReader(new InputStreamReader(stream));
@@ -36,15 +30,17 @@ public class PythonRunner {
 
     private static String getReturnedValue(String output) {
         Matcher matcher = Pattern.compile(".*\\{\"output\": (.*)}$").matcher(output);
-        if(matcher.find()) {
+        if (matcher.find()) {
             return matcher.group(1);
         }
         return "";
     }
 
-    public static String executeScript(String file, String... args) throws IOException {
-        String scriptPath = getPythonScriptPath(file);
-        String[] command = new String[]{python, scriptPath, String.join(" ", args)};
+    public static String executeScript(String pythonExec, String absoluteFilePath, String... args) throws IOException {
+        List<String> command = new ArrayList<>();
+        command.add(pythonExec);
+        command.add(absoluteFilePath);
+        command.addAll(List.of(args));
 
         ProcessBuilder processBuilder = new ProcessBuilder(command);
 
@@ -54,7 +50,7 @@ public class PythonRunner {
         String err = readStream(process.getErrorStream());
 
 
-        //log.warn("Python script output:\n" + out);
+        log.warn("Python script output:\n" + out);
         if (err.contains("Traceback")) throw new RuntimeException("Error while processing python script:\n", new Throwable(err));
 
         return getReturnedValue(out);

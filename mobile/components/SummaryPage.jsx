@@ -3,8 +3,9 @@ import Board from "./scrabble/Board";
 import Holder from "./scrabble/Holder";
 import WordList from "./other/WordList";
 import {useState} from "react";
-import {markWordOnBoard, cloneBoard, markUsedLettersOnHolder} from "../javascript/scrabble";
+import {markUsedLettersOnHolder, markWordOnBoard} from "../javascript/scrabble";
 import Break from "./other/Break";
+import Navigation from "./other/Navigation";
 
 
 export default function SummaryPage(props) {
@@ -21,9 +22,18 @@ export default function SummaryPage(props) {
             <Board content={displayedBoard} editMode={false} lettersValues={props.lettersValues}/>
 
             <View style={styles.panel}>
-                <Holder content={displayedHolder} editMode={false} lettersValues={props.lettersValues}/>
-                <Break/>
-                <WordList words={props.words} style={styles.wordlist} choseWord={choseWord}/>
+                <Holder content={displayedHolder} editMode={false} lettersValues={props.lettersValues}/><Break/>
+
+                <WordList words={props.words} style={styles.wordlist} choseWord={choseWord}/><Break/>
+
+                <Navigation
+                    onLeftClick={props.goEditBoards}
+                    rightIco={"camera"}
+                    onRightClick={props.goCamera}
+                    helpTitle={"Summary"}
+                    helpMessage={"Chose word from list. If there is no words, change board and holder configuration."}
+                />
+
             </View>
         </View>
     );

@@ -1,40 +1,46 @@
 package com.scrabble.backend.image_processing;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scrabble.backend.api.dto.ImagePointsDto;
+import com.scrabble.backend.solving.scrabble.Static;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Objects;
+import java.util.List;
 
 import static com.scrabble.backend.image_processing.PythonRunner.executeScript;
 
 @Service
 @Slf4j
 public class ImageProcessingService {
+    ObjectMapper mapper = new ObjectMapper();
+
+    @Value("${python.exec}")
+    private String exec;
+    @Value("${python.scripts}")
+    private String scripts;
+
+
     public String findCorners(byte[] image) throws IOException {
         IOTemp temp = new IOTemp(image);
-        String output = executeScript("find_corners.py", temp.getPath());
+        String output = executeScript(exec, scripts + "find_corners.py", temp.getPath());
         temp.delete();
 
+        if (output.contains("NOT_FOUND")) throw new IllegalArgumentException("Not found board on photo");
         return output;
     }
 
-    public byte[] extractBoard(byte[] inImage) throws IOException {
+
+    public String cropAndRecognize(byte[] inImage, List<ImagePointsDto.Coordinates> corners, String lang) throws IOException {
         IOTemp temp = new IOTemp(inImage);
-        executeScript("extract_board.py", temp.getPath());
-        byte[] outImage = temp.readTemp();
+
+        String allowLetters = String.valueOf(Static.getAlphabet(lang).getLetters()).toUpperCase();
+        String output = executeScript(exec, scripts + "crop_and_recognize.py",
+                temp.getPath(), mapper.writeValueAsString(corners), lang, allowLetters);
+
         temp.delete();
-
-        return outImage;
-    }
-
-    public String imageToText(byte[] image) throws IOException {
-        IOTemp temp = new IOTemp(image);
-        String output = executeScript("image_to_text.py", temp.getPath());
-        temp.delete();
-
-        if(Objects.equals(output, "ERROR")) throw new IllegalArgumentException();
-
         return output;
     }
 }

@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
-import CustomButton from "./other/CustomButton";
+import Button from "./other/Button";
 import Break from "./other/Break";
-import {additionalFontSize, mainFontSize} from "../javascript/css";
+import {additionalTextSize, mainTextSize} from "../javascript/css";
 
 export default function ErrorPage(props) {
     return (
@@ -18,7 +18,7 @@ export default function ErrorPage(props) {
                 <Break/>
             }
 
-            <CustomButton style={styles.button} onPress={props.onClick} title={"OK"}></CustomButton>
+            <Button style={styles.button} onPress={props.goCamera} title={"OK"}></Button>
         </View>
     );
 }
@@ -32,13 +32,13 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
     },
     text: {
-        fontSize: mainFontSize,
+        fontSize: mainTextSize,
         textAlign: "center",
     },
     additionalText: {
         textAlign: "center",
         marginHorizontal: 40,
-        fontSize: additionalFontSize,
+        fontSize: additionalTextSize,
         color: "black",
     },
     button: {

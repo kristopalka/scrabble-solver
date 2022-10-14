@@ -47,8 +47,7 @@ def try_to_perform_algorithm(image_name):
         image = cv.imread(path + image_name)
         start = time.time()
 
-        extractor = BoardExtractor(image).process()
-        corners = extractor.get_corners()
+        corners = BoardExtractor(image).find_corners().get_corners()
 
         data_processing_times.append(time.time() - start)
         return corners

@@ -3,25 +3,28 @@ import {StyleSheet, View} from 'react-native';
 import Board from "./scrabble/Board";
 import {useState} from "react";
 import Holder from "./scrabble/Holder";
-import CustomButton from "./other/CustomButton";
 import SegmentedControl from "./other/SegmentedControll";
 import Break from "./other/Break";
+import Navigation from "./other/Navigation";
 
 
 export default function EditBoardPage(props) {
     const [board, updateBoard] = useState(props.board);
     const [holder, updateHolder] = useState(props.holder);
     const [modeIndex, setModeIndex] = useState(props.modeIndex);
-    const [modes, setModes] = useState(props.modes);
 
     async function applyBoard() {
-        props.switchToSummary(board, holder, modeIndex);
+        props.goSummary(board, holder, modeIndex);
     }
 
 
     return (
         <View style={styles.container}>
-            <Board content={board} editMode={true} updateContent={updateBoard} lettersValues={props.lettersValues}/>
+            <Board
+                content={board} editMode={true}
+                updateContent={updateBoard}
+                lettersValues={props.lettersValues}
+            />
 
             <View style={styles.edit}>
                 <Holder
@@ -33,7 +36,7 @@ export default function EditBoardPage(props) {
                 <Break/>
 
                 <SegmentedControl
-                    tabs={modes}
+                    tabs={props.modes}
                     currentIndex={modeIndex}
                     onChange={setModeIndex}
                     width={200}
@@ -45,9 +48,12 @@ export default function EditBoardPage(props) {
                 />
                 <Break/>
 
-                <View style={styles.buttons}>
-                    <CustomButton title={"APPLY"} style={styles.button} onPress={applyBoard}></CustomButton>
-                </View>
+                <Navigation
+                    onLeftClick={props.goCamera}
+                    onRightClick={applyBoard}
+                    helpTitle={"Edit board"}
+                    helpMessage={"Correct letters on board if necessary and fill holder"}
+                />
             </View>
         </View>
     );

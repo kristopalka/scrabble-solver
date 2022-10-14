@@ -1,11 +1,9 @@
-import numpy as np
-import cv2 as cv
 from skimage import morphology
 
-from lib.utils import resize, print_image, draw_points, draw_hough_lines, Board
 from .contours import *
 from .grouping_points import *
 from .intersections import *
+from ..utils import resize, print_image, draw_points, draw_hough_lines, Board
 
 
 def _change_image_size(img, lower_dim):
@@ -78,7 +76,11 @@ class BoardExtractor:
     def get_corners(self):
         return self._corners
 
-    def process(self):
+    def set_corners(self, corners):
+        self._corners = np.array(corners)
+        return self
+
+    def find_corners(self):
         image_resized, ratio = _change_image_size(self._image, 1000)
 
         mask = _find_board_mask(image_resized, self._debug)

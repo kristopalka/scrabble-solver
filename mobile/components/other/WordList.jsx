@@ -21,8 +21,17 @@ export default function WordList(props) {
 
     return (
         <View style={[styles.container, props.style]}>
-            <FlatList style={styles.list} data={words} renderItem={renderItem} showsVerticalScrollIndicator={false}/>
-        </View>
+            {
+                props.words.length === 0 ?
+                <Text>There is no words possible to make</Text>
+                    :
+                <FlatList
+                    style={styles.list}
+                    data={words} renderItem={renderItem}
+                    showsVerticalScrollIndicator={false}
+                />
+            }
+            </View>
     )
 }
 

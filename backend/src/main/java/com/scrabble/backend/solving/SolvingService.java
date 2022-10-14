@@ -16,10 +16,10 @@ public class SolvingService {
 
     public SolvingService() {
         // init alphabet and dictionaries on startup
-        getAlphabet("pl");
-        getAlphabet("en");
-        getDictionary("pl");
-        getDictionary("en");
+        // getAlphabet("pl");
+        // getAlphabet("en");
+        // getDictionary("pl");
+        // getDictionary("en");
     }
 
     public List<Word> bestWords(GameStateDto request, String lang, String mode, Integer number) {

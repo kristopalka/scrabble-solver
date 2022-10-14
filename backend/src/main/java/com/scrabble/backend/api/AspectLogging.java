@@ -31,7 +31,7 @@ public class AspectLogging {
         stopWatch.stop();
 
 
-        log.warn("Processing {} in {} [ms], received {}, returned {}",
+        log.info("Processing {} in {} [ms], received {}, returned {}",
                 jp.getSignature().getName(),
                 stopWatch.getTotalTimeMillis(),
                 jp.getArgs().length > 0 ? toString(jp.getArgs()) : "-",
@@ -44,12 +44,12 @@ public class AspectLogging {
         StringBuilder builder = new StringBuilder();
         for(Object result : results){
             if (result == null) builder.append("null");
-            else if (result instanceof String str) {
+            else {
+                String str = result.toString();
                 int len = str.length();
-                if (len > 100 && str.charAt(0) == '/') builder.append(String.format("%20.20s...", str));
+                if (len > 500) builder.append(String.format("%20.20s...", str));
                 else builder.append(str);
             }
-            else builder.append(result);
             builder.append(", ");
         }
         return builder.toString();
@@ -57,11 +57,12 @@ public class AspectLogging {
 
     private String toString(Object result) {
         if (result == null) return "null";
-        if (result instanceof String str) {
+        else {
+            String str = result.toString();
             int len = str.length();
-            if (len > 100 && str.charAt(0) == '/') return String.format("%20.20s...", str);
+            if (len > 500) return String.format("%50.50s...", str);
             return str;
-        } else return result.toString();
+        }
     }
 
 }

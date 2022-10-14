@@ -1,8 +1,8 @@
 package com.scrabble.backend.api;
 
 import com.scrabble.backend.api.dto.GameStateDto;
+import com.scrabble.backend.api.dto.ImagePointsDto;
 import com.scrabble.backend.api.dto.InfoDto;
-import com.scrabble.backend.api.dto.LettersValuesDto;
 import com.scrabble.backend.api.dto.WordDto;
 import com.scrabble.backend.image_processing.ImageProcessingService;
 import com.scrabble.backend.solving.SolvingService;
@@ -25,14 +25,20 @@ public class Controller {
     private final ImageProcessingService imageProcessingService;
 
 
-    @PostMapping(value = "/image-to-text")
-    public @ResponseBody ResponseEntity<String> imageToText(@RequestBody String base64Image,
-                                                            @RequestParam(defaultValue = "en") String lang) throws IOException {
+    @PostMapping(value = "/find-corners")
+    public @ResponseBody ResponseEntity<String> findCorners(@RequestBody String base64Image) throws IOException {
         byte[] binaryImage = Base64.decodeBase64(base64Image);
-        return new ResponseEntity<>(imageProcessingService.imageToText(binaryImage), HttpStatus.OK);
-        //String response = "{\"board\": [[\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \"M\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \"Z\", \"A\", \"B\", \"I\", \"A\", \" \", \"O\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \"M\", \" \", \" \", \" \", \"O\", \" \", \" \", \"R\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \"L\", \" \", \" \", \" \", \"T\", \" \", \" \", \"D\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \"S\", \"L\", \"O\", \"N\", \"E\", \"C\", \"Z\", \"K\", \"O\"], [\" \", \" \", \" \", \" \", \" \", \" \", \"L\", \" \", \" \", \" \", \"K\", \" \", \" \", \"A\", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \"U\", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"], [\" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \", \" \"]]}";
-        //return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(imageProcessingService.findCorners(binaryImage), HttpStatus.OK);
     }
+
+
+    @PostMapping(value = "/crop-and-recognize")
+    public @ResponseBody ResponseEntity<String> cropAndRecognize(@RequestBody ImagePointsDto imagePoints,
+                                                                 @RequestParam(defaultValue = "en") String lang) throws IOException {
+        byte[] binaryImage = Base64.decodeBase64(imagePoints.getBase64Image());
+        return new ResponseEntity<>(imageProcessingService.cropAndRecognize(binaryImage, imagePoints.getCorners(), lang), HttpStatus.OK);
+    }
+
 
     @PostMapping("/solve-scrabble")
     public @ResponseBody ResponseEntity<Object> bestWord(
@@ -56,8 +62,4 @@ public class Controller {
         return new ResponseEntity<>(new InfoDto(), HttpStatus.OK);
     }
 
-    @GetMapping("/letters-values")
-    public @ResponseBody ResponseEntity<LettersValuesDto> lettersValues(@RequestParam(defaultValue = "en") String lang) {
-        return new ResponseEntity<>(new LettersValuesDto(lang), HttpStatus.OK);
-    }
 }
