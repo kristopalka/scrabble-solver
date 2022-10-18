@@ -1,9 +1,12 @@
 package com.scrabble.backend.algorithm;
 
 import com.scrabble.backend.solving.scrabble.BoardBuilder;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.solver.Solver;
 import com.scrabble.backend.solving.solver.finder.Word;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 
 import java.util.List;
@@ -12,23 +15,27 @@ import java.util.Random;
 import static com.scrabble.backend.solving.scrabble.ScrabbleResources.getAlphabet;
 import static com.scrabble.backend.solving.scrabble.ScrabbleResources.holderSize;
 
+@SpringBootTest
 public class FillBoardSimulationTest {
     private final BoardBuilder boardBuilder = new BoardBuilder();
     private long totalTime = 0;
 
+    @Value("${config.scrabble_resources}")
+    String scrabbleResourcesPath;
+
 
     @Test
     void fillBoardWithNWords() {
-        int moves = 10;
-        run(moves);
+        ScrabbleResources.path = scrabbleResourcesPath;
+        int movesCounter = runMoves(100);
 
-        System.out.println("Average time: " + (totalTime / moves));
+        System.out.printf("Calculated %d moves in %d [ms] average time", movesCounter, (totalTime / movesCounter));
         System.out.println(boardBuilder);
     }
 
 
-    private void run(int numberOfMoves) {
-        for (int i = 0; i < numberOfMoves; i++) {
+    private int runMoves(int numberOfMoves) {
+        for (int movesCounter = 0; movesCounter < numberOfMoves; movesCounter++) {
             String holder = getRandomHolder();
 
             final StopWatch stopWatch = new StopWatch();
@@ -37,15 +44,16 @@ public class FillBoardSimulationTest {
             stopWatch.stop();
 
             if (bestWords.size() == 0) {
-                System.out.println("Cannot find any word. Holder: " + holder + "\n" + boardBuilder);
-                return;
+                System.out.println("Cannot find any word. Holder: " + holder);
+                return movesCounter;
             }
 
-            System.out.printf("word %s in %s ms\n", bestWords, stopWatch.getTotalTimeMillis());
+            System.out.printf("%s [ms] for %s\n", bestWords, stopWatch.getTotalTimeMillis());
             totalTime += stopWatch.getTotalTimeMillis();
 
             boardBuilder.addWord(bestWords.get(0));
         }
+        return numberOfMoves;
     }
 
     private String getRandomHolder() {

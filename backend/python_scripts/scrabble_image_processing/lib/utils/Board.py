@@ -9,15 +9,15 @@ class Board:
         return Board(self.image.copy(), self.board_size, self.margin)
 
     def get_field_coords(self, row, column):
-        x = int(self.margin + (self.board_size * (row / 15))) + 1
-        y = int(self.margin + (self.board_size * (column / 15))) + 1
+        x = int(self.margin + (self.board_size * (column / 15))) + 1
+        y = int(self.margin + (self.board_size * (row / 15))) + 1
         return x, y, self.field_size
 
     def get_field(self, row, column, field_margin=0):
         assert -field_margin < self.field_size // 2, "Minus field margin can not be grater than half of field"
 
-        x = int(self.margin + (self.board_size * (row / 15))) + 1
-        y = int(self.margin + (self.board_size * (column / 15))) + 1
+        x = int(self.margin + (self.board_size * (column / 15))) + 1
+        y = int(self.margin + (self.board_size * (row / 15))) + 1
 
         x1 = max(x - field_margin, 0)
         y1 = max(y - field_margin, 0)

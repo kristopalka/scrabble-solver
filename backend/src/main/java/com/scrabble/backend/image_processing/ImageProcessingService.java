@@ -28,16 +28,16 @@ public class ImageProcessingService {
         String output = executeScript(exec, scripts + "find_corners.py", temp.getPath());
         temp.delete();
 
-        if (output.contains("NOT_FOUND")) throw new IllegalArgumentException("Not found board on photo");
         return output;
     }
 
     public String cropAndRecognize(byte[] inImage, List<ImagePointsDto.Coordinates> corners, String lang) throws IOException {
         IOTemp temp = new IOTemp(inImage);
 
-        String allowLetters = String.valueOf(ScrabbleResources.getAlphabet(lang).getLetters()).toUpperCase();
-        String output = executeScript(exec, scripts + "crop_and_recognize.py",
-                temp.getPath(), mapper.writeValueAsString(corners), lang, allowLetters);
+        String allowLetters = ScrabbleResources.getAlphabet(lang).getLettersAsString().toUpperCase();
+        String cornersJson = mapper.writeValueAsString(corners);
+
+        String output = executeScript(exec, scripts + "crop_and_recognize.py", temp.getPath(), cornersJson, lang, allowLetters);
 
         temp.delete();
         return output;

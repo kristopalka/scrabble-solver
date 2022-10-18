@@ -28,7 +28,11 @@ public class Controller {
     @PostMapping(value = "/find-corners")
     public @ResponseBody ResponseEntity<String> findCorners(@RequestBody String base64Image) throws IOException {
         byte[] binaryImage = Base64.decodeBase64(base64Image);
-        return new ResponseEntity<>(imageProcessingService.findCorners(binaryImage), HttpStatus.OK);
+        String output = imageProcessingService.findCorners(binaryImage);
+
+        if (output.contains("NOT_FOUND"))
+            return new ResponseEntity<>("Not found board on photo", HttpStatus.INTERNAL_SERVER_ERROR);
+        else return new ResponseEntity<>(output, HttpStatus.OK);
     }
 
 
@@ -40,21 +44,15 @@ public class Controller {
     }
 
 
-    @PostMapping("/solve-scrabble")
+    @PostMapping("/solve")
     public @ResponseBody ResponseEntity<Object> bestWord(
             @RequestBody GameStateDto request,
             @RequestParam(defaultValue = "en") String lang,
             @RequestParam(defaultValue = "score") String mode,
             @RequestParam(defaultValue = "10") Integer number) {
-        try {
-            List<Word> words = solvingService.bestWords(request, lang, mode, number);
-            if (words.size() == 0) return new ResponseEntity<>("Not found words", HttpStatus.BAD_REQUEST);
-
-            List<WordDto> wordsDto = words.stream().map(WordDto::new).toList();
-            return new ResponseEntity<>(wordsDto, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        List<Word> words = solvingService.bestWords(request, lang, mode, number);
+        List<WordDto> wordsDto = words.stream().map(WordDto::new).toList();
+        return new ResponseEntity<>(wordsDto, HttpStatus.OK);
     }
 
     @GetMapping("/info")

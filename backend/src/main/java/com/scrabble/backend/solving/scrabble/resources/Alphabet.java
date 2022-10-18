@@ -52,4 +52,11 @@ public class Alphabet {
     public List<Character> getLetters() {
         return letters;
     }
+
+    public String getLettersAsString() {
+        StringBuilder builder = new StringBuilder();
+        for (Character letter : letters) builder.append(letter);
+
+        return builder.toString();
+    }
 }
