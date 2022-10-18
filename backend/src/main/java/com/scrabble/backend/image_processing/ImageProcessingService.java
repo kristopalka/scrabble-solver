@@ -2,7 +2,7 @@ package com.scrabble.backend.image_processing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scrabble.backend.api.dto.ImagePointsDto;
-import com.scrabble.backend.solving.scrabble.Static;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,11 @@ import static com.scrabble.backend.image_processing.PythonRunner.executeScript;
 @Slf4j
 public class ImageProcessingService {
     ObjectMapper mapper = new ObjectMapper();
-
-    @Value("${python.exec}")
+    @Value("${config.python-exec}")
     private String exec;
-    @Value("${python.scripts}")
+    @Value("${config.python-scripts}")
     private String scripts;
+
 
 
     public String findCorners(byte[] image) throws IOException {
@@ -28,17 +28,16 @@ public class ImageProcessingService {
         String output = executeScript(exec, scripts + "find_corners.py", temp.getPath());
         temp.delete();
 
-        if (output.contains("NOT_FOUND")) throw new IllegalArgumentException("Not found board on photo");
         return output;
     }
-
 
     public String cropAndRecognize(byte[] inImage, List<ImagePointsDto.Coordinates> corners, String lang) throws IOException {
         IOTemp temp = new IOTemp(inImage);
 
-        String allowLetters = String.valueOf(Static.getAlphabet(lang).getLetters()).toUpperCase();
-        String output = executeScript(exec, scripts + "crop_and_recognize.py",
-                temp.getPath(), mapper.writeValueAsString(corners), lang, allowLetters);
+        String allowLetters = ScrabbleResources.getAlphabet(lang).getLettersAsString().toUpperCase();
+        String cornersJson = mapper.writeValueAsString(corners);
+
+        String output = executeScript(exec, scripts + "crop_and_recognize.py", temp.getPath(), cornersJson, lang, allowLetters);
 
         temp.delete();
         return output;

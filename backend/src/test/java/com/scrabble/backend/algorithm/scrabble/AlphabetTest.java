@@ -3,7 +3,7 @@ package com.scrabble.backend.algorithm.scrabble;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static com.scrabble.backend.solving.scrabble.Static.getAlphabet;
+import static com.scrabble.backend.solving.scrabble.ScrabbleResources.getAlphabet;
 
 public class AlphabetTest {
     @Test

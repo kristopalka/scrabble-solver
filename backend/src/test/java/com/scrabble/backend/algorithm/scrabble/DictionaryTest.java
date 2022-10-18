@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static com.scrabble.backend.solving.scrabble.Static.getDictionary;
+import static com.scrabble.backend.solving.scrabble.ScrabbleResources.getDictionary;
 import static com.scrabble.backend.solving.scrabble.resources.Dictionary.sortString;
 
 public class DictionaryTest {

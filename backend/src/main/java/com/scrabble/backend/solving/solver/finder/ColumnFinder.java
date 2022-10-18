@@ -1,6 +1,6 @@
 package com.scrabble.backend.solving.solver.finder;
 
-import com.scrabble.backend.solving.scrabble.Static;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 import com.scrabble.backend.solving.scrabble.resources.Dictionary;
 import lombok.EqualsAndHashCode;
@@ -20,7 +20,7 @@ public class ColumnFinder {
     public ColumnFinder(char[][] board, String holder, String lang) {
         this.board = board;
         this.holder = holder;
-        this.dictionary = Static.getDictionary(lang);
+        this.dictionary = ScrabbleResources.getDictionary(lang);
         this.checker = new SurroundingFittingChecker(board, dictionary);
     }
 
@@ -28,7 +28,7 @@ public class ColumnFinder {
         List<Block> blocks = new ArrayList<>();
         int start = -1;
         int end;
-        for (int i = 0; i < Static.boardSize; i++) {
+        for (int i = 0; i < ScrabbleResources.boardSize; i++) {
             if (isStartOfBlock(column, i)) start = i;
             if (isEndOfBlock(column, i)) {
                 end = i;
@@ -43,7 +43,7 @@ public class ColumnFinder {
     }
 
     public static boolean isEndOfBlock(char[] column, int i) {
-        return column[i] != Alphabet.emptySymbol && (i == Static.boardSize - 1 || column[i + 1] == Alphabet.emptySymbol);
+        return column[i] != Alphabet.emptySymbol && (i == ScrabbleResources.boardSize - 1 || column[i + 1] == Alphabet.emptySymbol);
     }
 
     public static String extractContent(char[] column, int start, int end) {
@@ -57,7 +57,7 @@ public class ColumnFinder {
             Point entryBegin = new Point(columnNumber, block.start);
             Word word = new Word(potentialWord, begin, Word.Direction.VERTICAL, entryBegin, block.length());
 
-            if (word.yBegin() >= 0 && word.yEnd() < Static.boardSize) words.add(word);
+            if (word.yBegin() >= 0 && word.yEnd() < ScrabbleResources.boardSize) words.add(word);
         }
         return words;
     }

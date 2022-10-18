@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 
-import static com.scrabble.backend.solving.scrabble.Static.getDictionary;
+import static com.scrabble.backend.solving.scrabble.ScrabbleResources.getDictionary;
 
 public class SurroundingFittingCheckerTest {
     @Test

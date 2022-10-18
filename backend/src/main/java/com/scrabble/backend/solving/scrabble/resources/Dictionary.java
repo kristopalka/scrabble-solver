@@ -13,18 +13,18 @@ public class Dictionary {
     private final HashMap<Integer, Integer> sizesWordsIndexes = new HashMap<>(); // <word size, index of first word with size>
 
 
-    public Dictionary(String lang) {
+    public Dictionary(String path) {
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
 
-        dictionary = FileResourceReader.read(lang + "_dictionary.txt");
+        dictionary = FileResourceReader.read(path);
         processingRequiredLettersPossibleWordsMap();
         sortedRequiredLetters.sort(Comparator.comparingInt(array -> array.length));
         processingSizesWordsIndexes();
 
 
         stopWatch.stop();
-        log.info("Loaded {} dictionary in {} [ms]", lang, stopWatch.getTotalTimeMillis());
+        log.info("Loaded {} dictionary in {} [ms]", path, stopWatch.getTotalTimeMillis());
     }
 
     private void processingRequiredLettersPossibleWordsMap() {

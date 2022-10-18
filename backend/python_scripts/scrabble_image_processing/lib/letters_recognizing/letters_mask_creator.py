@@ -1,5 +1,5 @@
-import numpy as np
 import cv2 as cv
+import numpy as np
 
 from ..utils import draw_scrabble_grid_on_board, print_image
 

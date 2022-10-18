@@ -9,11 +9,7 @@ export function requestFindCorners(url, image) {
     logger("Finding corners in backend");
     url = url + '/find-corners';
 
-    return fetch(url, {
-        method: 'POST',
-        body: image,
-        //headers: {'Content-Type': 'application/json'},
-    })
+    return fetch(url, {method: 'POST', body: image})
         .then(async (response) => {
             logger("Response status: " + response.status)
 
@@ -53,7 +49,7 @@ export function requestCropAndRecognize(url, image, corners, lang) {
 export function requestSolveScrabble(url, board, holder, lang, mode, number) {
     logger("Solving in backend");
     const data = {"board": board, "holder": holder};
-    url = url + `/solve-scrabble?lang=${lang}&mode=${mode}&number=${number}`;
+    url = url + `/solve?lang=${lang}&mode=${mode}&number=${number}`;
 
     return fetch(url, {
         method: 'POST',
@@ -65,8 +61,6 @@ export function requestSolveScrabble(url, board, holder, lang, mode, number) {
             switch(response.status) {
                 case 200:
                     return await response.json()
-                case 400:
-                    return [];
                 default:
                     throw somethingWentWrong;
             }

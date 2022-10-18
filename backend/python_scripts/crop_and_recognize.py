@@ -13,6 +13,8 @@ allow_letters = sys.argv[4]
 image = sip.load_image(path)
 (height, width) = image.shape[:2]
 
+print(allow_letters)
+
 corners = []
 for argsCorner in argsCorners:
     corners.append([
@@ -20,9 +22,9 @@ for argsCorner in argsCorners:
         int(argsCorner["y"] * height)
     ])
 
-board = sip.BoardExtractor(image).set_debug(False).set_corners(corners).get_board(margin=50)
-letters = sip.LettersRecognizer(board.copy(), allow_letters=allow_letters, lang=lang).set_debug(
-    False).recognize().get_letters()
+board = sip.BoardExtractor(image).set_debug(False).set_corners(corners).get_board(margin=20)
+letters = sip.LettersRecognizer(board.copy(), allow_letters=allow_letters, lang=lang).set_debug(True) \
+    .recognize().get_letters()
 
 print(json.dumps({"output": letters.tolist()}))
 cv.waitKey(0)

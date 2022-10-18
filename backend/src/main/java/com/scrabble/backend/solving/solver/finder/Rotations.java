@@ -1,6 +1,6 @@
 package com.scrabble.backend.solving.solver.finder;
 
-import com.scrabble.backend.solving.scrabble.Static;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import java.util.List;
 public class Rotations {
 
     public static char[][] transpose(char[][] board) {
-        char[][] transposedBoard = new char[Static.boardSize][Static.boardSize];
-        for (int x = 0; x < Static.boardSize; x++) {
-            for (int y = 0; y < Static.boardSize; y++) {
+        char[][] transposedBoard = new char[ScrabbleResources.boardSize][ScrabbleResources.boardSize];
+        for (int x = 0; x < ScrabbleResources.boardSize; x++) {
+            for (int y = 0; y < ScrabbleResources.boardSize; y++) {
                 transposedBoard[x][y] = board[y][x];
             }
         }

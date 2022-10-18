@@ -14,9 +14,9 @@ image_name = None
 click_counter = 0
 image_points = []
 filenames = ["020.jpg", "016.jpg"]
+
+
 # filenames = [file for file in os.listdir(path) if file.endswith(".jpg")]
-
-
 
 
 def click_event(event, x, y, flags, params):

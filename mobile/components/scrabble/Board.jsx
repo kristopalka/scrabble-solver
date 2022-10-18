@@ -18,9 +18,9 @@ export default function Board(props) {
         <ReactNativeZoomableView contentWidth={550} contentHeight={550} maxZoom={4} minZoom={0.7} initialZoom={1}>
             <View style={styles.grid(fieldSize)}>
                 {props.content.map((row, x) => {
-                    return <View style={styles.column} key={`c-${x}`}>{
+                    return <View style={styles.column} key={`r-${x}`}>{
                         row.map((field, y) => {
-                            return <View style={styles.element} key={`r-${y}`}>
+                            return <View style={styles.element} key={`c-${y}`}>
                                 <Field
                                     size={fieldSize}
                                     input={field}

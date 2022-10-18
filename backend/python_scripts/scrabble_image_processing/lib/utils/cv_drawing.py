@@ -1,5 +1,5 @@
-import numpy as np
 import cv2 as cv
+import numpy as np
 
 from .cv_methods import green, blue
 
@@ -57,7 +57,7 @@ def draw_mask_on_board(board, mask):
     return _img
 
 
-def draw_grid_letters_and_confidences_on_board(board, letters, confidences):
+def draw_grid_and_letters_on_board(board, letters, confidences):
     _img = draw_scrabble_grid_on_board(board)
     if len(_img.shape) == 2: _img = cv.cvtColor(_img, cv.COLOR_GRAY2BGR)
 

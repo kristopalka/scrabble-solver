@@ -73,7 +73,7 @@ export function boardToString(board) {
 }
 
 
-export const defaultCorners = [{"x": 1/4, "y": 1/4}, {"x": 1/4, "y": 3/4}, {"x": 3/4, "y": 1/4}, {"x": 3/4, "y": 3/4}];
+export const defaultCorners = [{"x": 1/8, "y": 7/32}, {"x": 1/8, "y": 25/32}, {"x": 7/8, "y": 7/32}, {"x": 7/8, "y": 25/32}];
 
 export const emptyHolder = [' ', ' ', ' ', ' ', ' ', ' ', ' '];
 

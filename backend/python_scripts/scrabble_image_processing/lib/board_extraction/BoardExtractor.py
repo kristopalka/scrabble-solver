@@ -1,9 +1,23 @@
-from skimage import morphology
-
 from .contours import *
 from .grouping_points import *
 from .intersections import *
 from ..utils import resize, print_image, draw_points, draw_hough_lines, Board
+
+diamond2 = [[0, 0, 1, 0, 0],
+            [0, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 0],
+            [0, 0, 1, 0, 0]]
+
+diamond4 = [[0, 0, 0, 0, 1, 0, 0, 0, 0],
+            [0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 1, 1, 1, 1, 1, 0, 0],
+            [0, 1, 1, 1, 1, 1, 1, 1, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [0, 1, 1, 1, 1, 1, 1, 1, 0],
+            [0, 0, 1, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 0, 0, 0, 0]]
 
 
 def _change_image_size(img, lower_dim):
@@ -27,13 +41,13 @@ def _find_board_mask(image, debug):
     edges = cv.Canny(blur, 40, 200)
     if debug: print_image('1. Canny edges', edges)
 
-    dilate = cv.dilate(edges, morphology.diamond(2))
+    dilate = cv.dilate(edges, diamond2)
     if debug: print_image('2. Dilate', dilate)
 
     fill = fill_all_contours(dilate)
     if debug: print_image('3. Fill contours', fill)
 
-    erode = cv.erode(fill, morphology.diamond(4))
+    erode = cv.erode(fill, diamond4)
     if debug: print_image('4. Erode', erode)
 
     largest_contour = largest_contour_image(erode)

@@ -1,6 +1,6 @@
 package com.scrabble.backend.solving.solver.finder;
 
-import com.scrabble.backend.solving.scrabble.Static;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 
 import java.awt.*;
@@ -46,7 +46,7 @@ public class BoardFinder {
     }
 
     private static List<Word> findForClearBoard(String holder, String lang) {
-        return getPotentialWords("", holder, Static.getDictionary(lang))
+        return getPotentialWords("", holder, ScrabbleResources.getDictionary(lang))
                 .stream()
                 .map(potentialWord -> new Word(potentialWord, new Point(7, 7), Word.Direction.HORIZONTAL, new Point(7, 7), 0))
                 .toList();

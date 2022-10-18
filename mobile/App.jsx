@@ -44,7 +44,7 @@ export default function App() {
     const [holder, setHolder] = useState(emptyHolder);
     const [words, setWords] = useState([]);
 
-    const [url, setUrl] = useState("http://192.168.43.25:8080");
+    const [url, setUrl] = useState("http://192.168.1.11:8080");
 
     useEffect(() => {
         const loadSettings = async () => {
@@ -87,7 +87,6 @@ export default function App() {
             setLangIndex(newLangIndex);
             setCorners(await requestFindCorners(url, newPhoto))
 
-
             goPage(pages.editCorners)
         } catch (e) {
             loggerErr(e);
@@ -95,11 +94,14 @@ export default function App() {
         }
     }
 
+
     async function switchEditCornersToEditBoard(newCorners) {
         goPage(pages.loading);
         try {
             setCorners(newCorners);
             setBoard(await requestCropAndRecognize(url, photo, newCorners, settings.langs[langIndex]));
+
+            console.log(board)
 
             goPage(pages.editBoard)
         } catch (e) {
