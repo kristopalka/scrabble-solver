@@ -2,21 +2,16 @@ package com.scrabble.backend.solving.scrabble.resources;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.collections.impl.list.mutable.FastList;
-import org.eclipse.collections.impl.map.mutable.UnifiedMap;
-import org.eclipse.collections.impl.map.mutable.primitive.IntIntHashMap;
 import org.springframework.util.StopWatch;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 public class Dictionary {
     private final List<String> dictionary;
-    private final Map<String, List<String>> requiredLettersPossibleWordsMap = new UnifiedMap<>(); // <required letters, list of possible words>
+    private final Map<String, List<String>> requiredLettersPossibleWordsMap = new HashMap<>(); // <required letters, list of possible words>
     private final List<char[]> sortedRequiredLetters = new FastList<>();
-    private final IntIntHashMap sizesWordsIndexes = new IntIntHashMap(); // <word size, index of first word with size>
+    private final HashMap<Integer, Integer> sizesWordsIndexes = new HashMap<>(); // <word size, index of first word with size>
 
 
     public Dictionary(String path) {

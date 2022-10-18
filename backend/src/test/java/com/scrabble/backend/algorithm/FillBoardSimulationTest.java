@@ -18,7 +18,7 @@ import static com.scrabble.backend.solving.scrabble.ScrabbleResources.holderSize
 
 @SpringBootTest
 public class FillBoardSimulationTest {
-    private final List<Integer> numberOfMoves = new ArrayList<>();
+    private final ArrayList<Integer> numberOfMoves = new ArrayList<>();
     private final List<Long> totalTimeInMillis = new ArrayList<>();
     private BoardBuilder boardBuilder = new BoardBuilder();
 
@@ -28,7 +28,7 @@ public class FillBoardSimulationTest {
     @Test
     void fillBoardWithNWords() {
         ScrabbleResources.path = scrabbleResourcesPath;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 20; i++) {
             boardBuilder = new BoardBuilder();
             fillBoard();
         }
@@ -42,7 +42,9 @@ public class FillBoardSimulationTest {
         long totalTime = 0;
 
         for (int movesCounter = 0; true; movesCounter++) {
-            String holder = getRandomHolder();
+            // String holder = getRandomHolder();
+            String holder = "lmptbhjc";
+
 
             final StopWatch stopWatch = new StopWatch();
             stopWatch.start();
@@ -53,6 +55,10 @@ public class FillBoardSimulationTest {
                 numberOfMoves.add(movesCounter);
                 totalTimeInMillis.add(totalTime);
                 System.out.println(movesCounter + ":" + totalTime);
+
+                if (movesCounter == 0) {
+                    System.out.println(holder);
+                }
                 return;
             }
 

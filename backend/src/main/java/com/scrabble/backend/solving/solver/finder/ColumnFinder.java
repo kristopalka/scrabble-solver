@@ -6,6 +6,7 @@ import com.scrabble.backend.solving.scrabble.resources.Dictionary;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.eclipse.collections.impl.list.mutable.FastList;
+import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -52,8 +53,9 @@ public class ColumnFinder {
 
     public static List<Word> getPossibleWordsFromPotential(String potentialWord, Block block, int columnNumber) {
         List<Word> words = new FastList<>();
-        for (Integer position : findOccurrences(block.content, potentialWord)) {
-            Point begin = new Point(columnNumber, block.start - position);
+        IntArrayList occurrences = findOccurrences(block.content, potentialWord);
+        for (int i = 0; i < occurrences.size(); i++) {
+            Point begin = new Point(columnNumber, block.start - occurrences.get(i));
             Point entryBegin = new Point(columnNumber, block.start);
             Word word = new Word(potentialWord, begin, Word.Direction.VERTICAL, entryBegin, block.length());
 
@@ -62,8 +64,8 @@ public class ColumnFinder {
         return words;
     }
 
-    public static List<Integer> findOccurrences(String block, String word) {
-        List<Integer> indexes = new FastList<>();
+    public static IntArrayList findOccurrences(String block, String word) {
+        IntArrayList indexes = new IntArrayList();
         int index = 0;
         while (index != -1) {
             index = word.indexOf(block, index);
