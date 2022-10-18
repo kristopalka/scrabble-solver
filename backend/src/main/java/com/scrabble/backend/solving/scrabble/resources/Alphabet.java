@@ -1,10 +1,10 @@
 package com.scrabble.backend.solving.scrabble.resources;
 
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.collections.impl.list.mutable.FastList;
+import org.eclipse.collections.impl.map.mutable.UnifiedMap;
 import org.springframework.util.StopWatch;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +12,8 @@ import java.util.Map;
 public class Alphabet {
     public static final char emptySymbol = ' ';
 
-    private final Map<Character, Integer> letterValueMap = new HashMap<>();
-    private final List<Character> letters = new ArrayList<>();
+    private final Map<Character, Integer> letterValueMap = new UnifiedMap<>();
+    private final List<Character> letters = new FastList<>();
 
 
     public Alphabet(String path) {

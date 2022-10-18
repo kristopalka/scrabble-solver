@@ -5,8 +5,8 @@ import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 import com.scrabble.backend.solving.scrabble.resources.Bonuses;
 import lombok.Data;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,7 +27,7 @@ public class InfoDto {
         this.langs = ScrabbleResources.supportedLanguages;
         this.boardBonuses = Bonuses.getBonuses();
 
-        this.lettersValues = new ArrayList<>();
+        this.lettersValues = new FastList<>();
         for (String lang : langs) {
             this.lettersValues.add(new LettersValuesDto(lang));
         }
