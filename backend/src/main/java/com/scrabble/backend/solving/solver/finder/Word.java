@@ -3,9 +3,9 @@ package com.scrabble.backend.solving.solver.finder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.scrabble.backend.solving.solver.finder.Word.Direction.HORIZONTAL;
@@ -16,13 +16,11 @@ import static com.scrabble.backend.solving.solver.finder.Word.Direction.VERTICAL
 @EqualsAndHashCode
 @Getter
 public class Word {
-    public enum Direction {
-        VERTICAL, HORIZONTAL;
-
-        public Direction getOpposite() {
-            if(this == VERTICAL) return HORIZONTAL;
-            return VERTICAL;
-        }
+    public Word(String value, int xBegin, int yBegin, Direction direction) {
+        this.value = value;
+        this.begin = new Point(xBegin, yBegin);
+        this.direction = direction;
+        additionalWords = new FastList<>();
     }
 
     public String value;
@@ -37,20 +35,22 @@ public class Word {
     public Integer score;
     public List<Word> additionalWords;
 
-    public Word(String value, int xBegin, int yBegin, Direction direction) {
-        this.value = value;
-        this.begin = new Point(xBegin, yBegin);
-        this.direction = direction;
-        additionalWords = new ArrayList<>();
-    }
-
     public Word(String value, Point begin, Direction direction, Point entryBegin, int entryLength) {
         this.value = value;
         this.begin = begin;
         this.direction = direction;
         this.entryBegin = entryBegin;
         this.entryLength = entryLength;
-        additionalWords = new ArrayList<>();
+        additionalWords = new FastList<>();
+    }
+
+    public enum Direction {
+        VERTICAL, HORIZONTAL;
+
+        public Direction getOpposite() {
+            if (this == VERTICAL) return HORIZONTAL;
+            return VERTICAL;
+        }
     }
 
     public int xBegin() {

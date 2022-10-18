@@ -5,9 +5,9 @@ import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 import com.scrabble.backend.solving.scrabble.resources.Dictionary;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class ColumnFinder {
     }
 
     public static List<Block> findBlocks(char[] column) {
-        List<Block> blocks = new ArrayList<>();
+        List<Block> blocks = new FastList<>();
         int start = -1;
         int end;
         for (int i = 0; i < ScrabbleResources.boardSize; i++) {
@@ -51,7 +51,7 @@ public class ColumnFinder {
     }
 
     public static List<Word> getPossibleWordsFromPotential(String potentialWord, Block block, int columnNumber) {
-        List<Word> words = new ArrayList<>();
+        List<Word> words = new FastList<>();
         for (Integer position : findOccurrences(block.content, potentialWord)) {
             Point begin = new Point(columnNumber, block.start - position);
             Point entryBegin = new Point(columnNumber, block.start);
@@ -63,7 +63,7 @@ public class ColumnFinder {
     }
 
     public static List<Integer> findOccurrences(String block, String word) {
-        List<Integer> indexes = new ArrayList<>();
+        List<Integer> indexes = new FastList<>();
         int index = 0;
         while (index != -1) {
             index = word.indexOf(block, index);
@@ -86,7 +86,7 @@ public class ColumnFinder {
 
 
     public List<Word> getPossibleWordsForBlock(Block block, int columnNumber) {
-        List<Word> words = new ArrayList<>();
+        List<Word> words = new FastList<>();
         for (String potentialWord : DictionaryFinder.getPotentialWords(block.content, holder, dictionary)) {
             if (potentialWord.length() <= block.length()) continue;
             words.addAll(getPossibleWordsFromPotential(potentialWord, block, columnNumber));

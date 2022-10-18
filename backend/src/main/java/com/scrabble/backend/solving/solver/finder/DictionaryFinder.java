@@ -2,8 +2,8 @@ package com.scrabble.backend.solving.solver.finder;
 
 import com.scrabble.backend.solving.scrabble.resources.Dictionary;
 import org.apache.logging.log4j.util.Strings;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class DictionaryFinder {
     public static List<String> getPotentialWords(String blockLetters, String holderLetters, Dictionary dictionary) {
         char[] lettersToUse = mergeAndSort(blockLetters, holderLetters);
-        List<String> possibleWords = new ArrayList<>();
+        List<String> possibleWords = new FastList<>();
 
         List<char[]> requiredLettersList = dictionary.getAllRequiredLettersList();
         int startIndex = dictionary.indexOfFirstWordWithLength(blockLetters.length());

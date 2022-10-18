@@ -2,9 +2,9 @@ package com.scrabble.backend.solving.solver.finder;
 
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.scrabble.resources.Alphabet;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -17,7 +17,7 @@ public class BoardFinder {
     public static List<Word> getAll(char[][] board, String holder, String lang) {
         if (isBoardClear(board)) return findForClearBoard(holder, lang);
 
-        List<Word> allWords = new ArrayList<>();
+        List<Word> allWords = new FastList<>();
         allWords.addAll(getVertical(board, holder, lang));
         allWords.addAll(getHorizontal(board, holder, lang));
         return allWords;

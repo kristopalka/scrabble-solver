@@ -3,8 +3,8 @@ package com.scrabble.backend.api.dto;
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 import lombok.Data;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,9 +15,9 @@ public class LettersValuesDto {
     public LettersValuesDto(String lang) {
         Alphabet alphabet = ScrabbleResources.getAlphabet(lang);
 
-        this.letters = new ArrayList<>();
-        this.values = new ArrayList<>();
-        for (Character letter: alphabet.getLetters()) {
+        this.letters = new FastList<>();
+        this.values = new FastList<>();
+        for (Character letter : alphabet.getLetters()) {
             letters.add(String.valueOf(letter));
             values.add(alphabet.valueOfLetter(letter));
         }
