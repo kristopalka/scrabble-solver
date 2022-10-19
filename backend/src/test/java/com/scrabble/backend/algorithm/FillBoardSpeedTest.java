@@ -25,7 +25,7 @@ public class FillBoardSpeedTest {
     @Test
     void fillBoardWithNWords() {
         ScrabbleResources.path = scrabbleResourcesPath;
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 1; i++) {
             boardBuilder = new BoardBuilder();
             fillBoard();
         }
@@ -50,6 +50,9 @@ public class FillBoardSpeedTest {
                 System.out.print(movesCounter);
                 System.out.print(" ");
                 System.out.println(totalTime);
+
+                System.out.println(boardBuilder);
+                System.out.println(holder);
 
                 return;
             }

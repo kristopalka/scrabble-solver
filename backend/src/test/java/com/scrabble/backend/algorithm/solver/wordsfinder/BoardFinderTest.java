@@ -65,6 +65,41 @@ public class BoardFinderTest {
     }
 
     @Test
+    public void parallelWordFindTest() {
+        BoardBuilder boardBuilder = new BoardBuilder();
+        boardBuilder.addWord(new Word("mama", 3, 0, Word.Direction.VERTICAL));
+        System.out.println(boardBuilder);
+
+        Word foundWord = getAll(boardBuilder.toCharArray(), "amadyn", "pl").stream()
+                .filter(w -> Objects.equals(w.value, "amadyn"))
+                .filter(w -> Objects.equals(w.direction, Word.Direction.HORIZONTAL))
+                .filter(w -> Objects.equals(w.begin, new Point(2, 2)))
+                .toList().get(1);
+
+        System.out.println(boardBuilder.addWord(foundWord));
+
+
+        Assertions.assertEquals(2, foundWord.additionalWords.size());
+    }
+
+    @Test
+    public void bridgeWordFindTest() {
+        BoardBuilder boardBuilder = new BoardBuilder();
+        boardBuilder.addWord(new Word("d", 2, 2, Word.Direction.HORIZONTAL));
+        boardBuilder.addWord(new Word("o", 9, 2, Word.Direction.HORIZONTAL));
+        System.out.println(boardBuilder);
+
+        Word foundWord = getAll(boardBuilder.toCharArray(), "laczeg", "pl")
+                .stream().filter(w -> Objects.equals(w.value, "dlaczego")).toList().get(1);
+
+        System.out.println(boardBuilder.addWord(foundWord));
+
+
+        Assertions.assertEquals(new Point(2, 2), foundWord.begin);
+        Assertions.assertEquals(Word.Direction.HORIZONTAL, foundWord.direction);
+    }
+
+    @Test
     public void additionalWordsTest() {
         BoardBuilder boardBuilder = new BoardBuilder()
                 .addWord(new Word("podaruje", 2, 2, Word.Direction.VERTICAL))
