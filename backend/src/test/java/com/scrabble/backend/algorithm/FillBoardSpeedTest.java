@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,9 +16,7 @@ import static com.scrabble.backend.solving.scrabble.ScrabbleResources.getAlphabe
 import static com.scrabble.backend.solving.scrabble.ScrabbleResources.holderSize;
 
 @SpringBootTest
-public class FillBoardSimulationTest {
-    private final ArrayList<Integer> numberOfMoves = new ArrayList<>();
-    private final List<Long> totalTimeInMillis = new ArrayList<>();
+public class FillBoardSpeedTest {
     private BoardBuilder boardBuilder = new BoardBuilder();
 
     @Value("${config.scrabble_resources}")
@@ -28,13 +25,11 @@ public class FillBoardSimulationTest {
     @Test
     void fillBoardWithNWords() {
         ScrabbleResources.path = scrabbleResourcesPath;
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 40; i++) {
             boardBuilder = new BoardBuilder();
             fillBoard();
         }
 
-        System.out.println("moves: " + numberOfMoves.stream().reduce(0, Integer::sum));
-        System.out.println("total millis: " + totalTimeInMillis.stream().reduce(0L, Long::sum));
     }
 
 
@@ -52,13 +47,10 @@ public class FillBoardSimulationTest {
             stopWatch.stop();
 
             if (bestWords.size() == 0) {
-                numberOfMoves.add(movesCounter);
-                totalTimeInMillis.add(totalTime);
-                System.out.println(movesCounter + ":" + totalTime);
+                System.out.print(movesCounter);
+                System.out.print(" ");
+                System.out.println(totalTime);
 
-                if (movesCounter == 0) {
-                    System.out.println(holder);
-                }
                 return;
             }
 
