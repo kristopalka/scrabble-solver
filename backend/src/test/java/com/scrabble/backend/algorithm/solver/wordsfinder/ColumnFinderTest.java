@@ -2,11 +2,11 @@ package com.scrabble.backend.algorithm.solver.wordsfinder;
 
 import com.scrabble.backend.solving.solver.finder.ColumnFinder;
 import com.scrabble.backend.solving.solver.finder.Word;
-import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
@@ -75,12 +75,11 @@ public class ColumnFinderTest {
         String word = "abababxababxaba";
         String block = "abab";
 
-        IntArrayList occurrences = findOccurrences(block, word);
+        ArrayList<Integer> occurrences = findOccurrences(block, word);
         Assertions.assertEquals(0, occurrences.get(0));
         Assertions.assertEquals(2, occurrences.get(1));
         Assertions.assertEquals(7, occurrences.get(2));
     }
-
 
 
     @Test

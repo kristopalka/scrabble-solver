@@ -3,9 +3,9 @@ package com.scrabble.backend.solving.solver.finder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.scrabble.backend.solving.solver.finder.Word.Direction.HORIZONTAL;
@@ -20,7 +20,7 @@ public class Word {
         this.value = value;
         this.begin = new Point(xBegin, yBegin);
         this.direction = direction;
-        additionalWords = new FastList<>();
+        additionalWords = new ArrayList<>();
     }
 
     public String value;
@@ -41,7 +41,7 @@ public class Word {
         this.direction = direction;
         this.entryBegin = entryBegin;
         this.entryLength = entryLength;
-        additionalWords = new FastList<>();
+        additionalWords = new ArrayList<>();
     }
 
     public enum Direction {

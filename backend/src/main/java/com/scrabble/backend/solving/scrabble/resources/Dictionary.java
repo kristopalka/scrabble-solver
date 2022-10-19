@@ -1,7 +1,6 @@
 package com.scrabble.backend.solving.scrabble.resources;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.collections.impl.list.mutable.FastList;
 import org.springframework.util.StopWatch;
 
 import java.util.*;
@@ -10,7 +9,7 @@ import java.util.*;
 public class Dictionary {
     private final List<String> dictionary;
     private final Map<String, List<String>> requiredLettersPossibleWordsMap = new HashMap<>(); // <required letters, list of possible words>
-    private final List<char[]> sortedRequiredLetters = new FastList<>();
+    private final List<char[]> sortedRequiredLetters = new ArrayList<>();
     private final HashMap<Integer, Integer> sizesWordsIndexes = new HashMap<>(); // <word size, index of first word with size>
 
 
@@ -34,7 +33,7 @@ public class Dictionary {
 
             List<String> possibleWords = requiredLettersPossibleWordsMap.get(requiredLetters);
             if (possibleWords == null) {
-                possibleWords = new FastList<>();
+                possibleWords = new ArrayList<>();
                 requiredLettersPossibleWordsMap.put(requiredLetters, possibleWords);
                 sortedRequiredLetters.add(requiredLetters.toCharArray());
             }
@@ -64,7 +63,7 @@ public class Dictionary {
     public List<String> getWordsByRequiredLetters(String key) {
         List<String> possibleWords = requiredLettersPossibleWordsMap.get(key);
         if (possibleWords != null) return possibleWords;
-        else return new FastList<>();
+        else return new ArrayList<>();
     }
 
     public List<char[]> getAllRequiredLettersList() {
