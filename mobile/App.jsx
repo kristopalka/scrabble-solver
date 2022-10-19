@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import CameraPage from "./components/CameraPage";
 import EditBoardPage from "./components/EditBoardPage";
 import SummaryPage from "./components/SummaryPage";
-import {defaultCorners, emptyBoard, emptyHolder, ScrabbleLettersValues} from "./javascript/scrabble";
+import {defaultCorners, emptyBoard, emptyRack, ScrabbleLettersValues} from "./javascript/scrabble";
 import {logger, loggerErr} from "./javascript/logger";
 import {
     networkFailed,
@@ -41,7 +41,7 @@ export default function App() {
     const [photo, setPhoto] = useState(exampleImage);
     const [corners, setCorners] = useState(defaultCorners);
     const [board, setBoard] = useState(emptyBoard);
-    const [holder, setHolder] = useState(emptyHolder);
+    const [rack, setRack] = useState(emptyRack);
     const [words, setWords] = useState([]);
 
     const [url, setUrl] = useState("http://192.168.1.11:8080");
@@ -101,8 +101,6 @@ export default function App() {
             setCorners(newCorners);
             setBoard(await requestCropAndRecognize(url, photo, newCorners, settings.langs[langIndex]));
 
-            console.log(board)
-
             goPage(pages.editBoard)
         } catch (e) {
             loggerErr(e);
@@ -110,13 +108,13 @@ export default function App() {
         }
     }
 
-    async function switchEditBoardToSummary(newBoard, newHolder, newModeIndex) {
+    async function switchEditBoardToSummary(newBoard, newRack, newModeIndex) {
         goPage(pages.loading);
         try {
             setBoard(newBoard);
-            setHolder(newHolder);
+            setRack(newRack);
             setModeIndex(newModeIndex);
-            let newWords = await requestSolveScrabble(url, board, holder, settings.langs[langIndex], settings.modes[modeIndex], "15");
+            let newWords = await requestSolveScrabble(url, board, rack, settings.langs[langIndex], settings.modes[modeIndex], "15");
             setWords(newWords);
 
             goPage(pages.summary);
@@ -161,7 +159,7 @@ export default function App() {
                 />
             case pages.editBoard:
                 return <EditBoardPage
-                    board={board} holder={holder}
+                    board={board} rack={rack}
                     lettersValues={new ScrabbleLettersValues(settings, langIndex)}
                     modes={settings.modes} modeIndex={modeIndex}
                     goSummary={switchEditBoardToSummary}
@@ -169,7 +167,7 @@ export default function App() {
                 />;
             case pages.summary:
                 return <SummaryPage
-                    board={board} holder={holder} words={words}
+                    board={board} rack={rack} words={words}
                     lettersValues={new ScrabbleLettersValues(settings, langIndex)}
                     goEditBoards={() => goPage(pages.editBoard)}
                     goCamera={() => goPage(pages.camera)}

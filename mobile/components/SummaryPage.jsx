@@ -1,20 +1,20 @@
 import {StyleSheet, View} from 'react-native';
 import Board from "./scrabble/Board";
-import Holder from "./scrabble/Holder";
+import Rack from "./scrabble/Rack";
 import WordList from "./other/WordList";
 import {useState} from "react";
-import {markUsedLettersOnHolder, markWordOnBoard} from "../javascript/scrabble";
+import {markUsedLettersOnRack, markWordOnBoard} from "../javascript/scrabble";
 import Break from "./other/Break";
 import Navigation from "./other/Navigation";
 
 
 export default function SummaryPage(props) {
     const [displayedBoard, changeDisplayedBoard] = useState(props.board);
-    const [displayedHolder, changeDisplayedHolder] = useState(props.holder);
+    const [displayedRack, changeDisplayedRack] = useState(props.rack);
 
     function choseWord(word) {
         changeDisplayedBoard(markWordOnBoard(props.board, word));
-        changeDisplayedHolder(markUsedLettersOnHolder(props.holder, word))
+        changeDisplayedRack(markUsedLettersOnRack(props.rack, word))
     }
 
     return (
@@ -22,7 +22,7 @@ export default function SummaryPage(props) {
             <Board content={displayedBoard} editMode={false} lettersValues={props.lettersValues}/>
 
             <View style={styles.panel}>
-                <Holder content={displayedHolder} editMode={false} lettersValues={props.lettersValues}/><Break/>
+                <Rack content={displayedRack} editMode={false} lettersValues={props.lettersValues}/><Break/>
 
                 <WordList words={props.words} style={styles.wordlist} choseWord={choseWord}/><Break/>
 
@@ -31,7 +31,7 @@ export default function SummaryPage(props) {
                     rightIco={"camera"}
                     onRightClick={props.goCamera}
                     helpTitle={"Summary"}
-                    helpMessage={"Chose word from list. If there is no words, change board and holder configuration."}
+                    helpMessage={"Chose word from list. If there is no words, change board and rack configuration."}
                 />
 
             </View>

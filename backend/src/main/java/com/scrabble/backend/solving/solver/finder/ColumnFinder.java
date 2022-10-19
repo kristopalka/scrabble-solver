@@ -14,13 +14,13 @@ import java.util.List;
 
 public class ColumnFinder {
     private final char[][] board;
-    private final String holder;
+    private final String rack;
     private final Dictionary dictionary;
     private final SurroundingFittingChecker checker;
 
-    public ColumnFinder(char[][] board, String holder, String lang) {
+    public ColumnFinder(char[][] board, String rack, String lang) {
         this.board = board;
-        this.holder = holder;
+        this.rack = rack;
         this.dictionary = ScrabbleResources.getDictionary(lang);
         this.checker = new SurroundingFittingChecker(board, dictionary);
     }
@@ -89,7 +89,7 @@ public class ColumnFinder {
 
     public List<Word> getPossibleWordsForBlock(Block block, int columnNumber) {
         List<Word> words = new FastList<>();
-        for (String potentialWord : DictionaryFinder.getPotentialWords(block.content, holder, dictionary)) {
+        for (String potentialWord : DictionaryFinder.getPotentialWords(block.content, rack, dictionary)) {
             if (potentialWord.length() <= block.length()) continue;
             words.addAll(getPossibleWordsFromPotential(potentialWord, block, columnNumber));
         }

@@ -9,8 +9,8 @@ import java.util.List;
 
 
 public class DictionaryFinder {
-    public static List<String> getPotentialWords(String blockLetters, String holderLetters, Dictionary dictionary) {
-        char[] lettersToUse = mergeAndSort(blockLetters, holderLetters);
+    public static List<String> getPotentialWords(String blockLetters, String rackLetters, Dictionary dictionary) {
+        char[] lettersToUse = mergeAndSort(blockLetters, rackLetters);
         List<String> possibleWords = new FastList<>();
 
         List<char[]> requiredLettersList = dictionary.getAllRequiredLettersList();

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 public class InfoDto {
-    private Integer holderSize;
+    private Integer rackSize;
     private Integer boardSize;
     private String emptySymbol;
     private List<String> modes;
@@ -20,7 +20,7 @@ public class InfoDto {
     private List<LettersValuesDto> lettersValues;
 
     public InfoDto() {
-        this.holderSize = ScrabbleResources.holderSize;
+        this.rackSize = ScrabbleResources.rackSize;
         this.boardSize = ScrabbleResources.boardSize;
         this.emptySymbol = String.valueOf(Alphabet.emptySymbol);
         this.modes = List.of(SolvingService.modes);

@@ -1,7 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 import Field from "./Field";
 
-export default function Holder(props) {
+export default function Rack(props) {
     const fieldSize = 44;
 
     function updateLetter(x, newLetter) {

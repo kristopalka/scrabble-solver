@@ -46,9 +46,9 @@ export function requestCropAndRecognize(url, image, corners, lang) {
         })
 }
 
-export function requestSolveScrabble(url, board, holder, lang, mode, number) {
+export function requestSolveScrabble(url, board, rack, lang, mode, number) {
     logger("Solving in backend");
-    const data = {"board": board, "holder": holder};
+    const data = {"board": board, "rack": rack};
     url = url + `/solve?lang=${lang}&mode=${mode}&number=${number}`;
 
     return fetch(url, {

@@ -32,11 +32,11 @@ public class DictionaryFinderTest extends DictionaryFinder {
     @Test
     void getPotentialWordsForColumnTest() {
         String column = "rt";
-        String holder = "abe";
+        String rack = "abe";
 
         List<String> expected = new ArrayList<>(Arrays.asList("ba", "ar", "at", "ta", "be", "er", "re", "et", "te", "arb", "bar", "rab", "bat", "tab", "era", "rea", "ate", "eta", "rat", "tar", "tra", "ber", "erb", "reb", "bet", "ret", "ter", "berta", "bera", "rabe", "beat", "beta", "bart", "brat", "tera", "bert", "terb"))
                 .stream().sorted().toList();
-        List<String> actual = DictionaryFinder.getPotentialWords(column, holder, getDictionary("pl")).stream().sorted().toList();
+        List<String> actual = DictionaryFinder.getPotentialWords(column, rack, getDictionary("pl")).stream().sorted().toList();
 
         Assertions.assertEquals(expected, actual);
 

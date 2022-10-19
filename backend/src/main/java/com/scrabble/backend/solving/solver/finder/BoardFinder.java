@@ -14,17 +14,17 @@ import static com.scrabble.backend.solving.solver.finder.Rotations.transpose;
 
 
 public class BoardFinder {
-    public static List<Word> getAll(char[][] board, String holder, String lang) {
-        if (isBoardClear(board)) return findForClearBoard(holder, lang);
+    public static List<Word> getAll(char[][] board, String rack, String lang) {
+        if (isBoardClear(board)) return findForClearBoard(rack, lang);
 
         List<Word> allWords = new FastList<>();
-        allWords.addAll(getVertical(board, holder, lang));
-        allWords.addAll(getHorizontal(board, holder, lang));
+        allWords.addAll(getVertical(board, rack, lang));
+        allWords.addAll(getHorizontal(board, rack, lang));
         return allWords;
     }
 
-    public static List<Word> getVertical(char[][] board, String holder, String lang) {
-        ColumnFinder columnFinder = new ColumnFinder(board, holder, lang);
+    public static List<Word> getVertical(char[][] board, String rack, String lang) {
+        ColumnFinder columnFinder = new ColumnFinder(board, rack, lang);
 
         return IntStream.range(0, board.length).parallel()
                 .mapToObj(columnFinder::find)
@@ -33,8 +33,8 @@ public class BoardFinder {
     }
 
 
-    private static List<Word> getHorizontal(char[][] board, String holder, String lang) {
-        List<Word> verticalToRotate = getVertical(transpose(board), holder, lang);
+    private static List<Word> getHorizontal(char[][] board, String rack, String lang) {
+        List<Word> verticalToRotate = getVertical(transpose(board), rack, lang);
         return rotateVerticalToHorizontal(verticalToRotate);
     }
 
@@ -45,8 +45,8 @@ public class BoardFinder {
         return true;
     }
 
-    private static List<Word> findForClearBoard(String holder, String lang) {
-        return getPotentialWords("", holder, ScrabbleResources.getDictionary(lang))
+    private static List<Word> findForClearBoard(String rack, String lang) {
+        return getPotentialWords("", rack, ScrabbleResources.getDictionary(lang))
                 .stream()
                 .map(potentialWord -> new Word(potentialWord, new Point(7, 7), Word.Direction.HORIZONTAL, new Point(7, 7), 0))
                 .toList();

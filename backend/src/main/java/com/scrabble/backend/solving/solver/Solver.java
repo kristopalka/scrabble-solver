@@ -9,12 +9,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Solver {
-    public static List<Word> getWords(char[][] board, String holder, String lang, int number, String mode) {
+    public static List<Word> getWords(char[][] board, String rack, String lang, int number, String mode) {
         ScoreCalculator calculator = new ScoreCalculator(board, lang);
 
         Comparator<Word> comparator = getComparator(mode);
 
-        return BoardFinder.getAll(board, holder, lang)
+        return BoardFinder.getAll(board, rack, lang)
                 .stream().parallel()
                 .peek(word -> word.usedLetters = usedLetters(board, word))
                 .peek(word -> word.score = calculator.getScore(word))

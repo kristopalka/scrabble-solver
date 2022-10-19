@@ -47,14 +47,14 @@ export function markWordOnBoard(board, word) {
 }
 
 
-export function markUsedLettersOnHolder(holder, word) {
-    let newHolder = holder.slice();
+export function markUsedLettersOnRack(rack, word) {
+    let newRack = rack.slice();
     for(let i=0; i<word.usedLetters.length; i++){
         const letter = word.usedLetters[i].toUpperCase();
-        const foundIndex = newHolder.findIndex((e) => e === letter)
-        newHolder[foundIndex] = newHolder[foundIndex] + mark;
+        const foundIndex = newRack.findIndex((e) => e === letter)
+        newRack[foundIndex] = newRack[foundIndex] + mark;
     }
-    return newHolder;
+    return newRack;
 }
 
 export function boardToString(board) {
@@ -75,7 +75,7 @@ export function boardToString(board) {
 
 export const defaultCorners = [{"x": 1/8, "y": 7/32}, {"x": 1/8, "y": 25/32}, {"x": 7/8, "y": 7/32}, {"x": 7/8, "y": 25/32}];
 
-export const emptyHolder = [' ', ' ', ' ', ' ', ' ', ' ', ' '];
+export const emptyRack = [' ', ' ', ' ', ' ', ' ', ' ', ' '];
 
 export const emptyBoard = [
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],

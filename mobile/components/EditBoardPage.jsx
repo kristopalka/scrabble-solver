@@ -2,7 +2,7 @@ import {StyleSheet, View} from 'react-native';
 
 import Board from "./scrabble/Board";
 import {useState} from "react";
-import Holder from "./scrabble/Holder";
+import Rack from "./scrabble/Rack";
 import SegmentedControl from "./other/SegmentedControll";
 import Break from "./other/Break";
 import Navigation from "./other/Navigation";
@@ -10,11 +10,11 @@ import Navigation from "./other/Navigation";
 
 export default function EditBoardPage(props) {
     const [board, updateBoard] = useState(props.board);
-    const [holder, updateHolder] = useState(props.holder);
+    const [rack, updateRack] = useState(props.rack);
     const [modeIndex, setModeIndex] = useState(props.modeIndex);
 
     async function applyBoard() {
-        props.goSummary(board, holder, modeIndex);
+        props.goSummary(board, rack, modeIndex);
     }
 
 
@@ -27,10 +27,10 @@ export default function EditBoardPage(props) {
             />
 
             <View style={styles.edit}>
-                <Holder
-                    content={holder}
+                <Rack
+                    content={rack}
                     editMode={true}
-                    updateContent={updateHolder}
+                    updateContent={updateRack}
                     lettersValues={props.lettersValues}
                 />
                 <Break/>
@@ -52,7 +52,7 @@ export default function EditBoardPage(props) {
                     onLeftClick={props.goCamera}
                     onRightClick={applyBoard}
                     helpTitle={"Edit board"}
-                    helpMessage={"Correct letters on board if necessary and fill holder"}
+                    helpMessage={"Correct letters on board if necessary and fill rack"}
                 />
             </View>
         </View>

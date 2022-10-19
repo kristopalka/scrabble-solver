@@ -26,10 +26,10 @@ public class SolvingService {
 
     public List<Word> bestWords(GameStateDto request, String lang, String mode, Integer number) {
         throwIfIncorrectLang(lang);
-        String holder = preprocessHolder(request.getHolder(), lang);
+        String rack = preprocessRack(request.getRack(), lang);
         char[][] board = preprocessBoard(request.getBoard(), lang);
 
-        return getWords(board, holder, lang, number, mode);
+        return getWords(board, rack, lang, number, mode);
     }
 
     public void throwIfIncorrectLang(String lang) {
@@ -55,13 +55,13 @@ public class SolvingService {
         return charBoard;
     }
 
-    public static String preprocessHolder(String[] holder, String lang) {
-        if (holder == null) throw new IllegalArgumentException("Holder is mandatory");
-        if (holder.length != holderSize)
-            throw new IllegalArgumentException("Invalid holder size: " + holder.length);
+    public static String preprocessRack(String[] rack, String lang) {
+        if (rack == null) throw new IllegalArgumentException("Rack is mandatory");
+        if (rack.length != rackSize)
+            throw new IllegalArgumentException("Invalid rack size: " + rack.length);
 
         StringBuilder builder = new StringBuilder();
-        for (String letter : holder) {
+        for (String letter : rack) {
             String lowerCase = letter.length() == 0 ? String.valueOf(emptySymbol) : letter.toLowerCase();
             throwIfIncorrectValue(lowerCase, lang);
             builder.append(lowerCase.charAt(0));

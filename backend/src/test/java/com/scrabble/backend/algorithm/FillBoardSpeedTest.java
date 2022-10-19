@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.scrabble.backend.solving.scrabble.ScrabbleResources.getAlphabet;
-import static com.scrabble.backend.solving.scrabble.ScrabbleResources.holderSize;
+import static com.scrabble.backend.solving.scrabble.ScrabbleResources.rackSize;
 
 @SpringBootTest
 public class FillBoardSpeedTest {
@@ -37,13 +37,13 @@ public class FillBoardSpeedTest {
         long totalTime = 0;
 
         for (int movesCounter = 0; true; movesCounter++) {
-            // String holder = getRandomHolder();
-            String holder = "lmptbhjc";
+            // String rack = getRandomRack();
+            String rack = "lmptbhjc";
 
 
             final StopWatch stopWatch = new StopWatch();
             stopWatch.start();
-            List<Word> bestWords = Solver.getWords(boardBuilder.toCharArray(), holder, "pl", 1, "score");
+            List<Word> bestWords = Solver.getWords(boardBuilder.toCharArray(), rack, "pl", 1, "score");
             stopWatch.stop();
 
             if (bestWords.size() == 0) {
@@ -52,7 +52,7 @@ public class FillBoardSpeedTest {
                 System.out.println(totalTime);
 
                 System.out.println(boardBuilder);
-                System.out.println(holder);
+                System.out.println(rack);
 
                 return;
             }
@@ -63,13 +63,13 @@ public class FillBoardSpeedTest {
         }
     }
 
-    private String getRandomHolder() {
+    private String getRandomRack() {
         List<Character> letters = getAlphabet("pl").getLetters();
 
-        char[] holder = new char[holderSize];
-        for (int i = 0; i < holder.length; i++) {
-            holder[i] = letters.get(new Random().nextInt(letters.size()));
+        char[] rack = new char[rackSize];
+        for (int i = 0; i < rack.length; i++) {
+            rack[i] = letters.get(new Random().nextInt(letters.size()));
         }
-        return new String(holder);
+        return new String(rack);
     }
 }

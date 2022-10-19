@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ScrabbleResources {
-    public static final int holderSize = 7;
+    public static final int rackSize = 7;
     public static final int boardSize = 15;
     public static final List<String> supportedLanguages = List.of(new String[]{"en", "pl"});
 
