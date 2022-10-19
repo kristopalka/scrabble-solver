@@ -23,7 +23,7 @@ for argsCorner in argsCorners:
     ])
 
 board = sip.BoardExtractor(image).set_debug(False).set_corners(corners).get_board(margin=20)
-letters = sip.LettersRecognizer(board.copy(), allow_letters=allow_letters, lang=lang).set_debug(True) \
+letters = sip.LettersRecognizer(board.copy(), allow_letters=allow_letters, lang=lang).set_debug(False) \
     .recognize().get_letters()
 
 print(json.dumps({"output": letters.tolist()}))
