@@ -60,8 +60,8 @@ export default function CameraPage(props) {
                 <Alert
                     visible={alert}
                     setVisible={setAlert}
-                    title={props.helpTitle}
-                    message={props.helpMessage}
+                    title={"Scrabble Solver"}
+                    message={"This app will help you to find good words on your Scrabble game. Take a photo of your Scrabble board and follow next steps.\n\nScrabble Solver v0.9\nMade by Krzysztof Pałka"}
                 />
 
             </View>

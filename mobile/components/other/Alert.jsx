@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {StyleSheet} from "react-native";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import {
@@ -11,7 +11,7 @@ import {
 } from "../../javascript/css";
 
 
-export default function Navigation(props) {
+export default function Alert(props) {
     return (
         <AwesomeAlert
             show={props.visible}
