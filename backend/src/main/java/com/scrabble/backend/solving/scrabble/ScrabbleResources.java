@@ -15,7 +15,7 @@ public class ScrabbleResources {
     private static final Map<String, Alphabet> loadedAlphabets = new HashMap<>();
     private static final Map<String, Dictionary> loadedDictionaries = new HashMap<>();
 
-    public static String path = null;
+    public static String path = "./scrabble_resources/";
 
 
     public static Alphabet getAlphabet(String lang) {
