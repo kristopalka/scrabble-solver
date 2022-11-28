@@ -6,23 +6,35 @@ import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 
 public class DictionaryFinder {
-    public static List<String> getPotentialWords(String blockLetters, String rackLetters, Dictionary dictionary) {
-        char[] lettersToUse = mergeAndSort(blockLetters, rackLetters);
-        List<String> possibleWords = new FastList<>();
+    public static List<String> getPotentialWords(String columnLetters, String rackLetters, Dictionary dictionary, int minBlockLength) {
+        char[] lettersToUse = mergeAndSort(columnLetters, rackLetters);
 
         List<char[]> requiredLettersList = dictionary.getAllRequiredLettersList();
-        int startIndex = dictionary.indexOfFirstWordWithLength(blockLetters.length());
+        int startIndex = dictionary.indexOfFirstWordWithLength(minBlockLength + 1);
         int endIndex = dictionary.indexOfFirstWordWithLength(lettersToUse.length + 1);
 
-        for (int i = startIndex; i < endIndex; i++) {
-            if (isSubsetOf(requiredLettersList.get(i), lettersToUse)) {
-                possibleWords.addAll(dictionary.getWordsByRequiredLetters(new String(requiredLettersList.get(i))));
-            }
-        }
-        return possibleWords;
+        return IntStream.range(startIndex, endIndex)
+                .parallel()
+                .mapToObj(i -> isSubsetOf(requiredLettersList.get(i), lettersToUse)
+                        ? dictionary.getWordsByRequiredLetters(new String(requiredLettersList.get(i)))
+                        : new FastList<String>())
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+//        List<String> possibleWords = new FastList<>();
+//        for (int i = startIndex; i < endIndex; i++) {
+//            if (isSubsetOf(requiredLettersList.get(i), lettersToUse)) {
+//                possibleWords.addAll(dictionary.getWordsByRequiredLetters(new String(requiredLettersList.get(i))));
+//            }
+//        }
+//        return possibleWords;
     }
 
     protected static char[] mergeAndSort(String a, String b) {
@@ -31,19 +43,19 @@ public class DictionaryFinder {
         return out;
     }
 
-    protected static boolean isSubsetOf(char[] requiredLetters, char[] ownedLetters) {
-        int ownedPointer = 0;
-        int requiredPointer = 0;
+    protected static boolean isSubsetOf(char[] A, char[] B) {
+        int pointerB = 0;
+        int pointerA = 0;
 
-        while (requiredPointer < requiredLetters.length) {
-            if (ownedPointer >= ownedLetters.length) return false;
-            while (requiredLetters[requiredPointer] > ownedLetters[ownedPointer]) {
-                ownedPointer++;
-                if (ownedPointer >= ownedLetters.length) return false;
+        while (pointerA < A.length) {
+            if (pointerB >= B.length) return false;
+            while (A[pointerA] > B[pointerB]) {
+                pointerB++;
+                if (pointerB >= B.length) return false;
             }
-            if (requiredLetters[requiredPointer] == ownedLetters[ownedPointer]) {
-                requiredPointer++;
-                ownedPointer++;
+            if (A[pointerA] == B[pointerB]) {
+                pointerA++;
+                pointerB++;
             } else return false;
         }
         return true;
