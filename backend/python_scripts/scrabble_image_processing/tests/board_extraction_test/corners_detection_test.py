@@ -5,11 +5,12 @@ from math import dist
 from statistics import mean
 
 import pandas as pd
+
 from scrabble_image_processing.lib import *
 from scrabble_image_processing.lib.board_extraction.grouping_points import sort_points_clockwise
 
 # -------------------------------------------
-path = '/home/krist/Projects/Scrabble-Solver/image detection/resources/photos/red/'
+path = '/home/krist/Projects/scrabble-solver/resources/red_boards/'
 marks_folder = '.marks/'
 debug = True
 # -------------------------------------------
@@ -17,6 +18,7 @@ debug = True
 
 if debug: print("correct=green, detected=blue")
 data_image_name = []
+data_board_edge_length = []
 data_errors = []
 data_mean_errors = []
 data_processing_times = []
@@ -73,12 +75,18 @@ def debugging(image_name, corners, corners_correct, errors, error_mean):
         cv.destroyAllWindows()
 
 
+def calculate_mean_board_length(corners):
+    return (dist(corners[0], corners[1]) + dist(corners[1], corners[2]) +
+            dist(corners[2], corners[3]) + dist(corners[3], corners[0])) / 4
+
+
 for image_name in os.listdir(path):
     if image_name.endswith(".jpg"):
         corners_correct = load_marks(image_name)
         corners = try_to_perform_algorithm(image_name)
         if corners is not None:
             errors = calculate_distances(corners_correct, corners)
+            data_board_edge_length.append(calculate_mean_board_length(corners_correct))
             error_mean = mean(errors)
 
             data_image_name.append(image_name)
@@ -102,3 +110,9 @@ print('------------------------------------ DATA -------------------------------
 print(df)
 print('------------------------------------ STAT ------------------------------------')
 print(description)
+
+print('------------------------------------ BOARD EDGE LENGTH ------------------------------------')
+print(data_board_edge_length)
+print('Mean', mean(data_board_edge_length))
+print('Max', max(data_board_edge_length))
+print('Min', min(data_board_edge_length))

@@ -4,7 +4,7 @@ from scrabble_image_processing.lib import *
 
 # -------------------------------------------
 print('On each picture click on four corners or board clockwise. Then, click "N" key. To close, click ESC')
-path = '/home/krist/Projects/Scrabble-Solver/image detection/resources/photos/red/'
+path = '/home/krist/Projects/scrabble-solver/resources/red_boards/'
 marks_folder = '.marks/'
 # -------------------------------------------
 
@@ -23,7 +23,7 @@ def click_event(event, x, y, flags, params):
     global click_counter
     if event == cv.EVENT_LBUTTONDOWN and click_counter < 4:
         click_counter = click_counter + 1
-
+ 
         print(x, y)
         cv.circle(image, (x, y), 5, (255, 0, 0), 2)
         cv.imshow(image_name, image)

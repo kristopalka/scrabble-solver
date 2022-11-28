@@ -1,18 +1,18 @@
 import cv2 as cv
 import numpy as np
+import pytesseract
 from easyocr import easyocr
 
+
 from .letters_mask_creator import get_letters_mask
-from ..utils import print_image, blue, draw_scrabble_grid_on_board, draw_grid_and_letters_on_board
+from ..utils import print_image, draw_scrabble_grid_on_board, draw_grid_and_letters_on_board
 
 
 def _preprocess(image):
     image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     image = cv.bilateralFilter(image, 25, 80, 80)
-    image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 31, 20)
-    # image = cv.bitwise_not(image)
-    # image = cv.erode(image, morphology.diamond(1))
-    # image = cv.bitwise_not(image)
+    image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 35, 20)
+    image = cv.dilate(image, np.ones((3, 3), np.uint8))
     return image
 
 
@@ -32,7 +32,8 @@ class LettersRecognizer:
         self._letters_mask = get_letters_mask(board.copy(), self._debug)
         self._letters = None
         self._confs = None
-        self.reader = easyocr.Reader([lang], gpu=False)
+        self._lang = lang
+        self.reader = easyocr.Reader(["pl"], gpu=False)
 
     def set_debug(self, debug):
         self._debug = debug
@@ -44,25 +45,29 @@ class LettersRecognizer:
     def get_confidences(self):
         return self._confs
 
-    # def recognize_letter(self, field):
-    #     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    #     config = f"--psm 10  -c tessedit_char_whitelist={alphabet}"
-    #
-    #     data = tr.image_to_data(field, output_type=Output.DICT, config=config, lang='eng')
-    #
-    #     best_id = data['conf'].index(max(data['conf']))
-    #     confidence = data['conf'][best_id]
-    #     letter = str(data['text'][best_id])
-    #
-    #     if len(letter) == 0:
-    #         letter = ' '
-    #     else:
-    #         letter = letter[0]
-    #
-    #     return letter, confidence
 
-    def recognize_letter(self, image):
-        results = self.reader.recognize(image, allowlist=self._allow_letters)
+    def recognize_letter_pytesseract(self, field):
+        english_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        polish_letters = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŻŹ"
+        config = f"--psm 10  -c tessedit_char_whitelist={polish_letters}"
+
+        data = pytesseract.image_to_data(field, output_type=pytesseract.Output.DICT, config=config, lang='pol')
+
+        best_id = data['conf'].index(max(data['conf']))
+        confidence = data['conf'][best_id]
+        letter = str(data['text'][best_id])
+
+        if len(letter) == 0:
+            letter = ' '
+        else:
+            letter = letter[0]
+
+        return letter, confidence
+
+    def recognize_letter_easyocr(self, image):
+        english_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        polish_letters = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŻŹ"
+        results = self.reader.recognize(image, allowlist=polish_letters)
 
         if len(results) == 0: return " ", 100
         bestResult = _get_best_result(results)
@@ -75,7 +80,7 @@ class LettersRecognizer:
     def recognize(self):
         self._board.image = _preprocess(self._board.image)
 
-        if self._debug: print_image('1. Preprocessed image', draw_scrabble_grid_on_board(self._board, color=blue))
+        if self._debug: print_image('1. Preprocessed image', draw_scrabble_grid_on_board(self._board))
 
         self._confs = np.empty((15, 15), dtype=float)
         self._letters = np.empty((15, 15), dtype=str)
@@ -86,7 +91,7 @@ class LettersRecognizer:
                 if self._letters_mask[x, y]:
                     field = self._board.get_field(x, y, field_margin=0)
 
-                    letter, conf = self.recognize_letter(field)
+                    letter, conf = self.recognize_letter_easyocr(field)
 
                     self._letters[x, y] = letter
                     self._confs[x, y] = conf

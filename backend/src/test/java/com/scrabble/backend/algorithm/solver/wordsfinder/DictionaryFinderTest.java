@@ -36,7 +36,7 @@ public class DictionaryFinderTest extends DictionaryFinder {
 
         List<String> expected = new ArrayList<>(Arrays.asList("ba", "ar", "at", "ta", "be", "er", "re", "et", "te", "arb", "bar", "rab", "bat", "tab", "era", "rea", "ate", "eta", "rat", "tar", "tra", "ber", "erb", "reb", "bet", "ret", "ter", "berta", "bera", "rabe", "beat", "beta", "bart", "brat", "tera", "bert", "terb"))
                 .stream().sorted().toList();
-        List<String> actual = DictionaryFinder.getPotentialWords(column, rack, getDictionary("pl")).stream().sorted().toList();
+        List<String> actual = DictionaryFinder.getPotentialWords(column, rack, getDictionary("pl"), 1).stream().sorted().toList();
 
         Assertions.assertEquals(expected, actual);
 

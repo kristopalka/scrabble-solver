@@ -93,6 +93,6 @@ public class ColumnFinderTest {
         List<Word> words = finder.find(1);
 
         words.forEach(w -> System.out.println(w.value + " " + w.begin + " " + w.entryBegin));
-        Assertions.assertEquals(5, words.size());
+        Assertions.assertEquals(9, words.size());
     }
 }

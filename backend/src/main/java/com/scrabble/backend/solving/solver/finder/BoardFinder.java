@@ -46,9 +46,8 @@ public class BoardFinder {
     }
 
     private static List<Word> findForClearBoard(String rack, String lang) {
-        return getPotentialWords("", rack, ScrabbleResources.getDictionary(lang))
-                .stream()
-                .map(potentialWord -> new Word(potentialWord, new Point(7, 7), Word.Direction.HORIZONTAL, new Point(7, 7), 0))
+        return getPotentialWords("", rack, ScrabbleResources.getDictionary(lang), 1)
+                .stream().map(potentialWord -> new Word((String) potentialWord, new Point(7, 7), Word.Direction.HORIZONTAL, new Point(7, 7), 0))
                 .toList();
     }
 }

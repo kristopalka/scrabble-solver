@@ -3,13 +3,13 @@ from .grouping_points import *
 from .intersections import *
 from ..utils import resize, print_image, draw_points, draw_hough_lines, Board
 
-diamond2 = [[0, 0, 1, 0, 0],
+diamond2 = np.array([[0, 0, 1, 0, 0],
             [0, 1, 1, 1, 0],
             [1, 1, 1, 1, 1],
             [0, 1, 1, 1, 0],
-            [0, 0, 1, 0, 0]]
+            [0, 0, 1, 0, 0]], np.uint8)
 
-diamond4 = [[0, 0, 0, 0, 1, 0, 0, 0, 0],
+diamond4 = np.array([[0, 0, 0, 0, 1, 0, 0, 0, 0],
             [0, 0, 0, 1, 1, 1, 0, 0, 0],
             [0, 0, 1, 1, 1, 1, 1, 0, 0],
             [0, 1, 1, 1, 1, 1, 1, 1, 0],
@@ -17,7 +17,7 @@ diamond4 = [[0, 0, 0, 0, 1, 0, 0, 0, 0],
             [0, 1, 1, 1, 1, 1, 1, 1, 0],
             [0, 0, 1, 1, 1, 1, 1, 0, 0],
             [0, 0, 0, 1, 1, 1, 0, 0, 0],
-            [0, 0, 0, 0, 1, 0, 0, 0, 0]]
+            [0, 0, 0, 0, 1, 0, 0, 0, 0]], np.uint8)
 
 
 def _change_image_size(img, lower_dim):
@@ -36,8 +36,9 @@ def _restore_ratio(points, ratio):
 
 def _find_board_mask(image, debug):
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-    blur = cv.GaussianBlur(gray, (5, 5), 0)
+    if debug: print_image('0. Gray', gray)
 
+    blur = cv.GaussianBlur(gray, (5, 5), 0)
     edges = cv.Canny(blur, 40, 200)
     if debug: print_image('1. Canny edges', edges)
 
@@ -72,7 +73,7 @@ def _get_corners_from_mask(image, mask, debug):
 
     corners = find_four_corners(intersections, mask.shape[:2])
     if debug:
-        print_image('8. Finding centers', draw_points(image, corners, color=(255, 0, 0), radius=7, thickness=3))
+        print_image('8. Finding centers', draw_points(image, corners, color=(255, 0, 0), radius=8, thickness=6))
 
     return corners
 

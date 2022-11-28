@@ -1,16 +1,19 @@
 package com.scrabble.backend.solving.solver.finder;
 
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
-import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 import com.scrabble.backend.solving.scrabble.resources.Dictionary;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.eclipse.collections.impl.list.mutable.FastList;
 import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;
 
+import javax.swing.plaf.basic.BasicListUI;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
 
 public class ColumnFinder {
     private final char[][] board;
@@ -23,6 +26,15 @@ public class ColumnFinder {
         this.rack = rack;
         this.dictionary = ScrabbleResources.getDictionary(lang);
         this.checker = new SurroundingFittingChecker(board, dictionary);
+    }
+
+
+    public static String getLetters(char[] column) {
+        StringBuilder str = new StringBuilder();
+        for (char field:column) {
+            if(field != emptySymbol) str.append(field);
+        }
+        return str.toString();
     }
 
     public static List<Block> findBlocks(char[] column) {
@@ -40,11 +52,11 @@ public class ColumnFinder {
     }
 
     public static boolean isStartOfBlock(char[] column, int i) {
-        return column[i] != Alphabet.emptySymbol && (i == 0 || column[i - 1] == Alphabet.emptySymbol);
+        return column[i] != emptySymbol && (i == 0 || column[i - 1] == emptySymbol);
     }
 
     public static boolean isEndOfBlock(char[] column, int i) {
-        return column[i] != Alphabet.emptySymbol && (i == ScrabbleResources.boardSize - 1 || column[i + 1] == Alphabet.emptySymbol);
+        return column[i] != emptySymbol && (i == ScrabbleResources.boardSize - 1 || column[i + 1] == emptySymbol);
     }
 
     public static String extractContent(char[] column, int start, int end) {
@@ -77,23 +89,50 @@ public class ColumnFinder {
         return indexes;
     }
 
+//    public List<Word> find(int columnNumber) {
+//        String columnLetters = getLetters(board[columnNumber]);
+//        List<Block> blocks = findBlocks(board[columnNumber]);
+//        List<String> potentialWords = DictionaryFinder.getPotentialWords(columnLetters, rack, dictionary, minBlockLength(blocks));
+//
+//        List<Word> words = new FastList<>();
+//        for(Block block : findBlocks(board[columnNumber]) ) {
+//            for (String potentialWord : potentialWords) {
+//                for (Word possibleWord : getPossibleWordsFromPotential(potentialWord, block, columnNumber)) {
+//                    if(checker.doFits(possibleWord)) words.add(possibleWord);
+//                }
+//            }
+//        }
+//        return words;
+//    }
+
     public List<Word> find(int columnNumber) {
-        return findBlocks(board[columnNumber])
+        String columnLetters = getLetters(board[columnNumber]);
+        List<Block> blocks = findBlocks(board[columnNumber]);
+        return DictionaryFinder.getPotentialWords(columnLetters, rack, dictionary, minBlockLength(blocks))
                 .stream().parallel()
-                .map(block -> getPossibleWordsForBlock(block, columnNumber))
+                .map(potentialWord -> {
+                    List<Word> words = new FastList<>();
+                    for(Block block : findBlocks(board[columnNumber]) ) {
+                        for (Word possibleWord : getPossibleWordsFromPotential( potentialWord, block, columnNumber)) {
+                            if(checker.doFits(possibleWord)) words.add(possibleWord);
+                        }
+                    }
+                    return words;
+                })
                 .flatMap(List::stream)
-                .filter(checker::doFits)
-                .toList();
+                .collect(Collectors.toList());
     }
 
 
-    public List<Word> getPossibleWordsForBlock(Block block, int columnNumber) {
-        List<Word> words = new FastList<>();
-        for (String potentialWord : DictionaryFinder.getPotentialWords(block.content, rack, dictionary)) {
-            if (potentialWord.length() <= block.length()) continue;
-            words.addAll(getPossibleWordsFromPotential(potentialWord, block, columnNumber));
+    public int minBlockLength(List<Block> blocks){
+        if(blocks.size() == 0) return 0;
+
+        int minLen = Integer.MAX_VALUE;
+        for(Block block:blocks){
+            int len = block.content.length();
+            if(len < minLen) minLen = len;
         }
-        return words;
+        return minLen;
     }
 
 
