@@ -48,28 +48,26 @@ class LettersRecognizer:
     def get_letters_mask(self):
         return self._letters_mask
 
-    def recognize_letter_pytesseract(self, field):
-        english_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        polish_letters = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŻŹ"
-        config = f"--psm 10  -c tessedit_char_whitelist={polish_letters}"
-
-        data = pytesseract.image_to_data(field, output_type=pytesseract.Output.DICT, config=config, lang='pol')
-
-        best_id = data['conf'].index(max(data['conf']))
-        confidence = data['conf'][best_id]
-        letter = str(data['text'][best_id])
-
-        if len(letter) == 0:
-            letter = ' '
-        else:
-            letter = letter[0]
-
-        return letter, confidence
+    # def recognize_letter_pytesseract(self, field):
+    #     english_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    #     polish_letters = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŻŹ"
+    #     config = f"--psm 10  -c tessedit_char_whitelist={polish_letters}"
+    #
+    #     data = pytesseract.image_to_data(field, output_type=pytesseract.Output.DICT, config=config, lang='pol')
+    #
+    #     best_id = data['conf'].index(max(data['conf']))
+    #     confidence = data['conf'][best_id]
+    #     letter = str(data['text'][best_id])
+    #
+    #     if len(letter) == 0:
+    #         letter = ' '
+    #     else:
+    #         letter = letter[0]
+    #
+    #     return letter, confidence
 
     def recognize_letter_easyocr(self, image):
-        english_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        polish_letters = "AĄBCĆDEĘFGHIJKLŁMNŃOÓPRSŚTUWYZŻŹ"
-        results = self.reader.recognize(image, allowlist=polish_letters)
+        results = self.reader.recognize(image, allowlist=self._allow_letters)
 
         if len(results) == 0: return " ", 100
         bestResult = _get_best_result(results)
