@@ -1,8 +1,6 @@
 import cv2 as cv
 import numpy as np
-import pytesseract
 from easyocr import easyocr
-
 
 from .letters_mask_creator import get_letters_mask
 from ..utils import print_image, draw_scrabble_grid_on_board, draw_grid_and_letters_on_board
