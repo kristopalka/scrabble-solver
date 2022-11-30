@@ -9,9 +9,9 @@ import java.util.*;
 @Slf4j
 public class Dictionary {
     private final List<String> dictionary;
-    private final Map<String, List<String>> requiredLettersPossibleWordsMap = new HashMap<>(); // <required letters, list of possible words>
+    private final Map<String, List<String>> requiredLettersToWordsMap = new HashMap<>(); // <required letters, list of possible words>
     private final List<char[]> sortedRequiredLetters = new FastList<>();
-    private final HashMap<Integer, Integer> sizesWordsIndexes = new HashMap<>(); // <word size, index of first word with size>
+    private final HashMap<Integer, Integer> sizeToWordsIndex = new HashMap<>(); // <word size, index of first word with size>
 
 
     public Dictionary(String path) {
@@ -32,10 +32,10 @@ public class Dictionary {
         for (String word : dictionary) {
             String requiredLetters = sortString(word);
 
-            List<String> possibleWords = requiredLettersPossibleWordsMap.get(requiredLetters);
+            List<String> possibleWords = requiredLettersToWordsMap.get(requiredLetters);
             if (possibleWords == null) {
                 possibleWords = new FastList<>();
-                requiredLettersPossibleWordsMap.put(requiredLetters, possibleWords);
+                requiredLettersToWordsMap.put(requiredLetters, possibleWords);
                 sortedRequiredLetters.add(requiredLetters.toCharArray());
             }
             possibleWords.add(word);
@@ -45,7 +45,7 @@ public class Dictionary {
     private void processingSizesWordsIndexes() {
         for (int i = 1; i < sortedRequiredLetters.size(); i++) {
             if (sortedRequiredLetters.get(i).length > sortedRequiredLetters.get(i - 1).length) {
-                sizesWordsIndexes.put(sortedRequiredLetters.get(i).length, i);
+                sizeToWordsIndex.put(sortedRequiredLetters.get(i).length, i);
             }
         }
     }
@@ -62,7 +62,7 @@ public class Dictionary {
     }
 
     public List<String> getWordsByRequiredLetters(String key) {
-        List<String> possibleWords = requiredLettersPossibleWordsMap.get(key);
+        List<String> possibleWords = requiredLettersToWordsMap.get(key);
         if (possibleWords != null) return possibleWords;
         else return new FastList<>();
     }
@@ -74,7 +74,7 @@ public class Dictionary {
     public int indexOfFirstWordWithLength(int length) {
         if (length == 0 || length == 1 || length == 2) return 0;
         if (length > 15) return sortedRequiredLetters.size();
-        return sizesWordsIndexes.get(length);
+        return sizeToWordsIndex.get(length);
     }
 
     public List<String> getWords() {
