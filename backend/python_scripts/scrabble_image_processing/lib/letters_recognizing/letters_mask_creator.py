@@ -20,7 +20,7 @@ def _percent_of_black_on_field(image):
 
 
 def _map_to_boolean(confidence):
-    return confidence > 10
+    return confidence > 6
 
 
 def _preprocess_image(image):

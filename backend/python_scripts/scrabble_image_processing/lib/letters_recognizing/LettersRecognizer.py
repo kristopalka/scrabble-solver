@@ -12,7 +12,7 @@ def _preprocess(image):
     image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     image = cv.bilateralFilter(image, 25, 80, 80)
     image = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_MEAN_C, cv.THRESH_BINARY, 35, 20)
-    image = cv.dilate(image, np.ones((3, 3), np.uint8))
+    # image = cv.dilate(image, np.ones((3, 3), np.uint8))
     return image
 
 
@@ -45,6 +45,8 @@ class LettersRecognizer:
     def get_confidences(self):
         return self._confs
 
+    def get_letters_mask(self):
+        return self._letters_mask
 
     def recognize_letter_pytesseract(self, field):
         english_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
