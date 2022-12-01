@@ -1,7 +1,7 @@
 package com.scrabble.backend.api;
 
 import com.scrabble.backend.api.dto.GameStateDto;
-import com.scrabble.backend.api.dto.ImagePointsDto;
+import com.scrabble.backend.api.dto.ImageAndPointsDto;
 import com.scrabble.backend.api.dto.InfoDto;
 import com.scrabble.backend.api.dto.WordDto;
 import com.scrabble.backend.image_processing.ImageProcessingService;
@@ -9,7 +9,6 @@ import com.scrabble.backend.solving.SolvingService;
 import com.scrabble.backend.solving.solver.finder.Word;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +26,7 @@ public class Controller {
 
     @PostMapping(value = "/find-corners")
     public @ResponseBody ResponseEntity<String> findCorners(@RequestBody String base64Image) throws IOException {
-        byte[] binaryImage = Base64.decodeBase64(base64Image);
-        String output = imageProcessingService.findCorners(binaryImage);
+        String output = imageProcessingService.findCorners(base64Image);
 
         if (output.contains("NOT_FOUND"))
             return new ResponseEntity<>("Not found board on photo", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -37,10 +35,9 @@ public class Controller {
 
 
     @PostMapping(value = "/crop-and-recognize")
-    public @ResponseBody ResponseEntity<String> cropAndRecognize(@RequestBody ImagePointsDto imagePoints,
+    public @ResponseBody ResponseEntity<String> cropAndRecognize(@RequestBody ImageAndPointsDto imagePoints,
                                                                  @RequestParam(defaultValue = "en") String lang) throws IOException {
-        byte[] binaryImage = Base64.decodeBase64(imagePoints.getBase64Image());
-        return new ResponseEntity<>(imageProcessingService.cropAndRecognize(binaryImage, imagePoints.getCorners(), lang), HttpStatus.OK);
+        return new ResponseEntity<>(imageProcessingService.cropAndRecognize(imagePoints, lang), HttpStatus.OK);
     }
 
 

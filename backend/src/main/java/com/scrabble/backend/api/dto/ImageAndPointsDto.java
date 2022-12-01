@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ImagePointsDto {
+public class ImageAndPointsDto {
     private List<Coordinates> corners;
 
     private String base64Image;

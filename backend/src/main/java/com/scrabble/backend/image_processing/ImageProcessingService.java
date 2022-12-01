@@ -1,14 +1,14 @@
 package com.scrabble.backend.image_processing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.scrabble.backend.api.dto.ImagePointsDto;
+import com.scrabble.backend.api.dto.ImageAndPointsDto;
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 
 import static com.scrabble.backend.image_processing.PythonRunner.executeScript;
 
@@ -23,19 +23,22 @@ public class ImageProcessingService {
 
 
 
-    public String findCorners(byte[] image) throws IOException {
-        IOTemp temp = new IOTemp(image);
+    public String findCorners(String base64Image) throws IOException {
+        byte[] binaryImage = Base64.decodeBase64(base64Image);
+
+        IOTemp temp = new IOTemp(binaryImage);
         String output = executeScript(exec, scripts + "find_corners.py", temp.getPath());
         temp.delete();
 
         return output;
     }
 
-    public String cropAndRecognize(byte[] inImage, List<ImagePointsDto.Coordinates> corners, String lang) throws IOException {
-        IOTemp temp = new IOTemp(inImage);
+    public String cropAndRecognize(ImageAndPointsDto imageAndPointsDto, String lang) throws IOException {
+        byte[] binaryImage = Base64.decodeBase64(imageAndPointsDto.getBase64Image());
+        IOTemp temp = new IOTemp(binaryImage);
 
         String allowLetters = ScrabbleResources.getAlphabet(lang).getLettersAsString().toUpperCase();
-        String cornersJson = mapper.writeValueAsString(corners);
+        String cornersJson = mapper.writeValueAsString(imageAndPointsDto.getCorners());
 
         String output = executeScript(exec, scripts + "crop_and_recognize.py", temp.getPath(), cornersJson, lang, allowLetters);
 
