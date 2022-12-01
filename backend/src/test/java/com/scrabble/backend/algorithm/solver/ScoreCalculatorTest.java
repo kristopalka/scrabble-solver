@@ -1,7 +1,7 @@
 package com.scrabble.backend.algorithm.solver;
 
-import com.scrabble.backend.solving.scrabble.BoardBuilder;
-import com.scrabble.backend.solving.scrabble.ScoreCalculator;
+import com.scrabble.backend.solving.solver.BoardBuilder;
+import com.scrabble.backend.solving.solver.ScoreCalculator;
 import com.scrabble.backend.solving.solver.finder.Word;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

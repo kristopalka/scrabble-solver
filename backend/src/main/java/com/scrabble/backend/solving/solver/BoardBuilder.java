@@ -1,11 +1,12 @@
-package com.scrabble.backend.solving.scrabble;
+package com.scrabble.backend.solving.solver;
 
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.solver.finder.Word;
 import lombok.Getter;
 
 import java.util.Arrays;
 
-import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
+import static com.scrabble.backend.solving.scrabble.Alphabet.emptySymbol;
 
 public class BoardBuilder {
     @Getter

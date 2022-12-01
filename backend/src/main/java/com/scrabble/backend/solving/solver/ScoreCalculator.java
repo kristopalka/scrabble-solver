@@ -1,14 +1,14 @@
-package com.scrabble.backend.solving.scrabble;
+package com.scrabble.backend.solving.solver;
 
-import com.scrabble.backend.solving.scrabble.resources.Alphabet;
-import com.scrabble.backend.solving.scrabble.resources.Bonuses;
+import com.scrabble.backend.solving.scrabble.Alphabet;
+import com.scrabble.backend.solving.scrabble.Bonuses;
+import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.solver.finder.Word;
 
 import java.awt.*;
 import java.util.Arrays;
 
 import static com.scrabble.backend.solving.scrabble.ScrabbleResources.rackSize;
-import static com.scrabble.backend.solving.scrabble.resources.Bonuses.getBonusAt;
 
 public class ScoreCalculator {
     private static final int bonusForUsingAllLetters = 50;
@@ -64,7 +64,7 @@ public class ScoreCalculator {
 
     private Bonuses.Bonus bonusIfBoardEmpty(Point point) {
         if (boardAt(point) == Alphabet.emptySymbol) {
-            return getBonusAt(point);
+            return ScrabbleResources.bonuses.getBonusAt(point);
         }
         return Bonuses.Bonus.EMPTY;
     }

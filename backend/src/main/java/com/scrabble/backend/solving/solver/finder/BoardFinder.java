@@ -1,7 +1,7 @@
 package com.scrabble.backend.solving.solver.finder;
 
+import com.scrabble.backend.solving.scrabble.Alphabet;
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
-import com.scrabble.backend.solving.scrabble.resources.Alphabet;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.awt.*;
@@ -17,7 +17,8 @@ public class BoardFinder {
     public static List<Word> getAll(char[][] board, String rack, String lang) {
         if (isBoardClear(board)) return findForClearBoard(rack, lang);
 
-        List<Word> allWords = getVertical(board, rack, lang);
+        List<Word> allWords = new FastList<>();
+        allWords.addAll(getVertical(board, rack, lang));
         allWords.addAll(getHorizontal(board, rack, lang));
         return allWords;
     }

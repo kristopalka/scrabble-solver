@@ -1,6 +1,6 @@
 package com.scrabble.backend.algorithm;
 
-import com.scrabble.backend.solving.scrabble.BoardBuilder;
+import com.scrabble.backend.solving.solver.BoardBuilder;
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import com.scrabble.backend.solving.solver.Solver;
 import com.scrabble.backend.solving.solver.finder.Word;

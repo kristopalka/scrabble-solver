@@ -1,4 +1,4 @@
-package com.scrabble.backend.solving.scrabble.resources;
+package com.scrabble.backend.solving.scrabble;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.collections.impl.list.mutable.FastList;

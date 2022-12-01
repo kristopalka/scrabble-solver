@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 import java.util.List;
 
-import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
+import static com.scrabble.backend.solving.scrabble.Alphabet.emptySymbol;
 import static com.scrabble.backend.solving.solver.finder.ColumnFinder.*;
 
 public class ColumnFinderTest {

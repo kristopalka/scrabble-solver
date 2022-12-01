@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static com.scrabble.backend.solving.scrabble.ScrabbleResources.*;
-import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
+import static com.scrabble.backend.solving.scrabble.Alphabet.emptySymbol;
 import static com.scrabble.backend.solving.solver.Solver.getWords;
 
 @Service

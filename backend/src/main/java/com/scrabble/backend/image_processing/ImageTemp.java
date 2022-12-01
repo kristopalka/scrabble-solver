@@ -6,19 +6,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class IOTemp {
+public class ImageTemp {
     private static final String imagePref = "file";
     private static final String imageExt = ".jpg";
     private final File tempDir = new File(".temp");
     private final File imageFile;
 
 
-    public IOTemp(String path) throws IOException {
+    public ImageTemp(String path) throws IOException {
         createTempDirIfNotExist();
         imageFile = new File(path);
     }
 
-    public IOTemp(byte[] image) throws IOException {
+    public ImageTemp(byte[] image) throws IOException {
         createTempDirIfNotExist();
         imageFile = new File(generateUniquePath(image));
         FileOutputStream out = new FileOutputStream(imageFile);

@@ -26,7 +26,7 @@ public class ImageProcessingService {
     public String findCorners(String base64Image) throws IOException {
         byte[] binaryImage = Base64.decodeBase64(base64Image);
 
-        IOTemp temp = new IOTemp(binaryImage);
+        ImageTemp temp = new ImageTemp(binaryImage);
         String output = executeScript(exec, scripts + "find_corners.py", temp.getPath());
         temp.delete();
 
@@ -35,7 +35,7 @@ public class ImageProcessingService {
 
     public String cropAndRecognize(ImageAndPointsDto imageAndPointsDto, String lang) throws IOException {
         byte[] binaryImage = Base64.decodeBase64(imageAndPointsDto.getBase64Image());
-        IOTemp temp = new IOTemp(binaryImage);
+        ImageTemp temp = new ImageTemp(binaryImage);
 
         String allowLetters = ScrabbleResources.getAlphabet(lang).getLettersAsString().toUpperCase();
         String cornersJson = mapper.writeValueAsString(imageAndPointsDto.getCorners());

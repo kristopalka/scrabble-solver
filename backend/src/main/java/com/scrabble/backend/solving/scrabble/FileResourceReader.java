@@ -1,4 +1,4 @@
-package com.scrabble.backend.solving.scrabble.resources;
+package com.scrabble.backend.solving.scrabble;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

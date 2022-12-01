@@ -1,6 +1,4 @@
-package com.scrabble.backend.solving.scrabble.resources;
-
-import com.scrabble.backend.solving.scrabble.ScrabbleResources;
+package com.scrabble.backend.solving.scrabble;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -8,14 +6,9 @@ import java.util.Arrays;
 public class Bonuses {
     public enum Bonus {EMPTY, DOUBLE_LETTER, TRIPLE_LETTER, DOUBLE_WORD, TRIPLE_WORD}
 
-    private static final Bonus[][] bonuses;
+    private final Bonus[][] bonuses = new Bonus[ScrabbleResources.boardSize][ScrabbleResources.boardSize];
 
-    static {
-        bonuses = new Bonus[ScrabbleResources.boardSize][ScrabbleResources.boardSize];
-        initializeBonuses();
-    }
-
-    private static void initializeBonuses() {
+    public Bonuses() {
         for (Bonus[] row : bonuses) Arrays.fill(row, Bonus.EMPTY);
         initializeBonusesDOUBLELETTER();
         initializeBonusesTRIPLELETTER();
@@ -23,7 +16,17 @@ public class Bonuses {
         initializeBonusesTRIPLEWORD();
     }
 
-    private static void initializeBonusesDOUBLELETTER() {
+    public Bonus[][] getBonuses() {
+        return bonuses;
+    }
+
+    public Bonus getBonusAt(Point point) {
+        if (point.x < 0 || point.x >= ScrabbleResources.boardSize || point.y < 0 || point.y >= ScrabbleResources.boardSize)
+            throw new IllegalArgumentException(String.format("Given coordinates (%d,%d) goes beyond field", point.x, point.y));
+        return bonuses[point.x][point.y];
+    }
+
+    private void initializeBonusesDOUBLELETTER() {
         bonuses[0][3] = Bonus.DOUBLE_LETTER;
         bonuses[0][11] = Bonus.DOUBLE_LETTER;
 
@@ -60,7 +63,7 @@ public class Bonuses {
         bonuses[8][12] = Bonus.DOUBLE_LETTER;
     }
 
-    private static void initializeBonusesTRIPLELETTER() {
+    private void initializeBonusesTRIPLELETTER() {
 
         bonuses[1][5] = Bonus.TRIPLE_LETTER;
         bonuses[1][9] = Bonus.TRIPLE_LETTER;
@@ -79,7 +82,7 @@ public class Bonuses {
         bonuses[13][9] = Bonus.TRIPLE_LETTER;
     }
 
-    private static void initializeBonusesDOUBLEWORD() {
+    private void initializeBonusesDOUBLEWORD() {
         bonuses[1][1] = Bonus.DOUBLE_WORD;
         bonuses[2][2] = Bonus.DOUBLE_WORD;
         bonuses[3][3] = Bonus.DOUBLE_WORD;
@@ -102,7 +105,7 @@ public class Bonuses {
 
     }
 
-    private static void initializeBonusesTRIPLEWORD() {
+    private void initializeBonusesTRIPLEWORD() {
         bonuses[0][0] = Bonus.TRIPLE_WORD;
         bonuses[14][0] = Bonus.TRIPLE_WORD;
         bonuses[0][14] = Bonus.TRIPLE_WORD;
@@ -114,14 +117,5 @@ public class Bonuses {
         bonuses[14][7] = Bonus.TRIPLE_WORD;
     }
 
-    public static Bonus[][] getBonuses() {
-        return bonuses;
-    }
-
-    public static Bonus getBonusAt(Point point) {
-        if (point.x < 0 || point.x >= ScrabbleResources.boardSize || point.y < 0 || point.y >= ScrabbleResources.boardSize)
-            throw new IllegalArgumentException(String.format("Given coordinates (%d,%d) goes beyond field", point.x, point.y));
-        return bonuses[point.x][point.y];
-    }
 
 }

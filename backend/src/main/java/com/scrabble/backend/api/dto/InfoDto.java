@@ -2,8 +2,8 @@ package com.scrabble.backend.api.dto;
 
 import com.scrabble.backend.solving.SolvingService;
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
-import com.scrabble.backend.solving.scrabble.resources.Alphabet;
-import com.scrabble.backend.solving.scrabble.resources.Bonuses;
+import com.scrabble.backend.solving.scrabble.Alphabet;
+import com.scrabble.backend.solving.scrabble.Bonuses;
 import lombok.Data;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
@@ -25,7 +25,7 @@ public class InfoDto {
         this.emptySymbol = String.valueOf(Alphabet.emptySymbol);
         this.modes = List.of(SolvingService.modes);
         this.langs = ScrabbleResources.supportedLanguages;
-        this.boardBonuses = Bonuses.getBonuses();
+        this.boardBonuses = ScrabbleResources.bonuses.getBonuses();
 
         this.lettersValues = new FastList<>();
         for (String lang : langs) {

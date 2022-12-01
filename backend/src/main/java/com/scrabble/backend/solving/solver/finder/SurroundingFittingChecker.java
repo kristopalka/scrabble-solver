@@ -1,7 +1,7 @@
 package com.scrabble.backend.solving.solver.finder;
 
-import com.scrabble.backend.solving.scrabble.resources.Dictionary;
-import com.scrabble.backend.solving.scrabble.resources.Alphabet;
+import com.scrabble.backend.solving.scrabble.Dictionary;
+import com.scrabble.backend.solving.scrabble.Alphabet;
 
 public class SurroundingFittingChecker {
     protected final char[][] board;

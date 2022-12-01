@@ -1,19 +1,18 @@
 package com.scrabble.backend.solving.solver.finder;
 
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
-import com.scrabble.backend.solving.scrabble.resources.Dictionary;
+import com.scrabble.backend.solving.scrabble.Dictionary;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.eclipse.collections.impl.list.mutable.FastList;
 import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;
 
-import javax.swing.plaf.basic.BasicListUI;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.scrabble.backend.solving.scrabble.resources.Alphabet.emptySymbol;
+import static com.scrabble.backend.solving.scrabble.Alphabet.emptySymbol;
 
 public class ColumnFinder {
     private final char[][] board;

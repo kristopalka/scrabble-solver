@@ -3,12 +3,12 @@ package com.scrabble.backend;
 import com.scrabble.backend.api.dto.InfoDto;
 import com.scrabble.backend.api.dto.LettersValuesDto;
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
-import com.scrabble.backend.solving.scrabble.resources.Alphabet;
+import com.scrabble.backend.solving.scrabble.Alphabet;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InfoConstructionTest {
+public class InfoConstructionIntegrationTest {
     @Test
     public void lettersValuesDtoConstructorTest() {
         LettersValuesDto dto = new LettersValuesDto("en");

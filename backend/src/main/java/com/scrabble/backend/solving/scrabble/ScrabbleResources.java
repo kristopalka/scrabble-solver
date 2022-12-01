@@ -1,8 +1,5 @@
 package com.scrabble.backend.solving.scrabble;
 
-import com.scrabble.backend.solving.scrabble.resources.Alphabet;
-import com.scrabble.backend.solving.scrabble.resources.Dictionary;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +11,8 @@ public class ScrabbleResources {
 
     private static final Map<String, Alphabet> loadedAlphabets = new HashMap<>();
     private static final Map<String, Dictionary> loadedDictionaries = new HashMap<>();
+
+    public static final Bonuses bonuses = new Bonuses();
 
     public static String path = "./scrabble_resources/";
 

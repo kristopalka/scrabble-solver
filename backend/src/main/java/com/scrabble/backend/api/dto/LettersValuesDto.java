@@ -1,7 +1,7 @@
 package com.scrabble.backend.api.dto;
 
 import com.scrabble.backend.solving.scrabble.ScrabbleResources;
-import com.scrabble.backend.solving.scrabble.resources.Alphabet;
+import com.scrabble.backend.solving.scrabble.Alphabet;
 import lombok.Data;
 import org.eclipse.collections.impl.list.mutable.FastList;
 import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;

@@ -1,15 +1,13 @@
 package com.scrabble.backend.solving.solver.finder;
 
-import com.scrabble.backend.solving.scrabble.resources.Dictionary;
+import com.scrabble.backend.solving.scrabble.Dictionary;
 import org.apache.logging.log4j.util.Strings;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 
 public class DictionaryFinder {
