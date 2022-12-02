@@ -10,5 +10,5 @@ There will show QR code, scan it by Expo Go app.
 
 ## Todo
  - upgrade character recognition method
- - add support to blanks
- - upgrade algorithm (bridges and parallel words)
+ - add support for blanks
+ - repair algorithm parallel words
