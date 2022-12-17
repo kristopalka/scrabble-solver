@@ -44,7 +44,7 @@ export default function App() {
     const [rack, setRack] = useState(emptyRack);
     const [words, setWords] = useState([]);
 
-    const [url, setUrl] = useState("http://192.168.1.11:8080");
+    const [url, setUrl] = useState("http://10.144.0.2:8081");
 
     useEffect(() => {
         const loadSettings = async () => {
