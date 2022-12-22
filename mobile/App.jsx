@@ -181,7 +181,7 @@ export default function App() {
             case pages.error:
                 return <ErrorPage
                     text={"Some error occurs"}
-                    additionalText={"Please try again later"}
+                    additionalText={""}
                     goCamera={() => goPage(pages.camera)}/>
             default:
                 return <ErrorPage
