@@ -44,7 +44,7 @@ export default function App() {
     const [rack, setRack] = useState(emptyRack);
     const [words, setWords] = useState([]);
 
-    const [url, setUrl] = useState("http://192.168.1.11:8080");
+    const [url, setUrl] = useState("192.168.1.11:8080");
 
     useEffect(() => {
         const loadSettings = async () => {
@@ -181,7 +181,7 @@ export default function App() {
             case pages.error:
                 return <ErrorPage
                     text={"Some error occurs"}
-                    additionalText={""}
+                    additionalText={"Please try again later"}
                     goCamera={() => goPage(pages.camera)}/>
             default:
                 return <ErrorPage

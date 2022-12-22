@@ -10,11 +10,11 @@ letters_template = [
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ],
     [' ', 'Ę', ' ', 'F', ' ', 'G', ' ', 'H', ' ', 'I', ' ', 'J', ' ', 'K', ' ', ],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ],
-    [' ', 'L', ' ', 'Ł', ' ', 'M', ' ', 'N', ' ', 'O', ' ', 'Ó', ' ', 'P', ' ', ],
+    [' ', 'L', ' ', 'Ł', ' ', 'M', ' ', 'N', ' ', 'Ń', ' ', 'O', ' ', 'Ó', ' ', ],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ],
-    [' ', 'R', ' ', 'S', ' ', 'Ś', ' ', 'T', ' ', 'U', ' ', 'W', ' ', 'Y', ' ', ],
+    [' ', 'p', ' ', 'R', ' ', 'S', ' ', 'Ś', ' ', 'T', ' ', 'U', ' ', 'W', ' ', ],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ],
-    [' ', 'Z', ' ', 'Ż', ' ', 'Ź', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ],
+    [' ', 'Y', ' ', 'Z', ' ', 'Ż', ' ', 'Ź', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ],
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ],
@@ -22,7 +22,7 @@ letters_template = [
     [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ]]
 
 # -------------------------------------------
-path = '/run/media/krist/Data/Projects/scrabble-solver/resources/green_boards/extracted/'
+path = '/home/krist/Downloads/inżynierka/rozpoznawanie zdjęcia/extracted/'
 # -------------------------------------------
 n = 0
 unexpected_letter = 0
@@ -38,7 +38,6 @@ wrong_mask_unexpected_empty = 0
 
 for image_name in os.listdir(path):
     if image_name.endswith(".jpg"):
-        print(image_name)
         board_image = load_image(path + image_name)
         board = Board(board_image, board_image.shape[0], 0)
 
@@ -49,6 +48,8 @@ for image_name in os.listdir(path):
         letters = recognizer.get_letters()
         confidences = recognizer.get_confidences()
         letters_mask = recognizer.get_letters_mask()
+
+        correct_local = 0
 
         for x in range(0, 15):
             for y in range(0, 15):
@@ -68,6 +69,7 @@ for image_name in os.listdir(path):
                     if actual == ' ':
                         correct_empty += 1
                     else:
+                        correct_local += 1
                         correct_letter += 1
                 else:
                     if actual == ' ':
@@ -77,26 +79,25 @@ for image_name in os.listdir(path):
                             unexpected_letter += 1
                         else:
                             wrong_letter += 1
+        print(image_name, "-", correct_local)
 
 correct = correct_empty + correct_letter
 incorrect = unexpected_letter + unexpected_empty + wrong_letter
 
 
 
-
-
-print("Correct: ", round(correct / n * 100, 3), "%")
-print("Incorrect: ", round(incorrect / n * 100, 3), "%")
-print("Correct letter: ", round(correct_letter / n * 100, 3), "%")
-print("Correct empty: ", round(correct_empty / n * 100, 3), "%")
-print("Correct mask: ", round(correct_mask / n * 100, 3), "%")
-print("Unexpected empty mask: ", round(wrong_mask_unexpected_empty / n * 100, 3), "%")
-print("Unexpected letter mask: ", round(wrong_mask_unexpected_letter / n * 100, 3), "%")
+print("Poprawność wstępnej kwalifikacji: ", round(correct_mask / n * 100, 3), "%")
+print("Nieoczekiwane puste: ", round(wrong_mask_unexpected_empty / n * 100, 3), "%")
+print("Nieoczekiwana litera: ", round(wrong_mask_unexpected_letter / n * 100, 3), "%")
 print()
 
-print("Unexpected letter: ", round(unexpected_letter / n * 100, 3), "%")
-print("Unexpected empty: ", round(unexpected_empty / n * 100, 3), "%")
-print("Wrong letter: ", round(wrong_letter / n * 100, 3), "%")
+print("Poprawnie: ", round(correct / n * 100, 3), "%")
+print("Poprawnie litera: ", round(correct_letter / n * 100, 3), "%")
+print("Poprawnie puste: ", round(correct_empty / n * 100, 3), "%")
+print("Niepoprawnie: ", round(incorrect / n * 100, 3), "%")
+print("Nieoczekiwana litera: ", round(unexpected_letter / n * 100, 3), "%")
+print("Nieoczekiwane puste: ", round(unexpected_empty / n * 100, 3), "%")
+print("Niepoprawnie rozpoznane litery: ", round(wrong_letter / n * 100, 3), "%")
 print()
 
 print("One board processing")

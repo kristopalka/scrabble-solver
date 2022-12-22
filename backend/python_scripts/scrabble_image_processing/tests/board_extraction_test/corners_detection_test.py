@@ -10,9 +10,9 @@ from scrabble_image_processing.lib import *
 from scrabble_image_processing.lib.board_extraction.grouping_points import sort_points_clockwise
 
 # -------------------------------------------
-path = '/home/krist/Projects/scrabble-solver/resources/red_boards/'
+path = '/home/krist/Downloads/images/'
 marks_folder = '.marks/'
-debug = True
+debug = False
 # -------------------------------------------
 
 
@@ -54,7 +54,6 @@ def try_to_perform_algorithm(image_name):
         return corners
     except Exception as e:
         print('Error occurs on photo', image_name, e)
-        # traceback.print_exc()
         return None
 
 

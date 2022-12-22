@@ -5,7 +5,7 @@ from scrabble_image_processing.lib import *
 from scrabble_image_processing.lib.board_extraction.grouping_points import sort_points_clockwise
 
 print('On each picture click on four corners or board clockwise. Then, click "N" key. To close, click ESC')
-path = '/run/media/krist/Data/Projects/scrabble-solver/resources/green_boards/'
+path = '/home/krist/Downloads/inżynierka/rozpoznawanie zdjęcia/'
 extracted_folder = 'extracted/'
 # -------------------------------------------
 
@@ -15,8 +15,8 @@ image_name = None
 click_counter = 0
 image_points = []
 
-filenames = ["002.jpg"]
-#filenames = [file for file in os.listdir(path) if file.endswith(".jpg")]
+#filenames = ["002.jpg"]
+filenames = [file for file in os.listdir(path) if file.endswith(".jpg")]
 
 
 def click_event(event, x, y, flags, params):
@@ -63,6 +63,7 @@ def get_board(img, corners):
 
 for filename in filenames:
     original = cv.imread(path + filename)
+
     image, scale_fraction = change_image_size(original, 800)
     image_name = filename
     click_counter = 0

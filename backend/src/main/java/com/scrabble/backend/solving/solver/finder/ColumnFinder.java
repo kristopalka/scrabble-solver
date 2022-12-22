@@ -88,38 +88,19 @@ public class ColumnFinder {
         return indexes;
     }
 
-//    public List<Word> find(int columnNumber) {
-//        String columnLetters = getLetters(board[columnNumber]);
-//        List<Block> blocks = findBlocks(board[columnNumber]);
-//        List<String> potentialWords = DictionaryFinder.getPotentialWords(columnLetters, rack, dictionary, minBlockLength(blocks));
-//
-//        List<Word> words = new FastList<>();
-//        for(Block block : findBlocks(board[columnNumber]) ) {
-//            for (String potentialWord : potentialWords) {
-//                for (Word possibleWord : getPossibleWordsFromPotential(potentialWord, block, columnNumber)) {
-//                    if(checker.doFits(possibleWord)) words.add(possibleWord);
-//                }
-//            }
-//        }
-//        return words;
-//    }
 
     public List<Word> find(int columnNumber) {
-        String columnLetters = getLetters(board[columnNumber]);
         List<Block> blocks = findBlocks(board[columnNumber]);
-        return DictionaryFinder.getPotentialWords(columnLetters, rack, dictionary, minBlockLength(blocks))
-                .stream().parallel()
-                .map(potentialWord -> {
-                    List<Word> words = new FastList<>();
-                    for(Block block : findBlocks(board[columnNumber]) ) {
-                        for (Word possibleWord : getPossibleWordsFromPotential( potentialWord, block, columnNumber)) {
-                            if(checker.doFits(possibleWord)) words.add(possibleWord);
-                        }
-                    }
-                    return words;
-                })
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+        List<Word> words = new FastList<>();
+
+        for (Block block:findBlocks(board[columnNumber])) {
+            words.addAll(DictionaryFinder.getPotentialWords(block.content, rack, dictionary, minBlockLength(blocks))
+                    .stream().parallel()
+                    .map(potentialWord -> getPossibleWordsFromPotential(potentialWord, block, columnNumber))
+                    .flatMap(List::stream)
+                    .filter(checker::doFits).toList());
+        }
+        return words;
     }
 
 

@@ -1,10 +1,11 @@
 import json
+import os
 
 from scrabble_image_processing.lib import *
 
 # -------------------------------------------
 print('On each picture click on four corners or board clockwise. Then, click "N" key. To close, click ESC')
-path = '/home/krist/Projects/scrabble-solver/resources/red_boards/'
+path = '/home/krist/Downloads/images/'
 marks_folder = '.marks/'
 # -------------------------------------------
 
@@ -13,10 +14,10 @@ image = None
 image_name = None
 click_counter = 0
 image_points = []
-filenames = ["020.jpg", "016.jpg"]
 
 
-# filenames = [file for file in os.listdir(path) if file.endswith(".jpg")]
+filenames = ["025.jpg"]
+#filenames = [file for file in os.listdir(path) if file.endswith(".jpg")]
 
 
 def click_event(event, x, y, flags, params):
@@ -53,7 +54,7 @@ def change_image_size(img, lower_dim):
 
 for filename in filenames:
     original = cv.imread(path + filename)
-    image, scale_fraction = change_image_size(original, 800)
+    image, scale_fraction = change_image_size(original, 750)
     image_name = filename
     click_counter = 0
     image_points = []

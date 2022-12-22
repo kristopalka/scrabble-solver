@@ -7,7 +7,7 @@ export const networkFailed = "TypeError: Network request failed";
 
 export function requestFindCorners(url, image) {
     logger("Finding corners in backend");
-    url = url + '/find-corners';
+    url = 'http://' + url + '/find-corners';
 
     return fetch(url, {method: 'POST', body: image})
         .then(async (response) => {
@@ -28,7 +28,7 @@ export function requestFindCorners(url, image) {
 export function requestCropAndRecognize(url, image, corners, lang) {
     logger("Cropping and recognizing in backend");
     const data = {"base64Image": image, "corners": corners};
-    url = url + `/crop-and-recognize?lang=${lang}`;
+    url = 'http://' + url + `/crop-and-recognize?lang=${lang}`;
 
     return fetch(url, {
         method: 'POST',
@@ -39,7 +39,7 @@ export function requestCropAndRecognize(url, image, corners, lang) {
             logger("Response status: " + response.status)
             switch(response.status) {
                 case 200:
-                    return await response.json()
+                    return await response.json();
                 default:
                     throw somethingWentWrong;
             }
@@ -49,7 +49,7 @@ export function requestCropAndRecognize(url, image, corners, lang) {
 export function requestSolveScrabble(url, board, rack, lang, mode, number) {
     logger("Solving in backend");
     const data = {"board": board, "rack": rack};
-    url = url + `/solve?lang=${lang}&mode=${mode}&number=${number}`;
+    url = 'http://' + url + `/solve?lang=${lang}&mode=${mode}&number=${number}`;
 
     return fetch(url, {
         method: 'POST',
@@ -68,7 +68,7 @@ export function requestSolveScrabble(url, board, rack, lang, mode, number) {
 }
 
 export function requestInfo(url) {
-    return fetch(url + "/info")
+    return fetch('http://' + url + "/info")
         .then(async (response) => {
             logger("Response status: " + response.status)
             switch(response.status) {

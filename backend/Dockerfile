@@ -3,12 +3,12 @@ FROM maven:3.8.3-openjdk-17 AS build
 
 COPY src /home/app/src
 COPY src/main/resources/application-docker.properties /home/app/src/main/resources/application.properties
+COPY pom.xml /home/app/pom.xml
 
 COPY scrabble_resources /scrabble_resources
 COPY python_scripts /python_scripts
-COPY pom.xml /home/app/pom.xml
 
-RUN mvn -f /home/app/pom.xml clean package -Dmaven.test.skip
+RUN mvn -f /home/app/pom.xml package -Dmaven.test.skip=true
 
 
 
