@@ -80,11 +80,10 @@ export default function App() {
         }
     }
 
-    async function switchCameraToEditCorners(newPhoto, newLangIndex) {
+    async function switchCameraToEditCorners(newPhoto) {
         goPage(pages.loading)
         try {
             setPhoto(newPhoto);
-            setLangIndex(newLangIndex);
             setCorners(await requestFindCorners(url, newPhoto))
 
             goPage(pages.editCorners)
@@ -147,6 +146,7 @@ export default function App() {
                 return <CameraPage
                     langs={settings.langs}
                     langIndex={langIndex}
+                    setLangIndex={setLangIndex}
                     goEditCorners={switchCameraToEditCorners}
                     goEditBoard={() => goPage(pages.editBoard)}
                 />;

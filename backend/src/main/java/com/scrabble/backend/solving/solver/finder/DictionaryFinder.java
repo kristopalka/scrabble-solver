@@ -4,6 +4,7 @@ import com.scrabble.backend.solving.scrabble.Dictionary;
 import org.apache.logging.log4j.util.Strings;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,11 +23,11 @@ public class DictionaryFinder {
                 .parallel()
                 .mapToObj(i -> isSubsetOf(requiredLettersList.get(i), lettersToUse)
                         ? dictionary.getWordsByRequiredLetters(new String(requiredLettersList.get(i)))
-                        : new FastList<String>())
+                        : new ArrayList<String>())
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-//        List<String> possibleWords = new FastList<>();
+//        List<String> possibleWords = new ArrayList<>();
 //        for (int i = startIndex; i < endIndex; i++) {
 //            if (isSubsetOf(requiredLettersList.get(i), lettersToUse)) {
 //                possibleWords.addAll(dictionary.getWordsByRequiredLetters(new String(requiredLettersList.get(i))));

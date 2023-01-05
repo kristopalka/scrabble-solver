@@ -5,6 +5,7 @@ import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -17,7 +18,7 @@ public class BoardFinder {
     public static List<Word> getAll(char[][] board, String rack, String lang) {
         if (isBoardClear(board)) return findForClearBoard(rack, lang);
 
-        List<Word> allWords = new FastList<>();
+        List<Word> allWords = new ArrayList<>();
         allWords.addAll(getVertical(board, rack, lang));
         allWords.addAll(getHorizontal(board, rack, lang));
         return allWords;

@@ -4,6 +4,7 @@ import com.scrabble.backend.solving.scrabble.ScrabbleResources;
 import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Rotations {
@@ -20,7 +21,7 @@ public class Rotations {
 
 
     public static List<Word> rotateVerticalToHorizontal(List<Word> vertical) {
-        List<Word> horizontal = new FastList<>();
+        List<Word> horizontal = new ArrayList<>();
         for (Word verWord : vertical) {
             Word horWord = rotateWord(verWord);
 

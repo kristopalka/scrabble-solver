@@ -5,9 +5,10 @@ import com.scrabble.backend.solving.scrabble.Dictionary;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.eclipse.collections.impl.list.mutable.FastList;
-import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;
+
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ public class ColumnFinder {
     }
 
     public static List<Block> findBlocks(char[] column) {
-        List<Block> blocks = new FastList<>();
+        List<Block> blocks = new ArrayList<>();
         int start = -1;
         int end;
         for (int i = 0; i < ScrabbleResources.boardSize; i++) {
@@ -63,8 +64,8 @@ public class ColumnFinder {
     }
 
     public static List<Word> getPossibleWordsFromPotential(String potentialWord, Block block, int columnNumber) {
-        List<Word> words = new FastList<>();
-        IntArrayList occurrences = findOccurrences(block.content, potentialWord);
+        List<Word> words = new ArrayList<>();
+        ArrayList<Integer> occurrences = findOccurrences(block.content, potentialWord);
         for (int i = 0; i < occurrences.size(); i++) {
             Point begin = new Point(columnNumber, block.start - occurrences.get(i));
             Point entryBegin = new Point(columnNumber, block.start);
@@ -75,8 +76,8 @@ public class ColumnFinder {
         return words;
     }
 
-    public static IntArrayList findOccurrences(String block, String word) {
-        IntArrayList indexes = new IntArrayList();
+    public static ArrayList<Integer> findOccurrences(String block, String word) {
+        ArrayList<Integer> indexes = new ArrayList<Integer>();
         int index = 0;
         while (index != -1) {
             index = word.indexOf(block, index);
@@ -91,7 +92,7 @@ public class ColumnFinder {
 
     public List<Word> find(int columnNumber) {
         List<Block> blocks = findBlocks(board[columnNumber]);
-        List<Word> words = new FastList<>();
+        List<Word> words = new ArrayList<>();
 
         for (Block block:findBlocks(board[columnNumber])) {
             words.addAll(DictionaryFinder.getPotentialWords(block.content, rack, dictionary, minBlockLength(blocks))

@@ -10,7 +10,7 @@ import java.util.*;
 public class Dictionary {
     private final List<String> dictionary;
     private final Map<String, List<String>> requiredLettersToWordsMap = new HashMap<>(); // <required letters, list of possible words>
-    private final List<char[]> sortedRequiredLetters = new FastList<>();
+    private final List<char[]> sortedRequiredLetters = new ArrayList<>();
     private final HashMap<Integer, Integer> sizeToWordsIndex = new HashMap<>(); // <word size, index of first word with size>
 
 
@@ -34,7 +34,7 @@ public class Dictionary {
 
             List<String> possibleWords = requiredLettersToWordsMap.get(requiredLetters);
             if (possibleWords == null) {
-                possibleWords = new FastList<>();
+                possibleWords = new ArrayList<>();
                 requiredLettersToWordsMap.put(requiredLetters, possibleWords);
                 sortedRequiredLetters.add(requiredLetters.toCharArray());
             }
@@ -64,7 +64,7 @@ public class Dictionary {
     public List<String> getWordsByRequiredLetters(String key) {
         List<String> possibleWords = requiredLettersToWordsMap.get(key);
         if (possibleWords != null) return possibleWords;
-        else return new FastList<>();
+        else return new ArrayList<>();
     }
 
     public List<char[]> getAllRequiredLettersList() {

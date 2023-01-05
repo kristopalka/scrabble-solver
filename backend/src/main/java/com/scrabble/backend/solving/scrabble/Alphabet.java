@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.collections.impl.list.mutable.FastList;
 import org.springframework.util.StopWatch;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ public class Alphabet {
     public static final char emptySymbol = ' ';
 
     private final Map<Character, Integer> letterValueMap = new HashMap<>();
-    private final List<Character> letters = new FastList<>();
+    private final List<Character> letters = new ArrayList<>();
 
 
     public Alphabet(String path) {

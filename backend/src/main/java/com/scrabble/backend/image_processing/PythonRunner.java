@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,7 +37,7 @@ public class PythonRunner {
     }
 
     public static String executeScript(String pythonExec, String absoluteFilePath, String... args) throws IOException {
-        List<String> command = new FastList<>();
+        List<String> command = new ArrayList<>();
         command.add(pythonExec);
         command.add(absoluteFilePath);
         command.addAll(List.of(args));
