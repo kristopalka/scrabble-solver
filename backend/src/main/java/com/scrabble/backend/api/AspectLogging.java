@@ -47,7 +47,7 @@ public class AspectLogging {
             else {
                 String str = result.toString();
                 int len = str.length();
-                if (len > 500) builder.append(String.format("%20.20s...", str));
+                if (len > 5000) builder.append(String.format("%5000.5000s...", str));
                 else builder.append(str);
             }
             builder.append(", ");
@@ -60,7 +60,7 @@ public class AspectLogging {
         else {
             String str = result.toString();
             int len = str.length();
-            if (len > 500) return String.format("%50.50s...", str);
+            if (len > 5000) return String.format("%5000.5000s...", str);
             return str;
         }
     }
