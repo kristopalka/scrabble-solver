@@ -3,7 +3,7 @@ Scrabble is one of the most popular word games in the world, consisting of arran
 The application analyzes a photo from the phone's camera, which improves the input of game status information. It uses image processing with the OpenCV library in Python. After the scanning stage, the mobile app suggests correct moves to the player, based on a scrabble-solving algorithm. All calculations are performed on the server, by a dedicated application backend. It is implemented in Java in the Spring Boot framework.
 
 
-![Alt Text](https://github.com/kristopalka/scrabble-solver/blob/master/resources/gitresources/demo.gif?raw=true)
+![Alt Text](https://github.com/kristopalka/scrabble-solver/blob/master/resources/gitresources/demo_small.gif?raw=true)
 
 ## How to run
 You need **docker**, **docker-compose** and **npm** installed on your computer. Also, you need **Expo Go** mobile app installed on your mobile device.
