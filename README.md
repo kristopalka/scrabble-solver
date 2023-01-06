@@ -5,16 +5,9 @@ The application analyzes a photo from the phone's camera, which improves the inp
 <img src="https://github.com/kristopalka/scrabble-solver/blob/master/resources/gitresources/app_demo.gif?raw=true" width="300"/>
 </p>
 
-All calculations are performed on the server-side, by a dedicated application backend. It is implemented in Java with the Spring Boot framework, and containerized with Docker. The application architecture is as follows:
+All calculations are performed on the server, by a dedicated server-side application. It is implemented in Java and the Spring Boot framework, containerized by Docker. The simple schema of application architecture is as follows:
 <p align="center">
 <img src="https://github.com/kristopalka/scrabble-solver/blob/master/resources/gitresources/architekture.png?raw=true" width="400"/>
-</p>
-
-
-## User flow
-User flow of the application along with HTTP requests to the backend look like this:
-<p align="center">
-<img src="https://github.com/kristopalka/scrabble-solver/blob/master/resources/gitresources/user_flow.png?raw=true" width="600"/>
 </p>
 
 
