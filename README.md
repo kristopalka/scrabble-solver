@@ -13,12 +13,12 @@ All calculations are performed on the server, by a dedicated server-side applica
 
 # How to run
 
-## Backend
+### Backend
 You need **docker**, **docker-compose** installed on your computer. Go to backend folder and run the following command. It will automatically build and run an app on port 8080.
 > docker-compose up -d scrabble-solver-backend
 
 
-## Mobile app
+### Mobile app
 Download built version of app and install on your mobile phone. Then enter the ip address of your computer in the application. 
 If you want to develop this app, you need **npm** package manager on computer, and **Expo Go** mobile app installed on mobile device. Then go to mobile folder and run the following command. There will show QR code, scan it by Expo Go app.
 > npm start
