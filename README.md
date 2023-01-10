@@ -2,12 +2,12 @@
 Scrabble is one of the most popular word games in the world, consisting of arranging words on a special board. The repository contains the code for a mobile application that allows the player to quickly find well-scoring words while playing scrabble. The program helps players plan their moves better, increases the chances of winning, and teaches new words. It is implemented in the React Native framework.
 The application analyzes a photo from the phone's camera, which improves the input of game status information. It uses image processing with the OpenCV library in Python. After the scanning stage, the mobile app suggests correct moves to the player, based on a scrabble-solving algorithm. Typical user workflow is presented on the gif:
 <p align="center">
-<img src="https://github.com/kristopalka/scrabble-solver/blob/master/resources/gitresources/app_demo.gif?raw=true" width="300"/>
+<img src="https://github.com/kristopalka/scrabble-solver/blob/master/resources/app_demo.gif?raw=true" width="300"/>
 </p>
 
 All calculations are performed on the server, by a dedicated server-side application. It is implemented in Java and the Spring Boot framework, containerized by Docker. The simple schema of application architecture is as follows:
 <p align="center">
-<img src="https://github.com/kristopalka/scrabble-solver/blob/master/resources/gitresources/architekture.png?raw=true" width="400"/>
+<img src="https://github.com/kristopalka/scrabble-solver/blob/master/resources/charts/architekture.png?raw=true" width="400"/>
 </p>
 
 
